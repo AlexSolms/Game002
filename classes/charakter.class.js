@@ -19,7 +19,7 @@ class Charakter extends MovableObject {
 
   constructor() {
     super().loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
-    super.loadIamages(this.moveImages);
+    super.loadImages(this.moveImages);
     this.animate();
   }
 
@@ -27,13 +27,13 @@ class Charakter extends MovableObject {
     setInterval(() => {
       this.walkingSound.pause();
       if (this.world.keyboard.right && this.x < this.world.level.levelEndX) {
-        this.x += this.speed;        
+        this.x += this.speed;
         this.otherDirection = false;
         this.walkingSound.play();
       }
-      if (this.world.keyboard.left && this.x > 48) { 
+      if (this.world.keyboard.left && this.x > 48) {
         this.x -= this.speed;
-        
+
         this.otherDirection = true;
         this.walkingSound.play();
       }
@@ -43,13 +43,8 @@ class Charakter extends MovableObject {
     setInterval(() => {
       // das kommt in die move Funktion später
       if (this.world.keyboard.right || this.world.keyboard.left) {
-
-
         //laufanimation
-        let i = this.currentImage % this.moveImages.length;
-        let path = this.moveImages[i];
-        this.img = this.imageCache[path];
-        this.currentImage++;
+        super.playAnimation(this.moveImages);
       }
     }, 130)
 

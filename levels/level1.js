@@ -3,7 +3,8 @@ const level1 = new Level( // ich übergebe hier Arrays als Parameter
 enemies = [
     new Chicken(),
     new Chicken(),
-    new Chicken()
+    new Chicken(),
+    new Endboss(),
 ],
 clouds = [
     new Cloud(),

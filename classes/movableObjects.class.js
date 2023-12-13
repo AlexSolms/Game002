@@ -19,7 +19,7 @@ class MovableObject{
      * 
      * @param {Array} arr - ['./img/image1.png, ./img/image2.png,...]
      */
-    loadIamages(arr){
+    loadImages(arr){
         
         arr.forEach((path)=>{
             let img = new Image();
@@ -31,6 +31,13 @@ class MovableObject{
         
 
 
+    }
+
+    playAnimation(imgSet){
+        let i = this.currentImage % imgSet.length;
+        let path = imgSet[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
     moveRight(){
 
