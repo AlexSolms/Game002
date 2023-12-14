@@ -1,9 +1,9 @@
 class World {
     charakter = new Charakter();
     level = level1;
-   /*  enemies = level1.enemies 
-    clouds = level1.clouds
-    backgroundObjects = level1.backgroundObjects */
+    /*  enemies = level1.enemies 
+     clouds = level1.clouds
+     backgroundObjects = level1.backgroundObjects */
     canvas;
     ctx;
     keyboard;
@@ -41,9 +41,9 @@ class World {
      */
     addToMap(mo) {
         if (mo.otherDirection) this.flipImg(mo); // otherDirection wird in einer Instanz für dieses Element gesetzt
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height) 
+        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height)
+        this.drawFrame(mo);
         if (mo.otherDirection) this.flipImgBack(mo); // reset needed to change this object only
-
     }
 
     addObjectsToMap(objects) {
@@ -62,5 +62,16 @@ class World {
     flipImgBack(mo) {
         mo.x = mo.x * -1 // set object on the mirrored coordinate
         this.ctx.restore() // restores the ctx objekt 
+    }
+
+
+    drawFrame(mo) {
+        if (this.keyboard.debug && (mo instanceof Charakter || mo instanceof Chicken || mo instanceof Endboss)) {
+            this.ctx.beginPath();
+            this.ctx.lineWidth = '2';
+            this.ctx.strokeStyle = 'grey';
+            this.ctx.rect(mo.x, mo.y, mo.height, mo.height);
+            this.ctx.stroke();
+        }
     }
 }
