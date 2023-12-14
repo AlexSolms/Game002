@@ -26,10 +26,14 @@ class World {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
                 if (this.charakter.isColliding(enemy)) {
-                    console.log('Collision with Character ', this.charakter.hitbox_x + this.charakter.hitbox_width,' enemy: ', enemy.hitbox_x);
+                    this.charakter.hit();
+                    
+                    console.log('Collision with Character, energy =', this.charakter.energy);
+                    //console.log('Collision with Character ', this.charakter.hitbox_x + this.charakter.hitbox_width,' enemy: ', enemy.hitbox_x);
+                    //debugger;
                 }
             })
-        }, 1000)
+        }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
 
 

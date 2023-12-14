@@ -12,8 +12,10 @@ class MovableObject {
     currentImage = 0;
     speed;
     otherDirection = false;
-   OFFSET_X = 20;
-    OFFSET_WIDTH = 50;
+    /*  OFFSET_X = 20;
+      OFFSET_WIDTH = 50; */
+    energy = 100;
+    lastHit;
 
 
     loadImage(path) {
@@ -58,7 +60,7 @@ class MovableObject {
             ctx.rect(this.hitbox_x, this.hitbox_y, this.hitbox_width, this.hitbox_height);
             ctx.stroke();
         }
-    } 
+    }
 
     isCollidingNeu(obj) {
         return (this.x + this.width) >= obj.x && this.x <= (obj.x + obj.width) &&
@@ -88,10 +90,30 @@ class MovableObject {
     jump(jumpHight) {
         this.speedY = jumpHight;
     }
-    updateHitbox(offsetX, offsetWidth){
+    updateHitbox(offsetX, offsetWidth) {
         this.hitbox_x = this.x + offsetX;
         this.hitbox_y = this.y;
         this.hitbox_width = this.width - offsetWidth;
         this.hitbox_height = this.height;
-       }
+    }
+
+    hit() {
+        this.energy -= 5;
+        if (this.energy < 0) {
+            this.energy = 0;
+        }else{
+            this.lastHit = new Date().getTime();
+        }
+    }
+
+    isDead(){
+        return this.energy === 0;
+    }
+
+    isHurt(){
+
+let timepassed = (new Date().getTime() - this.lastHit)
+//console.log((timepassed) );
+return timepassed <500;
+    }
 }

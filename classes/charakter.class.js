@@ -34,10 +34,30 @@ class Charakter extends MovableObject {
     './img/2_character_pepe/3_jump/J-39.png'
   ];
 
+hurtImages=[
+  './img/2_character_pepe/4_hurt/H-41.png',
+  './img/2_character_pepe/4_hurt/H-42.png',
+  './img/2_character_pepe/4_hurt/H-42.png'
+];
+
+
+  deadImages = [
+    './img/2_character_pepe/5_dead/D-51.png',
+    './img/2_character_pepe/5_dead/D-52.png',
+    './img/2_character_pepe/5_dead/D-53.png',
+    './img/2_character_pepe/5_dead/D-54.png',
+    './img/2_character_pepe/5_dead/D-55.png',
+    './img/2_character_pepe/5_dead/D-56.png',
+    './img/2_character_pepe/5_dead/D-57.png'
+  ];
+
+
   constructor() {
     super().loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
     super.loadImages(this.moveImages);
     super.loadImages(this.jumpImages);
+    super.loadImages(this.deadImages);
+    super.loadImages(this.hurtImages);
     this.applyGravity();
     this.animate();
   }
@@ -58,6 +78,8 @@ class Charakter extends MovableObject {
     return this.y < 165;
   }
 
+
+
   animate() {
     setInterval(() => {
       this.walkingSound.pause();
@@ -67,7 +89,7 @@ class Charakter extends MovableObject {
         super.updateHitbox(20, 50); // Hitbox
         this.walkingSound.play();
       }
-      if (this.world.keyboard.left && this.x > -48) {
+      if (this.world.keyboard.left && this.x > 48) {
         this.moveLeft(this.speed);
         this.otherDirection = true;
         this.walkingSound.play();
@@ -82,7 +104,11 @@ class Charakter extends MovableObject {
     setInterval(() => {
       // das kommt in die move Funktion später
       super.updateHitbox(20, 50);// Hitbox
-      if (this.isAboveGround()) {
+      if (this.isDead()) {
+        super.playAnimation(this.deadImages);
+      } else if (this.isHurt() ){
+        super.playAnimation(this.hurtImages);
+      } else if (this.isAboveGround()) {
         super.playAnimation(this.jumpImages);
       } else {
         if (this.world.keyboard.right || this.world.keyboard.left) {
