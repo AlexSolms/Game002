@@ -1,6 +1,6 @@
 class Endboss extends MovableObject{
 
-    
+    x= 700;
     y = 160;
     width = 200;
     height = 200;
@@ -24,6 +24,7 @@ class Endboss extends MovableObject{
       animate() {
 
         setInterval(() => {
+          super.updateHitbox(20, 50);
           super.playAnimation(this.moveImages);
         }, 130)
     

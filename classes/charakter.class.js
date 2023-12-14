@@ -1,8 +1,12 @@
 class Charakter extends MovableObject {
   x = 50;
+  // hitbox_x = this.x + 20; // x für hitbox
   y = 165//-150;//165; // Diese Werte müssen sich dynamisch anpassen können. Basis ist die Höhe und die Breite des Canvas
+  //hitbox_y = this.y;
   height = 200; // Die Werte müssen sich also skalieren können, wenn sich die Auflösung ändert
+  //hitbox_height = this.height;
   width = 100;
+  //hitbox_width = this.width - 50;
   speed = 3;
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
@@ -36,7 +40,6 @@ class Charakter extends MovableObject {
     super.loadImages(this.jumpImages);
     this.applyGravity();
     this.animate();
-
   }
 
   applyGravity() {
@@ -61,9 +64,10 @@ class Charakter extends MovableObject {
       if (this.world.keyboard.right && this.x < this.world.level.levelEndX) {
         super.moveRight();
         this.otherDirection = false;
+        super.updateHitbox(20, 50); // Hitbox
         this.walkingSound.play();
       }
-      if (this.world.keyboard.left && this.x > 48) {
+      if (this.world.keyboard.left && this.x > -48) {
         this.moveLeft(this.speed);
         this.otherDirection = true;
         this.walkingSound.play();
@@ -77,11 +81,10 @@ class Charakter extends MovableObject {
 
     setInterval(() => {
       // das kommt in die move Funktion später
-
+      super.updateHitbox(20, 50);// Hitbox
       if (this.isAboveGround()) {
         super.playAnimation(this.jumpImages);
       } else {
-
         if (this.world.keyboard.right || this.world.keyboard.left) {
           //laufanimation
           super.playAnimation(this.moveImages);
