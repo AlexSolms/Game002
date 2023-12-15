@@ -1,9 +1,10 @@
 class World {
-    charakter = new Charakter();
+    character = new Character();
     statusBarHealth = new StatusBarHealth();
     statusBarCoin = new StatusBarCoin();
     statusBarBottle = new StatusBarBottle();
     statusBarBoss = new StatusBarBoss();
+    bottleToThrow = new ThrowableObject(this.character); //this.character
     level = level1;
     /*  enemies = level1.enemies 
      clouds = level1.clouds
@@ -23,15 +24,15 @@ class World {
     }
 
     setWorld() {
-        this.charakter.world = this;
+        this.character.world = this;
     }
 
     checkCollision() {
         setInterval(() => {
             this.level.enemies.forEach((enemy) => {
-                if (this.charakter.isColliding(enemy)) {
-                    this.charakter.hit();
-                    this.statusBarHealth.setPercentage(this.charakter.energy, this.statusBarHealth.statusHealthImages);
+                if (this.character.isColliding(enemy)) {
+                    this.character.hit();
+                    this.statusBarHealth.setPercentage(this.character.energy, this.statusBarHealth.statusHealthImages);
                 }
             })
         }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
@@ -54,9 +55,10 @@ class World {
     drawFlexElements() {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
-        this.addToMap(this.charakter);
+        this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
+        this.addToMap(this.bottleToThrow);
         this.ctx.translate(-this.camera_x, 0);
     }
 
@@ -67,7 +69,7 @@ class World {
         this.addToMap(this.statusBarHealth);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
-        if (this.charakter.x > 300) this.addToMap(this.statusBarBoss);   
+        if (this.character.x > 300) this.addToMap(this.statusBarBoss);   
     }
 
     /**

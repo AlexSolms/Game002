@@ -9,7 +9,7 @@ function init(){
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 
-    console.log('My charakter is ', world.charakter);
+    console.log('My character is ', world.character);
 
 }
 

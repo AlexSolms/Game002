@@ -8,6 +8,9 @@ class MovableObject extends DrawableObject{
     otherDirection = false;
     energy = 100;
     lastHit;
+  
+    speedY = 0; //Geschwindigkeit des Körpers
+  acceleration = 2.5; // Beschleunigung des Körpers
 
     /**
      * 
@@ -24,7 +27,7 @@ class MovableObject extends DrawableObject{
    
 
     drawFrame(ctx, keyboardDebug) {
-        if (keyboardDebug && (this instanceof Charakter || this instanceof Chicken || this instanceof Endboss)) {
+        if (keyboardDebug && (this instanceof Character || this instanceof Chicken || this instanceof Endboss)) {
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'grey';
@@ -58,6 +61,28 @@ class MovableObject extends DrawableObject{
         this.x -= speed;
     }
 
+
+    applyGravity(groundOffset) {
+
+        setInterval(() => {
+            console.log(this.isAboveGround(groundOffset), this.speedY, this.y);
+          if (this.isAboveGround(groundOffset) || this.speedY > 0) {
+            this.y -= this.speedY;
+           // if (this.y > this.ground) { this.y = this.ground; } // damit fange ich ab, dass Pepe tifer sinkt als er soll
+            this.speedY -= this.acceleration;
+          }
+        }, 1000 / 25)
+    
+      }
+      ground = 165;
+      /**
+       * this function just checks if the y coordinate above the defined ground
+       * @returns - true if above.
+       */
+      isAboveGround(groundOffset) {
+        return this.y < (this.ground + groundOffset);
+      }
+    
     jump(jumpHight) {
         this.speedY = jumpHight;
     }

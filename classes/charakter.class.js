@@ -1,4 +1,4 @@
-class Charakter extends MovableObject {
+class Character extends MovableObject {
   x = 50;
   // hitbox_x = this.x + 20; // x für hitbox
   y = 165//-150;//165; // Diese Werte müssen sich dynamisch anpassen können. Basis ist die Höhe und die Breite des Canvas
@@ -10,8 +10,7 @@ class Charakter extends MovableObject {
   speed = 3;
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
-  speedY = 0; //Geschwindigkeit des Körpers
-  acceleration = 2.5; // Beschleunigung des Körpers
+  
 
   moveImages = [
     './img/2_character_pepe/2_walk/W-21.png',
@@ -58,26 +57,12 @@ hurtImages=[
     super.loadImages(this.jumpImages);
     super.loadImages(this.deadImages);
     super.loadImages(this.hurtImages);
-    this.applyGravity();
+    super.applyGravity(0);
     this.animate();
+    super.updateHitbox(20, 50);
   }
 
-  applyGravity() {
-
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        if (this.y > 165) { this.y = 165; } // damit fange ich ab, dass Pepe tifer sinkt als er soll
-        this.speedY -= this.acceleration;
-      }
-    }, 1000 / 25)
-
-  }
-
-  isAboveGround() {
-    return this.y < 165;
-  }
-
+  
 
 
   animate() {
