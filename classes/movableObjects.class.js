@@ -1,40 +1,13 @@
-class MovableObject {
-    x;
+class MovableObject extends DrawableObject{
+   
     hitbox_x; // x für hitbox
-    y;
     hitbox_y;
-    height;
     hitbox_height;
-    width;
-    hitbox_width;
-    img;
-    imageCache = {};
-    currentImage = 0;
+    hitbox_width;    
     speed;
     otherDirection = false;
-    /*  OFFSET_X = 20;
-      OFFSET_WIDTH = 50; */
     energy = 100;
     lastHit;
-
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    /**
-     * 
-     * this function loads all imgages of an image set to the image cache.
-     * @param {Array} imgSet - ['./img/image1.png, ./img/image2.png,...]
-     */
-    loadImages(imgSet) {
-        imgSet.forEach((path) => {
-            let img = new Image();
-            img.src = path;
-            this.imageCache[path] = img;
-        })
-    }
 
     /**
      * 
@@ -48,9 +21,7 @@ class MovableObject {
         this.currentImage++;
     }
 
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height)
-    }
+   
 
     drawFrame(ctx, keyboardDebug) {
         if (keyboardDebug && (this instanceof Charakter || this instanceof Chicken || this instanceof Endboss)) {
@@ -101,19 +72,18 @@ class MovableObject {
         this.energy -= 5;
         if (this.energy < 0) {
             this.energy = 0;
-        }else{
+        } else {
             this.lastHit = new Date().getTime();
         }
     }
 
-    isDead(){
+    isDead() {
         return this.energy === 0;
     }
 
-    isHurt(){
-
-let timepassed = (new Date().getTime() - this.lastHit)
-//console.log((timepassed) );
-return timepassed <500;
+    isHurt() {
+        let timepassed = (new Date().getTime() - this.lastHit)
+        //console.log((timepassed) );
+        return timepassed < 500;
     }
 }

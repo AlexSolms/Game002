@@ -1,5 +1,9 @@
 class World {
     charakter = new Charakter();
+    statusBarHealth = new StatusBarHealth();
+    statusBarCoin = new StatusBarCoin();
+    statusBarBottle = new StatusBarBottle();
+    statusBarBoss = new StatusBarBoss();
     level = level1;
     /*  enemies = level1.enemies 
      clouds = level1.clouds
@@ -27,10 +31,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 if (this.charakter.isColliding(enemy)) {
                     this.charakter.hit();
-                    
-                    console.log('Collision with Character, energy =', this.charakter.energy);
-                    //console.log('Collision with Character ', this.charakter.hitbox_x + this.charakter.hitbox_width,' enemy: ', enemy.hitbox_x);
-                    //debugger;
+                    this.statusBarHealth.setPercentage(this.charakter.energy, this.statusBarHealth.statusHealthImages);
                 }
             })
         }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
@@ -39,12 +40,8 @@ class World {
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.translate(this.camera_x, 0);
-        this.addObjectsToMap(this.level.backgroundObjects);
-        this.addToMap(this.charakter);
-        this.addObjectsToMap(this.level.enemies);
-        this.addObjectsToMap(this.level.clouds);
-        this.ctx.translate(-this.camera_x, 0);
+        this.drawFlexElements();
+        this.drawStaticElements();
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -52,15 +49,38 @@ class World {
     }
 
     /**
+     * this function contains all elements which change its postitions within the canvas
+     */
+    drawFlexElements() {
+        this.ctx.translate(this.camera_x, 0);
+        this.addObjectsToMap(this.level.backgroundObjects);
+        this.addToMap(this.charakter);
+        this.addObjectsToMap(this.level.enemies);
+        this.addObjectsToMap(this.level.clouds);
+        this.ctx.translate(-this.camera_x, 0);
+    }
+
+    /**
+     *  this function contains all elements which have static postitions within the canvas
+     */
+    drawStaticElements() {
+        this.addToMap(this.statusBarHealth);
+        this.addToMap(this.statusBarCoin);
+        this.addToMap(this.statusBarBottle);
+        if (this.charakter.x > 300) this.addToMap(this.statusBarBoss);   
+    }
+
+    /**
      * 
      * This function draws the image of the object with it's parameters for example if its mirroed (otherDirection)
-     * @param {Object} mo - object which needs to to be drawed
+     * @param {Object} objectToDraw - object which needs to to be drawed
      */
-    addToMap(mo) {
-        if (mo.otherDirection) this.flipImg(mo); // otherDirection wird in einer Instanz für dieses Element gesetzt
-        mo.draw(this.ctx);
-        mo.drawFrame(this.ctx, this.keyboard.debug);
-        if (mo.otherDirection) this.flipImgBack(mo); // reset needed to change this object only
+    addToMap(objectToDraw) {
+        if (objectToDraw.otherDirection) this.flipImg(objectToDraw); // otherDirection wird in einer Instanz für dieses Element gesetzt
+        objectToDraw.draw(this.ctx);
+        if (!(objectToDraw instanceof StatusBar)) objectToDraw.drawFrame(this.ctx, this.keyboard.debug);
+
+        if (objectToDraw.otherDirection) this.flipImgBack(objectToDraw); // reset needed to change this object only
     }
 
     addObjectsToMap(objects) {
