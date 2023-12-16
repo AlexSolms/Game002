@@ -65,7 +65,7 @@ class MovableObject extends DrawableObject{
     applyGravity(groundOffset) {
 
         setInterval(() => {
-            console.log(this.isAboveGround(groundOffset), this.speedY, this.y);
+            //console.log(this.isAboveGround(groundOffset), this.speedY, this.y);
           if (this.isAboveGround(groundOffset) || this.speedY > 0) {
             this.y -= this.speedY;
            // if (this.y > this.ground) { this.y = this.ground; } // damit fange ich ab, dass Pepe tifer sinkt als er soll
