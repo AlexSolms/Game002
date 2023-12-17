@@ -4,7 +4,7 @@ class World {
     statusBarCoin = new StatusBarCoin();
     statusBarBottle = new StatusBarBottle();
     statusBarBoss = new StatusBarBoss();
-    bottleToThrow = new ThrowableObject(this.character); //this.character
+    bottleToThrow; // = new ThrowableObject(this.character); //this.character
     level = level1;
     /*  enemies = level1.enemies 
      clouds = level1.clouds
@@ -13,6 +13,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    bottleInInv = true;
+    bottleInAir = false;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -20,7 +22,7 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollision();
+        this.run();
     }
 
     setWorld() {
@@ -31,15 +33,34 @@ class World {
         }
     }
 
-    checkCollision() {
+    run() {
         setInterval(() => {
-            this.level.enemies.forEach((enemy) => {
-                if (this.character.isColliding(enemy)) {
-                    this.character.hit();
-                    this.statusBarHealth.setPercentage(this.character.energy, this.statusBarHealth.statusHealthImages);
-                }
-            })
+
+
+            this.checkCollisions();
+            this.checkThrowObject();
+           
         }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
+    }
+
+    checkCollisions(){
+        this.level.enemies.forEach((enemy) => {
+            if (this.character.isColliding(enemy)) {
+                this.character.hit();
+                this.statusBarHealth.setPercentage(this.character.energy, this.statusBarHealth.statusHealthImages);
+            }
+        })
+    }
+
+    checkThrowObject(){
+        
+        if(this.keyboard.E && this.bottleInInv && !this.bottleInAir){
+            this.bottleToThrow = new ThrowableObject(this.character);
+            this.bottleInAir = true;//this.bottleToThrow.inAir;
+            console.log('bottle in air: ', this.bottleToThrow.inAir);
+            console.log('BottleHit: ',this.bottleToThrow.bottleHit);
+
+        }
     }
 
 
@@ -62,8 +83,18 @@ class World {
         this.addToMap(this.character);
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
-        this.addToMap(this.bottleToThrow);
+        this.drawBottle();
+        
         this.ctx.translate(-this.camera_x, 0);
+    }
+
+    /**
+     * this function only draws a bottle if no bottle is in air and if a bottle is in Inv
+     */
+    drawBottle(){
+        if(this.bottleToThrow != undefined && !this.bottleToThrow.bottleHit){
+            this.addToMap(this.bottleToThrow); // statt der undefined bedinngung muss hier dann die Variable rein ob Flaschen im Inventar sind     
+      }  else  this.bottleInAir = false;
     }
 
     /**
@@ -88,13 +119,22 @@ class World {
 
         if (objectToDraw.otherDirection) this.flipImgBack(objectToDraw); // reset needed to change this object only
     }
-
+/**
+ * 
+ * This function draws each elements of the provided object.
+ * @param {Object} objects - repesents a set of similar objects which needs to draw
+ */
     addObjectsToMap(objects) {
         objects.forEach(e => {
             this.addToMap(e);
         })
     }
 
+    /**
+     * 
+     * this function saves the context of the canvas and flipps a single object (mo) 
+     * @param {object} mo - represents the instanz which needs to flip 
+     */
     flipImg(mo) {
         this.ctx.save();  // saves the original ctx object
         this.ctx.translate(mo.width, 0); // moves the object with objectwidth to avoid image jump
@@ -103,6 +143,10 @@ class World {
         mo.updateHitbox(20, 50); //hitbox
     }
 
+    /**
+     * 
+     * @param {object} mo 
+     */
     flipImgBack(mo) {
         mo.x = mo.x * -1 // set object on the mirrored coordinate
         this.ctx.restore() // restores the ctx objekt 

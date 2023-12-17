@@ -50,7 +50,7 @@ class Chicken extends MovableObject {
         this.otherDirection = !this.otherDirection;
       //this.x = -this.x;
       }
-    }, 1000); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
+    }, 100); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
   }
 
 
