@@ -37,18 +37,19 @@ class MovableObject extends DrawableObject{
     }
 
     isCollidingNeu(obj) {
-        return (this.x + this.width) >= obj.x && this.x <= (obj.x + obj.width) &&
-            (this.y + this.offsetY + this.height) >= obj.y &&
-            (this.y + this.offsetY) <= (obj.y + obj.height) &&
+        return (this.hitbox_x + this.hitbox_width) >= obj.hitbox_x && //1
+            this.hitbox_x <= (obj.hitbox_x + obj.hitbox_width) &&
+            (this.hitbox_y + this.offsetY + this.hitbox_height) >= obj.hitbox_y && // 3
+            (this.hitbox_y + this.offsetY) <= (obj.hitbox_y + obj.hitbox_height) && //4
             obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
 
     }
 
     isColliding(mo) {
-        return this.hitbox_x + this.hitbox_width > mo.hitbox_x &&
-            this.hitbox_y + this.hitbox_height > mo.hitbox_y &&
-            this.hitbox_x < mo.hitbox_x &&
-            this.hitbox_y < mo.hitbox_y + mo.hitbox_height;
+        return this.hitbox_x + this.hitbox_width > mo.hitbox_x && //1
+            this.hitbox_y + this.hitbox_height > mo.hitbox_y && // 3
+            this.hitbox_x < (mo.hitbox_x + mo.hitbox_width)&& //mo.hitbox_x 
+            this.hitbox_y < mo.hitbox_y + mo.hitbox_height; //4
     }
 
 
@@ -79,7 +80,7 @@ class MovableObject extends DrawableObject{
        * this function just checks if the y coordinate above the defined ground
        * @returns - true if above.
        */
-      isAboveGround(groundOffset) {
+      isAboveGround(groundOffset = 0) {
         return this.y < (this.ground + groundOffset);
       }
     

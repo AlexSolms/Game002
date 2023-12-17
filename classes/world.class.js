@@ -25,6 +25,10 @@ class World {
 
     setWorld() {
         this.character.world = this;
+        for (let i = 0; i < this.level.enemies.length; i++) {
+            this.level.enemies[i].world = this;
+            
+        }
     }
 
     checkCollision() {

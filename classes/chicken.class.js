@@ -9,6 +9,7 @@ class Chicken extends MovableObject {
   hitbox_height = this.height;
   speed = 0.08;
   refreshRate = 10 / 6;
+  world;
 
 
   moveImages = [
@@ -24,7 +25,8 @@ class Chicken extends MovableObject {
     super.updateHitbox(0, 0); // x für hitbox
     this.speed = 0.08 + Math.random() * 0.10;
     this.animate();
-    
+    this.chkCollisionWithCharacter();
+    //console.log();
   }
 
 
@@ -39,6 +41,17 @@ class Chicken extends MovableObject {
     }, 130)
   }
  
+  chkCollisionWithCharacter(){
+    setInterval(() => {
+      if(super.isColliding( this.world.character)) {
+        //console.log('hit');
+        this.speed = -this.speed; // damit verschwindet das Huhn am linken Bildschirmrand
+      //this.otherDirection ? this.otherDirection = false : this.otherDirection = true;
+        this.otherDirection = !this.otherDirection;
+      //this.x = -this.x;
+      }
+    }, 1000); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
+  }
 
 
 }

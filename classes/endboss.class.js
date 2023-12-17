@@ -6,6 +6,7 @@ class Endboss extends MovableObject{
     height = 200;
     speed = 0.08;
     refreshRate = 10 / 6;
+    world;
 
     moveImages = [
         './img/4_enemie_boss_chicken/1_walk/G1.png',
