@@ -1,6 +1,8 @@
 class ThrowableObject extends MovableObject {
     width = 40;
+    hitbox_width = this.width;
     height = 80;
+    hitbox_height = this.height;
     imgCount = 0;
     bottleHit = false;
     inAir = false;
@@ -25,7 +27,9 @@ class ThrowableObject extends MovableObject {
         super.loadImages(this.BottleInAirImages);
         super.loadImages(this.BottleSplash);
         this.x = character.x + character.hitbox_width;
-        this.y = character.y - character.height / 4;
+        this.hitbox_x = this.x;
+        this.y = character.y + character.height/8; // hier muss ich noch was anpassen, die Flasche fliegt nicht mehr so hoch
+        this.hitbox_y = this.y;
         this.animate();
     }
 
@@ -34,17 +38,19 @@ class ThrowableObject extends MovableObject {
      * Need to be change to check if the enemy was hit using the collision option
       */
     animate() {
-            this.throw();
-            let animationInterval = setInterval(() => {
-                if (super.isAboveGround(50)) {
-                    super.playAnimation(this.BottleInAirImages);
-                    this.inAir = true;
-                    console.log(this.imgCount);
-                } else {
-                    clearInterval(animationInterval); // Stoppe das Intervall, wenn alle Bilder abgespielt wurden
-                    this.splash();
-                }
-            }, 60) 
+        this.throw();
+        let animationInterval = setInterval(() => {
+            if (super.isAboveGround(50)) {
+                super.playAnimation(this.BottleInAirImages);
+                this.hitbox_x = this.x;
+                this.hitbox_y = this.y;
+                this.inAir = true;
+            } else {
+                clearInterval(animationInterval); // Stoppe das Intervall, wenn alle Bilder abgespielt wurden
+               
+                this.splash();
+            }
+        }, 60)
     }
 
     /**
@@ -53,6 +59,8 @@ class ThrowableObject extends MovableObject {
     splash() {
         let splashInterval = setInterval(() => {
             if (this.imgCount < 6) {
+                this.hitbox_x = this.x;
+                this.hitbox_y = this.y;
                 super.playAnimation(this.BottleSplash);
                 this.imgCount++;
             } else {

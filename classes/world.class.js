@@ -4,11 +4,8 @@ class World {
     statusBarCoin = new StatusBarCoin();
     statusBarBottle = new StatusBarBottle();
     statusBarBoss = new StatusBarBoss();
-    bottleToThrow; // = new ThrowableObject(this.character); //this.character
     level = level1;
-    /*  enemies = level1.enemies 
-     clouds = level1.clouds
-     backgroundObjects = level1.backgroundObjects */
+    bottleToThrow; // = new ThrowableObject(this.character); //this.character
     canvas;
     ctx;
     keyboard;
@@ -20,26 +17,22 @@ class World {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.draw();
         this.setWorld();
         this.run();
+        this.draw();        
     }
 
     setWorld() {
         this.character.world = this;
         for (let i = 0; i < this.level.enemies.length; i++) {
             this.level.enemies[i].world = this;
-
         }
     }
 
     run() {
         setInterval(() => {
-
-
             this.checkCollisions();
             this.checkThrowObject();
-
         }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
 
@@ -56,10 +49,7 @@ class World {
 
         if (this.keyboard.E && this.bottleInInv && !this.bottleInAir) {
             this.bottleToThrow = new ThrowableObject(this.character);
-            this.bottleInAir = true;//this.bottleToThrow.inAir;
-            //console.log('bottle in air: ', this.bottleToThrow.inAir);
-            //console.log('BottleHit: ',this.bottleToThrow.bottleHit);
-
+            this.bottleInAir = true;
         }
     }
 

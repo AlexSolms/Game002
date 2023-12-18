@@ -9,7 +9,7 @@ class Chicken extends MovableObject {
   hitbox_height = this.height;
   speed = 0.08;
   refreshRate = 10 / 6;
-  world;
+  world = {};
   intervalMove;
   intervalAnimation;
   intervalCollision;
@@ -45,32 +45,52 @@ class Chicken extends MovableObject {
     }, 130)
   }
 
-
+  /**
+   * this function contains the interval for checking the collision with character or bottle
+   */
   chkCollision() {
     this.intervalCollision = setInterval(() => {
-
+      this.chkCollisionWithbottle();
       this.chkCollisionWithCharacter();
+    }, 200); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
+  }
 
-
-    }, 100); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
-
+  chkCollisionWithbottle() {
+    //console.log('bottleinair', this.world.bottleInAir);
+    if (this.world.bottleInAir && super.isColliding(this.world.bottleToThrow)) {
+      super.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
+      this.clearAllIntervals();
+      this.chickenDead = true;
+    }
   }
 
 
+
+
+
+  /**
+   * this function checks if the character hits the chicken or the chicken hits the character
+   */
   chkCollisionWithCharacter() {
     console.log('falling down: ', this.world.character.fallingDown);
     if (super.isColliding(this.world.character) && !this.world.character.fallingDown) {
       this.speed = -this.speed; // damit verschwindet das Huhn am linken Bildschirmrand
       this.otherDirection = !this.otherDirection;
-      // hier muss noch x und withd des chicken rein
     } else if (super.isColliding(this.world.character) && this.world.character.fallingDown) {
       super.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
-      clearInterval(this.intervalMove);
-      clearInterval(this.intervalAnimation);
-      clearInterval(this.intervalCollision);
+      this.clearAllIntervals();
       this.chickenDead = true;
     }
-     
+
+  }
+
+  /**
+   * this function clears all intervals zu stop any animation or movement
+   */
+  clearAllIntervals() {
+    clearInterval(this.intervalMove);
+    clearInterval(this.intervalAnimation);
+    clearInterval(this.intervalCollision);
   }
 
 
