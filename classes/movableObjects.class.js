@@ -1,16 +1,17 @@
-class MovableObject extends DrawableObject{
-   
+class MovableObject extends DrawableObject {
+
     hitbox_x; // x für hitbox
     hitbox_y;
     hitbox_height;
-    hitbox_width;    
+    hitbox_width;
     speed;
     otherDirection = false;
     energy = 100;
     lastHit;
-  
+
     speedY = 0; //Geschwindigkeit des Körpers
-  acceleration = 2.5; // Beschleunigung des Körpers
+    acceleration = 2.5; // Beschleunigung des Körpers
+    fallingDown = false; // damit ich ein flag hab, dass mir anzeigt, dass der Körper wieder herunter kommt.
 
     /**
      * 
@@ -24,7 +25,7 @@ class MovableObject extends DrawableObject{
         this.currentImage++;
     }
 
-   
+
 
     drawFrame(ctx, keyboardDebug) {
         if (keyboardDebug && (this instanceof Character || this instanceof Chicken || this instanceof Endboss)) {
@@ -48,7 +49,7 @@ class MovableObject extends DrawableObject{
     isColliding(mo) {
         return this.hitbox_x + this.hitbox_width > mo.hitbox_x && //1
             this.hitbox_y + this.hitbox_height > mo.hitbox_y && // 3
-            this.hitbox_x < (mo.hitbox_x + mo.hitbox_width)&& //mo.hitbox_x 
+            this.hitbox_x < (mo.hitbox_x + mo.hitbox_width) && //mo.hitbox_x 
             this.hitbox_y < mo.hitbox_y + mo.hitbox_height; //4
     }
 
@@ -67,26 +68,29 @@ class MovableObject extends DrawableObject{
 
         setInterval(() => {
             //console.log(this.isAboveGround(groundOffset), this.speedY, this.y);
-          if (this.isAboveGround(groundOffset) || this.speedY > 0) {
-            this.y -= this.speedY;
-           // if (this.y > this.ground) { this.y = this.ground; } // damit fange ich ab, dass Pepe tifer sinkt als er soll
-            this.speedY -= this.acceleration;
-          }
+            if (this.isAboveGround(groundOffset) || this.speedY > 0) {
+                this.y -= this.speedY;
+                // if (this.y > this.ground) { this.y = this.ground; } // damit fange ich ab, dass Pepe tifer sinkt als er soll
+                this.speedY -= this.acceleration;
+                if(this.y <10)this.fallingDown = true;
+            }
         }, 1000 / 25)
-    
-      }
-      ground = 165;
-      /**
-       * this function just checks if the y coordinate above the defined ground
-       * @returns - true if above.
-       */
-      isAboveGround(groundOffset = 0) {
+
+    }
+    ground = 165;
+
+    /**
+     * this function just checks if the y coordinate above the defined ground
+     * @returns - true if above.
+     */
+    isAboveGround(groundOffset = 0) {
         return this.y < (this.ground + groundOffset);
-      }
-    
+    }
+
     jump(jumpHight) {
         this.speedY = jumpHight;
     }
+
     updateHitbox(offsetX, offsetWidth) {
         this.hitbox_x = this.x + offsetX;
         this.hitbox_y = this.y;

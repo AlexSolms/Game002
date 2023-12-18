@@ -29,7 +29,7 @@ class World {
         this.character.world = this;
         for (let i = 0; i < this.level.enemies.length; i++) {
             this.level.enemies[i].world = this;
-            
+
         }
     }
 
@@ -39,26 +39,26 @@ class World {
 
             this.checkCollisions();
             this.checkThrowObject();
-           
+
         }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
 
-    checkCollisions(){
+    checkCollisions() {
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy)) {
+            if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
                 this.character.hit();
                 this.statusBarHealth.setPercentage(this.character.energy, this.statusBarHealth.statusHealthImages);
             }
         })
     }
 
-    checkThrowObject(){
-        
-        if(this.keyboard.E && this.bottleInInv && !this.bottleInAir){
+    checkThrowObject() {
+
+        if (this.keyboard.E && this.bottleInInv && !this.bottleInAir) {
             this.bottleToThrow = new ThrowableObject(this.character);
             this.bottleInAir = true;//this.bottleToThrow.inAir;
-            console.log('bottle in air: ', this.bottleToThrow.inAir);
-            console.log('BottleHit: ',this.bottleToThrow.bottleHit);
+            //console.log('bottle in air: ', this.bottleToThrow.inAir);
+            //console.log('BottleHit: ',this.bottleToThrow.bottleHit);
 
         }
     }
@@ -84,17 +84,17 @@ class World {
         this.addObjectsToMap(this.level.enemies);
         this.addObjectsToMap(this.level.clouds);
         this.drawBottle();
-        
+
         this.ctx.translate(-this.camera_x, 0);
     }
 
     /**
      * this function only draws a bottle if no bottle is in air and if a bottle is in Inv
      */
-    drawBottle(){
-        if(this.bottleToThrow != undefined && !this.bottleToThrow.bottleHit){
+    drawBottle() {
+        if (this.bottleToThrow != undefined && !this.bottleToThrow.bottleHit) {
             this.addToMap(this.bottleToThrow); // statt der undefined bedinngung muss hier dann die Variable rein ob Flaschen im Inventar sind     
-      }  else  this.bottleInAir = false;
+        } else this.bottleInAir = false;
     }
 
     /**
@@ -104,7 +104,7 @@ class World {
         this.addToMap(this.statusBarHealth);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
-        if (this.character.x > 300) this.addToMap(this.statusBarBoss);   
+        if (this.character.x > 300) this.addToMap(this.statusBarBoss);
     }
 
     /**
@@ -119,11 +119,11 @@ class World {
 
         if (objectToDraw.otherDirection) this.flipImgBack(objectToDraw); // reset needed to change this object only
     }
-/**
- * 
- * This function draws each elements of the provided object.
- * @param {Object} objects - repesents a set of similar objects which needs to draw
- */
+    /**
+     * 
+     * This function draws each elements of the provided object.
+     * @param {Object} objects - repesents a set of similar objects which needs to draw
+     */
     addObjectsToMap(objects) {
         objects.forEach(e => {
             this.addToMap(e);
@@ -140,7 +140,7 @@ class World {
         this.ctx.translate(mo.width, 0); // moves the object with objectwidth to avoid image jump
         this.ctx.scale(-1, 1); // flips the image
         mo.x = mo.x * -1; // set mo object on the mirrored coordinate
-        mo.updateHitbox(20, 50); //hitbox
+        (mo instanceof Character) ? mo.updateHitbox(20, 50) : mo.updateHitbox(0, 0); //hitbox
     }
 
     /**

@@ -11,6 +11,7 @@ class Character extends MovableObject {
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
   
+  
 
   moveImages = [
     './img/2_character_pepe/2_walk/W-21.png',
@@ -68,6 +69,7 @@ hurtImages=[
   animate() {
     setInterval(() => {
       this.walkingSound.pause();
+      this.checkIfFallingDown();
       if (this.world.keyboard.right && this.x < this.world.level.levelEndX) {
         super.moveRight();
         this.otherDirection = false;
@@ -91,7 +93,7 @@ hurtImages=[
       super.updateHitbox(20, 50);// Hitbox
       if (this.isDead()) {
         super.playAnimation(this.deadImages);
-      } else if (this.isHurt() ){
+      } else if (this.isHurt()){ // hurt soll nur ausgelöst werden, wenn der Chakter nicht von oben herunterfällt
         super.playAnimation(this.hurtImages);
       } else if (this.isAboveGround()) {
         super.playAnimation(this.jumpImages);
@@ -103,7 +105,14 @@ hurtImages=[
       }
     }, 130)
 
+    
+  }
 
+  /**
+   * this function sets the falling down flag true in case the character falls down
+   */
+  checkIfFallingDown(){
+    if(!this.isAboveGround()) this.fallingDown = false;
   }
 
 }

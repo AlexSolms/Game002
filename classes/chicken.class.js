@@ -10,6 +10,10 @@ class Chicken extends MovableObject {
   speed = 0.08;
   refreshRate = 10 / 6;
   world;
+  intervalMove;
+  intervalAnimation;
+  intervalCollision;
+  chickenDead = false;
 
 
   moveImages = [
@@ -25,32 +29,48 @@ class Chicken extends MovableObject {
     super.updateHitbox(0, 0); // x für hitbox
     this.speed = 0.08 + Math.random() * 0.10;
     this.animate();
-    this.chkCollisionWithCharacter();
+    this.chkCollision();
     //console.log();
   }
 
 
   animate() {
-    setInterval(() => {
+    this.intervalMove = setInterval(() => {
       super.moveLeft(this.speed);
       this.updateHitbox(0, 0);
     }, this.refreshRate)
 
-    setInterval(() => {
+    this.intervalAnimation = setInterval(() => {
       super.playAnimation(this.moveImages);
     }, 130)
   }
- 
-  chkCollisionWithCharacter(){
-    setInterval(() => {
-      if(super.isColliding( this.world.character)) {
-        //console.log('hit');
-        this.speed = -this.speed; // damit verschwindet das Huhn am linken Bildschirmrand
-      //this.otherDirection ? this.otherDirection = false : this.otherDirection = true;
-        this.otherDirection = !this.otherDirection;
-      //this.x = -this.x;
-      }
+
+
+  chkCollision() {
+    this.intervalCollision = setInterval(() => {
+
+      this.chkCollisionWithCharacter();
+
+
     }, 100); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
+
+  }
+
+
+  chkCollisionWithCharacter() {
+    console.log('falling down: ', this.world.character.fallingDown);
+    if (super.isColliding(this.world.character) && !this.world.character.fallingDown) {
+      this.speed = -this.speed; // damit verschwindet das Huhn am linken Bildschirmrand
+      this.otherDirection = !this.otherDirection;
+      // hier muss noch x und withd des chicken rein
+    } else if (super.isColliding(this.world.character) && this.world.character.fallingDown) {
+      super.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
+      clearInterval(this.intervalMove);
+      clearInterval(this.intervalAnimation);
+      clearInterval(this.intervalCollision);
+      this.chickenDead = true;
+    }
+     
   }
 
 
