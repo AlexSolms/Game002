@@ -26,7 +26,7 @@ class Chicken extends MovableObject {
     super().loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
     super.loadImages(this.moveImages);
     this.x = 200 + Math.random() * 500;
-    super.updateHitbox(0, 0); // x für hitbox
+    super.updateHitbox(0, 0, 40); // x für hitbox
     this.speed = 0.08 + Math.random() * 0.10;
     this.animate();
     this.chkCollision();
@@ -37,7 +37,7 @@ class Chicken extends MovableObject {
   animate() {
     this.intervalMove = setInterval(() => {
       super.moveLeft(this.speed);
-      this.updateHitbox(0, 0);
+      this.updateHitbox(0, 0, 40);
     }, this.refreshRate)
 
     this.intervalAnimation = setInterval(() => {
@@ -52,36 +52,46 @@ class Chicken extends MovableObject {
     this.intervalCollision = setInterval(() => {
       this.chkCollisionWithbottle();
       this.chkCollisionWithCharacter();
-    }, 200); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
+    }, 40); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
   }
 
+  /**
+   * this function checks if the chicken was hit by the bottle
+   */
   chkCollisionWithbottle() {
-    //console.log('bottleinair', this.world.bottleInAir);
     if (this.world.bottleInAir && super.isColliding(this.world.bottleToThrow)) {
-      super.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
-      this.clearAllIntervals();
-      this.chickenDead = true;
+      this.showChickenDeath();
     }
   }
-
-
-
-
 
   /**
    * this function checks if the character hits the chicken or the chicken hits the character
    */
   chkCollisionWithCharacter() {
-    console.log('falling down: ', this.world.character.fallingDown);
-    if (super.isColliding(this.world.character) && !this.world.character.fallingDown) {
-      this.speed = -this.speed; // damit verschwindet das Huhn am linken Bildschirmrand
-      this.otherDirection = !this.otherDirection;
-    } else if (super.isColliding(this.world.character) && this.world.character.fallingDown) {
-      super.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
-      this.clearAllIntervals();
-      this.chickenDead = true;
-    }
+    //console.log('falling down: ', this.world.character.fallingDown);
+    if (super.isColliding(this.world.character) && this.world.character.fallingDown) {
 
+      this.showChickenDeath();
+    } else if (super.isColliding(this.world.character) && !this.world.character.fallingDown) {
+      this.changeCickenDirection();
+    }
+  }
+
+  /**
+   * this function loads the death image, set the flag and stops all animation intervals
+   */
+  showChickenDeath() {
+    super.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
+    this.clearAllIntervals();
+    this.chickenDead = true;
+  }
+
+  /**
+   * this function changes the walk direction of a chicken
+   */
+  changeCickenDirection() {
+    this.speed = -this.speed; // damit verschwindet das Huhn am linken Bildschirmrand
+    this.otherDirection = !this.otherDirection;
   }
 
   /**

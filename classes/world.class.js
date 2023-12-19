@@ -45,8 +45,10 @@ class World {
         })
     }
 
+    /**
+     * this function creates a new instanz of a bottle
+     */
     checkThrowObject() {
-
         if (this.keyboard.E && this.bottleInInv && !this.bottleInAir) {
             this.bottleToThrow = new ThrowableObject(this.character);
             this.bottleInAir = true;
@@ -130,7 +132,9 @@ class World {
         this.ctx.translate(mo.width, 0); // moves the object with objectwidth to avoid image jump
         this.ctx.scale(-1, 1); // flips the image
         mo.x = mo.x * -1; // set mo object on the mirrored coordinate
-        (mo instanceof Character) ? mo.updateHitbox(20, 50) : mo.updateHitbox(0, 0); //hitbox
+        if(mo instanceof Character)  mo.updateHitbox(20, 50, 0); 
+        if(mo instanceof Chicken)  mo.updateHitbox(0, 0, 40); 
+    
     }
 
     /**

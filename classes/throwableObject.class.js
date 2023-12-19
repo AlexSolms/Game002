@@ -2,7 +2,7 @@ class ThrowableObject extends MovableObject {
     width = 40;
     hitbox_width = this.width;
     height = 80;
-    hitbox_height = this.height;
+    hitbox_height = this.height - 20;
     imgCount = 0;
     bottleHit = false;
     inAir = false;
@@ -42,12 +42,10 @@ class ThrowableObject extends MovableObject {
         let animationInterval = setInterval(() => {
             if (super.isAboveGround(50)) {
                 super.playAnimation(this.BottleInAirImages);
-                this.hitbox_x = this.x;
-                this.hitbox_y = this.y;
+                this.updateBottleHitbox();
                 this.inAir = true;
             } else {
                 clearInterval(animationInterval); // Stoppe das Intervall, wenn alle Bilder abgespielt wurden
-               
                 this.splash();
             }
         }, 60)
@@ -59,8 +57,7 @@ class ThrowableObject extends MovableObject {
     splash() {
         let splashInterval = setInterval(() => {
             if (this.imgCount < 6) {
-                this.hitbox_x = this.x;
-                this.hitbox_y = this.y;
+                this.updateBottleHitbox();
                 super.playAnimation(this.BottleSplash);
                 this.imgCount++;
             } else {
@@ -78,13 +75,22 @@ class ThrowableObject extends MovableObject {
         this.speedY = 15;
         super.applyGravity(95);
         let throwInterval = setInterval(() => {
-            if (super.isAboveGround(40)) {
-                this.x += 14;
+            if (super.isAboveGround(30)) {
+                this.x += 15;
             } else {
                 clearInterval(throwInterval); // Stoppe das Intervall, wenn das Objekt den Boden erreicht hat
-                console.log()
             }
         }, 40);
+    }
+
+    /**
+     * this function just updates the hitbox
+     */
+    updateBottleHitbox(){
+        this.hitbox_x = this.x;
+        this.hitbox_y = this.y;
+        this.hitbox_height = 60;
+        this.hitbox_width = 35;
     }
 
 }

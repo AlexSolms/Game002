@@ -47,6 +47,9 @@ class MovableObject extends DrawableObject {
     }
 
     isColliding(mo) {
+        if(this.world.character.fallingDown && mo instanceof Character){
+            console.log('charakter_X:', mo.hitbox_x ,', charakterFrontX:', (mo.hitbox_x + mo.hitbox_width),', ChickenleftX: ', this.hitbox_x,', charakter_bottom_Y:', (mo.hitbox_y + mo.hitbox_height), ', Chicken_Y: ', this.hitbox_y);
+        }
         return this.hitbox_x + this.hitbox_width > mo.hitbox_x && //1
             this.hitbox_y + this.hitbox_height > mo.hitbox_y && // 3
             this.hitbox_x < (mo.hitbox_x + mo.hitbox_width) && //mo.hitbox_x 
@@ -72,7 +75,9 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 // if (this.y > this.ground) { this.y = this.ground; } // damit fange ich ab, dass Pepe tifer sinkt als er soll
                 this.speedY -= this.acceleration;
-                if(this.y <10)this.fallingDown = true;
+                if(this.y <10){
+                    this.fallingDown = true;
+                }
             }
         }, 1000 / 25)
 
@@ -93,9 +98,9 @@ class MovableObject extends DrawableObject {
 
     updateHitbox(offsetX, offsetWidth) {
         this.hitbox_x = this.x + offsetX;
-        this.hitbox_y = this.y;
+        this.hitbox_y = this.y - 40;
         this.hitbox_width = this.width - offsetWidth;
-        this.hitbox_height = this.height;
+        this.hitbox_height = this.height + 40;
     }
 
     hit() {
