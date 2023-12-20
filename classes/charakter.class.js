@@ -11,6 +11,8 @@ class Character extends MovableObject {
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
   
+
+  
   
 
   moveImages = [
@@ -60,7 +62,7 @@ hurtImages=[
     super.loadImages(this.hurtImages);
     super.applyGravity(0);
     this.animate();
-    super.updateHitbox(20, 50);
+    super.updateHitbox(20, 50, 0);
   }
 
   
@@ -70,18 +72,18 @@ hurtImages=[
     setInterval(() => {
       this.walkingSound.pause();
       this.checkIfFallingDown();
-      if (this.world.keyboard.right && this.x < this.world.level.levelEndX) {
+      if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !this.hurtFlag) {
         super.moveRight();
         this.otherDirection = false;
-        super.updateHitbox(20, 50); // Hitbox
+        super.updateHitbox(20, 50, 0); // Hitbox
         this.walkingSound.play();
       }
-      if (this.world.keyboard.left && this.x > 48) {
+      if (this.world.keyboard.left && this.x > 48 && !this.hurtFlag) {
         this.moveLeft(this.speed);
         this.otherDirection = true;
         this.walkingSound.play();
       }
-      if (this.world.keyboard.up && !this.isAboveGround()) {
+      if (this.world.keyboard.up && !this.isAboveGround() && !this.hurtFlag) {
         super.jump(30);
       }
       //hier muss eine Logic rein. Wenn this.x eine bestimmte Stelle erreicht hat, dann darf sich das Bild nicht mehr verschieben
@@ -90,10 +92,11 @@ hurtImages=[
 
     setInterval(() => {
       // das kommt in die move Funktion später
-      super.updateHitbox(20, 50);// Hitbox
+      super.updateHitbox(20, 50, 0);// Hitbox
       if (this.isDead()) {
         super.playAnimation(this.deadImages);
       } else if (this.isHurt()){ // hurt soll nur ausgelöst werden, wenn der Chakter nicht von oben herunterfällt
+        this.hurtFlag = true;
         super.playAnimation(this.hurtImages);
       } else if (this.isAboveGround()) {
         super.playAnimation(this.jumpImages);

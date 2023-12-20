@@ -22,6 +22,9 @@ class World {
         this.draw();        
     }
 
+    /**
+     * this function provides the instanzes of character and each enemy the methodes and values of the world class.
+     */
     setWorld() {
         this.character.world = this;
         for (let i = 0; i < this.level.enemies.length; i++) {
@@ -29,18 +32,30 @@ class World {
         }
     }
 
+    /**
+     * this function call a interval for repeating the checks for bottles and collisions
+     */
     run() {
         setInterval(() => {
             this.checkCollisions();
             this.checkThrowObject();
-        }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
+        }, 50) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
 
+
+    /**
+     * this function checks if the caracter is in a colission with an enemy.
+     */
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
                 this.character.hit();
-                this.statusBarHealth.setPercentage(this.character.energy, this.statusBarHealth.statusHealthImages);
+                this.character.x -= 5;
+                enemy.changeCickenDirection();
+                this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);  
+            }
+            if(this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead){
+                enemy.showChickenDeath();
             }
         })
     }
@@ -55,6 +70,12 @@ class World {
         }
     }
 
+    /**
+     * this function can go to the statusbar class. It only calls the image for the status bar.
+     */
+    reduceHealthbar(energy, ImgSet){
+        this.statusBarHealth.setPercentage(energy, ImgSet);
+    }
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -133,7 +154,7 @@ class World {
         this.ctx.scale(-1, 1); // flips the image
         mo.x = mo.x * -1; // set mo object on the mirrored coordinate
         if(mo instanceof Character)  mo.updateHitbox(20, 50, 0); 
-        if(mo instanceof Chicken)  mo.updateHitbox(0, 0, 40); 
+        if(mo instanceof Chicken)  mo.updateHitbox(0, 0, 20); 
     
     }
 

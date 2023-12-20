@@ -12,7 +12,7 @@ class MovableObject extends DrawableObject {
     speedY = 0; //Geschwindigkeit des Körpers
     acceleration = 2.5; // Beschleunigung des Körpers
     fallingDown = false; // damit ich ein flag hab, dass mir anzeigt, dass der Körper wieder herunter kommt.
-
+    hurtFlag = false;
     /**
      * 
      * this function plays all immages of the image set for an animation
@@ -47,8 +47,12 @@ class MovableObject extends DrawableObject {
     }
 
     isColliding(mo) {
-        if(this.world.character.fallingDown && mo instanceof Character){
-            console.log('charakter_X:', mo.hitbox_x ,', charakterFrontX:', (mo.hitbox_x + mo.hitbox_width),', ChickenleftX: ', this.hitbox_x,', charakter_bottom_Y:', (mo.hitbox_y + mo.hitbox_height), ', Chicken_Y: ', this.hitbox_y);
+        if( mo instanceof Character  ){ //&& mo.otherDirection mo.fallingDown && && mo.fallingDown && mo.otherDirection
+            
+                //console.log(mo.otherDirection);
+                mo.hitbox_x = Math.abs(mo.hitbox_x);
+            
+            //console.log('charakter_X:', mo.hitbox_x ,', charakterFrontX:', (mo.hitbox_x + mo.hitbox_width),', ChickenleftX: ', this.hitbox_x,', charakter_bottom_Y:', (mo.hitbox_y + mo.hitbox_height));//, ', Chicken_Y: ', this.hitbox_y
         }
         return this.hitbox_x + this.hitbox_width > mo.hitbox_x && //1
             this.hitbox_y + this.hitbox_height > mo.hitbox_y && // 3
@@ -96,13 +100,22 @@ class MovableObject extends DrawableObject {
         this.speedY = jumpHight;
     }
 
-    updateHitbox(offsetX, offsetWidth) {
+    /**
+     * this function shrinks translates the image size to a hitbox size.
+     * @param {Number} offsetX - repesensts the offset for x
+     * @param {Number} offsetWidth - repesensts the offset for width
+     * @param {Number} offsetY repesensts the offset for y
+     */
+    updateHitbox(offsetX, offsetWidth, offsetY) {
         this.hitbox_x = this.x + offsetX;
-        this.hitbox_y = this.y - 40;
+        this.hitbox_y = this.y - offsetY;
         this.hitbox_width = this.width - offsetWidth;
-        this.hitbox_height = this.height + 40;
+        this.hitbox_height = this.height + offsetY;
     }
 
+    /**
+     * this function counts the energy after hit and sets a time stamp for the hurt function
+     */
     hit() {
         this.energy -= 5;
         if (this.energy < 0) {
@@ -112,13 +125,20 @@ class MovableObject extends DrawableObject {
         }
     }
 
+    /**
+     * this function provides the dead flag to signal if energy is zwro
+     * @returns - returns true if energy is zero
+     */
     isDead() {
         return this.energy === 0;
     }
 
+    /**
+     * This function provides a flag if a hit was happen to play the hurt animation
+     * @returns - true if timepassed  lower then 500
+     */
     isHurt() {
-        let timepassed = (new Date().getTime() - this.lastHit)
-        //console.log((timepassed) );
+        let timepassed = (new Date().getTime() - this.lastHit);
         return timepassed < 500;
     }
 }

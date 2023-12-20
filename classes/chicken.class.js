@@ -25,7 +25,7 @@ class Chicken extends MovableObject {
   constructor() {
     super().loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
     super.loadImages(this.moveImages);
-    this.x = 200 + Math.random() * 500;
+    this.x = 200 + Math.random() * 2000;
     super.updateHitbox(0, 0, 40); // x für hitbox
     this.speed = 0.08 + Math.random() * 0.10;
     this.animate();
@@ -37,7 +37,7 @@ class Chicken extends MovableObject {
   animate() {
     this.intervalMove = setInterval(() => {
       super.moveLeft(this.speed);
-      this.updateHitbox(0, 0, 40);
+      this.updateHitbox(0, 0, 20);
     }, this.refreshRate)
 
     this.intervalAnimation = setInterval(() => {
@@ -51,8 +51,8 @@ class Chicken extends MovableObject {
   chkCollision() {
     this.intervalCollision = setInterval(() => {
       this.chkCollisionWithbottle();
-      this.chkCollisionWithCharacter();
-    }, 40); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
+     // this.chkCollisionWithCharacter();
+    }, 100); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
   }
 
   /**
@@ -64,18 +64,22 @@ class Chicken extends MovableObject {
     }
   }
 
+
+  //''''''''''''''this function is implemented in world and no longer neccessary here ''''''''''''
   /**
    * this function checks if the character hits the chicken or the chicken hits the character
    */
   chkCollisionWithCharacter() {
     //console.log('falling down: ', this.world.character.fallingDown);
     if (super.isColliding(this.world.character) && this.world.character.fallingDown) {
-
       this.showChickenDeath();
     } else if (super.isColliding(this.world.character) && !this.world.character.fallingDown) {
       this.changeCickenDirection();
     }
   }
+    //''''''''''''''Comment End ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+
+
 
   /**
    * this function loads the death image, set the flag and stops all animation intervals
