@@ -37,8 +37,9 @@ class World {
      */
     run() {
         setInterval(() => {
-            this.checkCollisions();
             this.checkThrowObject();
+            this.checkCollisions();
+            
         }, 50) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
 
@@ -56,7 +57,16 @@ class World {
             }
             if(this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead){
                 enemy.showChickenDeath();
+                
             }
+            if(this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
+                console.log(this.bottleToThrow);
+                this.bottleToThrow.hitEnemy = true;
+                if(!this.bottleToThrow.inAir){
+                    this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector
+                }
+            }
+            
         })
     }
 
@@ -94,7 +104,8 @@ class World {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
-        this.addObjectsToMap(this.level.enemies);
+        this.drawChicken();
+        
         this.addObjectsToMap(this.level.clouds);
         this.drawBottle();
 
@@ -132,6 +143,20 @@ class World {
 
         if (objectToDraw.otherDirection) this.flipImgBack(objectToDraw); // reset needed to change this object only
     }
+
+    /**
+     * this function removes the dead chicken after few moments
+     */
+    drawChicken(){
+        for (let i = 0; i < this.level.enemies.length; i++) {
+            const enemy = this.level.enemies[i];
+            if((new Date().getTime() - enemy.deathTimeStamp) > 500){
+                this.level.enemies.splice(i,1);
+            } 
+        }
+        this.addObjectsToMap(this.level.enemies);
+    }
+    
     /**
      * 
      * This function draws each elements of the provided object.

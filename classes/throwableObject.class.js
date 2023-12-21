@@ -6,6 +6,7 @@ class ThrowableObject extends MovableObject {
     imgCount = 0;
     bottleHit = false;
     inAir = false;
+    hitEnemy= false;
 
     BottleInAirImages = [
         './img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -40,16 +41,25 @@ class ThrowableObject extends MovableObject {
     animate() {
         this.throw();
         let animationInterval = setInterval(() => {
-            if (super.isAboveGround(50)) {
+            if(this.hitEnemy || !super.isAboveGround(50)){
+                clearInterval(animationInterval); // Stoppe das Intervall, wenn alle Bilder abgespielt wurden
+                this.splash();
+            }else {
+                super.playAnimation(this.BottleInAirImages);
+                this.updateBottleHitbox();
+                this.inAir = true;
+            } 
+    }, 60)
+    }
+           /*  if (super.isAboveGround(50)) {
                 super.playAnimation(this.BottleInAirImages);
                 this.updateBottleHitbox();
                 this.inAir = true;
             } else {
                 clearInterval(animationInterval); // Stoppe das Intervall, wenn alle Bilder abgespielt wurden
                 this.splash();
-            }
-        }, 60)
-    }
+            } */
+    
 
     /**
      * This function plays the bottle splash animation

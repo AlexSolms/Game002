@@ -1,4 +1,4 @@
-class Chicken extends MovableObject {
+class Chicken extends Enemies {
 
 
   y = 300;
@@ -9,11 +9,12 @@ class Chicken extends MovableObject {
   hitbox_height = this.height;
   speed = 0.08;
   refreshRate = 10 / 6;
-  world = {};
+  
   intervalMove;
   intervalAnimation;
   intervalCollision;
   chickenDead = false;
+  deathTimeStamp;
 
   
   moveImages = [
@@ -74,7 +75,7 @@ class Chicken extends MovableObject {
     if (super.isColliding(this.world.character) && this.world.character.fallingDown) {
       this.showChickenDeath();
     } else if (super.isColliding(this.world.character) && !this.world.character.fallingDown) {
-      this.changeCickenDirection();
+      super.changeCickenDirection();
     }
   }
     //''''''''''''''Comment End ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -88,15 +89,11 @@ class Chicken extends MovableObject {
     super.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png');
     this.clearAllIntervals();
     this.chickenDead = true;
+    this.deathTimeStamp = new Date().getTime();
   }
 
-  /**
-   * this function changes the walk direction of a chicken
-   */
-  changeCickenDirection() {
-    this.speed = -this.speed; // damit verschwindet das Huhn am linken Bildschirmrand
-    this.otherDirection = !this.otherDirection;
-  }
+ 
+  
 
   /**
    * this function clears all intervals zu stop any animation or movement
