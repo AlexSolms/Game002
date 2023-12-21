@@ -10,10 +10,11 @@ class Character extends MovableObject {
   speed = 3;
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
-  
+  idleTimeStart = new Date().getTime();
 
-  
-  
+
+
+
 
   moveImages = [
     './img/2_character_pepe/2_walk/W-21.png',
@@ -36,11 +37,11 @@ class Character extends MovableObject {
     './img/2_character_pepe/3_jump/J-39.png'
   ];
 
-hurtImages=[
-  './img/2_character_pepe/4_hurt/H-41.png',
-  './img/2_character_pepe/4_hurt/H-42.png',
-  './img/2_character_pepe/4_hurt/H-42.png'
-];
+  hurtImages = [
+    './img/2_character_pepe/4_hurt/H-41.png',
+    './img/2_character_pepe/4_hurt/H-42.png',
+    './img/2_character_pepe/4_hurt/H-42.png'
+  ];
 
 
   deadImages = [
@@ -53,6 +54,32 @@ hurtImages=[
     './img/2_character_pepe/5_dead/D-57.png'
   ];
 
+  idleImages = [
+    './img/2_character_pepe/1_idle/idle/I-1.png',
+    './img/2_character_pepe/1_idle/idle/I-2.png',
+    './img/2_character_pepe/1_idle/idle/I-3.png',
+    './img/2_character_pepe/1_idle/idle/I-4.png',
+    './img/2_character_pepe/1_idle/idle/I-5.png',
+    './img/2_character_pepe/1_idle/idle/I-6.png',
+    './img/2_character_pepe/1_idle/idle/I-7.png',
+    './img/2_character_pepe/1_idle/idle/I-8.png',
+    './img/2_character_pepe/1_idle/idle/I-9.png',
+    './img/2_character_pepe/1_idle/idle/I-10.png'
+  ];
+
+  longIdleImages = [
+    './img/2_character_pepe/1_idle/long_idle/I-11.png',
+    './img/2_character_pepe/1_idle/long_idle/I-12.png',
+    './img/2_character_pepe/1_idle/long_idle/I-13.png',
+    './img/2_character_pepe/1_idle/long_idle/I-14.png',
+    './img/2_character_pepe/1_idle/long_idle/I-15.png',
+    './img/2_character_pepe/1_idle/long_idle/I-16.png',
+    './img/2_character_pepe/1_idle/long_idle/I-17.png',
+    './img/2_character_pepe/1_idle/long_idle/I-18.png',
+    './img/2_character_pepe/1_idle/long_idle/I-19.png',
+    './img/2_character_pepe/1_idle/long_idle/I-20.png'
+  ];
+
 
   constructor() {
     super().loadImage('./img/2_character_pepe/1_idle/idle/I-1.png');
@@ -60,62 +87,94 @@ hurtImages=[
     super.loadImages(this.jumpImages);
     super.loadImages(this.deadImages);
     super.loadImages(this.hurtImages);
+    super.loadImages(this.idleImages);
+    super.loadImages(this.longIdleImages);
     super.applyGravity(0);
     this.animate();
     super.updateHitbox(20, 50, 0);
   }
 
-  
 
 
+/**
+ * this function contains the intervals for all animation function for the character
+ */
   animate() {
     setInterval(() => {
       this.walkingSound.pause();
-      this.checkIfFallingDown();
-      if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !this.hurtFlag) {
-        super.moveRight();
-        this.otherDirection = false;
-        super.updateHitbox(20, 50, 0); // Hitbox
-        this.walkingSound.play();
-      }
-      if (this.world.keyboard.left && this.x > 48 && !this.hurtFlag) {
-        this.moveLeft(this.speed);
-        this.otherDirection = true;
-        this.walkingSound.play();
-      }
-      if (this.world.keyboard.up && !this.isAboveGround() && !this.hurtFlag) {
-        super.jump(30);
-      }
+      this.movementLogic();
       //hier muss eine Logic rein. Wenn this.x eine bestimmte Stelle erreicht hat, dann darf sich das Bild nicht mehr verschieben
       this.world.camera_x = -this.x + 50; // for moving teh complete content in oppsite direcrion of the charakter, die 50 ist der Startpunkt des Charakters
     }, 100 / 6)
+    setInterval(() =>this.animationLogic(), 130)
+  }
 
-    setInterval(() => {
-      // das kommt in die move Funktion später
-      super.updateHitbox(20, 50, 0);// Hitbox
-      if (this.isDead()) {
-        super.playAnimation(this.deadImages);
-      } else if (this.isHurt()){ // hurt soll nur ausgelöst werden, wenn der Chakter nicht von oben herunterfällt
-        this.hurtFlag = true;
-        super.playAnimation(this.hurtImages);
-      } else if (this.isAboveGround()) {
-        super.playAnimation(this.jumpImages);
-      } else {
-        if (this.world.keyboard.right || this.world.keyboard.left) {
-          //laufanimation
-          super.playAnimation(this.moveImages);
-        }
-      }
-    }, 130)
+  movementLogic(){
+    this.checkIfFallingDown();
+      this.characterMoveRight();
+      this.characterMoveLeft();
+      this.characterJump();
+  }
+  /**
+   * this function contains the image animation logic for all process steps 
+   */
+  animationLogic(){
+    super.updateHitbox(20, 50, 0);// Hitbox
+    this.resetIdletime();
+    if (this.isDead()) super.playAnimation(this.deadImages);
+    else if (this.isHurt()) super.playAnimation(this.hurtImages);
+    else if (this.isAboveGround()) super.playAnimation(this.jumpImages);
+    else if (this.world.keyboard.right || this.world.keyboard.left) super.playAnimation(this.moveImages);
+    else if ((new Date().getTime() - this.idleTimeStart) > 5000) super.playAnimation(this.longIdleImages);
+    else super.playAnimation(this.idleImages);
+  }
 
-    
+  /**
+   * this function resets the iddel time in the animation logic
+   */
+  resetIdletime() {
+    if (this.isHurt() || this.isAboveGround() || this.world.keyboard.right || this.world.keyboard.left)
+      this.idleTimeStart = new Date().getTime();
+  }
+
+/**
+ * this function covers the logic for the right movment
+ */
+  characterMoveRight() {
+    if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !this.isHurt()) {
+      super.moveRight();
+      this.otherDirection = false;
+      super.updateHitbox(20, 50, 0); // Hitbox
+      this.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
+    }
+  }
+
+  /**
+ * this function covers the logic for the left movment
+ */
+  characterMoveLeft() {
+    if (this.world.keyboard.left && this.x > 48 && !this.isHurt()) {
+      this.moveLeft(this.speed);
+      this.otherDirection = true;
+      this.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
+    }
+  }
+
+/**
+ * this function covers the logic for the jump movment
+ */
+  characterJump() {
+    if (this.world.keyboard.up && !this.isAboveGround() && !this.isHurt()) {
+      super.jump(30);
+      //this.walkingSound.pause();
+    }
   }
 
   /**
    * this function sets the falling down flag true in case the character falls down
    */
-  checkIfFallingDown(){
-    if(!this.isAboveGround()) this.fallingDown = false;
+  checkIfFallingDown() {
+    if (!this.isAboveGround()) this.fallingDown = false;
   }
 
 }

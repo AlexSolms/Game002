@@ -12,7 +12,7 @@ class MovableObject extends DrawableObject {
     speedY = 0; //Geschwindigkeit des Körpers
     acceleration = 2.5; // Beschleunigung des Körpers
     fallingDown = false; // damit ich ein flag hab, dass mir anzeigt, dass der Körper wieder herunter kommt.
-    hurtFlag = false;
+    
     /**
      * 
      * this function plays all immages of the image set for an animation
@@ -96,6 +96,10 @@ class MovableObject extends DrawableObject {
         return this.y < (this.ground + groundOffset);
     }
 
+    /**
+     * 
+     * @param {Number} jumpHight - max high of jump
+     */
     jump(jumpHight) {
         this.speedY = jumpHight;
     }
