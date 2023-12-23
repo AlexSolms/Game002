@@ -44,9 +44,9 @@ class Endboss extends Enemies {
   ];
 
   deadImages = [
-    './img/4_enemie_boss_chicken/4_hurt/G23.png',
-    './img/4_enemie_boss_chicken/4_hurt/G24.png',
-    './img/4_enemie_boss_chicken/4_hurt/G25.png',
+    './img/4_enemie_boss_chicken/5_dead/G23.png',
+    './img/4_enemie_boss_chicken/5_dead/G24.png',
+    './img/4_enemie_boss_chicken/5_dead/G25.png',
   ]
 
   constructor() {
@@ -73,8 +73,7 @@ class Endboss extends Enemies {
 
   }
 
-// hier muss noch eine Zeitfunktion rein, die die hurt animation nach 1 s abbricht und wieder in die normale animation übergeht
-// bitte einen PAP schreiben!!!!!
+// das funktioniert solange die Flasche noch in der Luft ist und noch die sp
   /**
   * this function checks if the chicken was hit by the bottle
   */
@@ -85,7 +84,11 @@ class Endboss extends Enemies {
   }
 
   showEndbossHurt(){
+    //Aktuell bekommt der Boss noch mehrfach Schaden, wenn die Flasche an ihm zerschellt. Ich brauche also ein flag, dass mir zeigt 
     super.playAnimation(this.hurtImages);
+    super.hit();
+    console.log('Energy: ', this.energy);
+    if(super.isDead()) super.playAnimation(this.deadImages);
   }
 
 
