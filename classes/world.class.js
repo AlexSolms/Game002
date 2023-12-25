@@ -53,6 +53,10 @@ class World {
                 this.character.hit();
                 this.character.x -= 5;
                 enemy.changeCickenDirection();
+                if(enemy instanceof Endboss) {
+                    enemy.attackSuccues = true;
+                    console.log(this.level.enemies[0].attackSuccues)
+                }
                 this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);  
             }
             if(this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead){

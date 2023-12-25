@@ -10,6 +10,7 @@ class Endboss extends Enemies {
   hitbox_height = this.height - 50;
   speed = 0.08;
   refreshRate = 10 / 6;
+  attackSuccuess = false;
   world;
 
   moveImages = [
@@ -62,6 +63,9 @@ class Endboss extends Enemies {
     this.animate();
   }
 
+  movementLogic(){
+    super.moveLeft();
+  }
   animate() {
 
     setInterval(() => {
