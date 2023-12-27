@@ -8,7 +8,7 @@ class Endboss extends Enemies {
   hitbox_y = this.y - 70;
   hitbox_width = this.width;
   hitbox_height = this.height - 50;
-  speed = 0.08;
+  speed = 2;
   refreshRate = 10 / 6;
   attackSuccuess = false;
   world;
@@ -57,14 +57,17 @@ class Endboss extends Enemies {
     super.loadImages(this.aleartImages);
     super.loadImages(this.hurtImages);
     super.loadImages(this.deadImages);
-
+    this.movementLogic();
     //super.updateHitbox(0, 0, 40); // x für hitbox
     this.x = 700;
     this.animate();
   }
 
   movementLogic(){
-    super.moveLeft();
+    setInterval(() => {
+      super.moveLeft(this.speed);
+    }, 100);
+    
   }
   animate() {
 
