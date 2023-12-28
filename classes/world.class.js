@@ -12,6 +12,12 @@ class World {
     camera_x = 0;
     bottleInInv = true;
     bottleInAir = false;
+    
+    endbossArea = {
+        left: 400,
+        right: 800
+    }
+
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -19,7 +25,7 @@ class World {
         this.keyboard = keyboard;
         this.setWorld();
         this.run();
-        this.draw();        
+        this.draw();
     }
 
     /**
@@ -39,7 +45,7 @@ class World {
         setInterval(() => {
             this.checkThrowObject();
             this.checkCollisions();
-            
+
         }, 50) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
 
@@ -53,24 +59,24 @@ class World {
                 this.character.hit();
                 this.character.x -= 5;
                 enemy.changeCickenDirection();
-                if(enemy instanceof Endboss) {
+                if (enemy instanceof Endboss) {
                     enemy.attackSuccues = true;
                     console.log(this.level.enemies[0].attackSuccues)
                 }
-                this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);  
+                this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
             }
-            if(this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead){
+            if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) {
                 enemy.showChickenDeath();
-                
+
             }
-            if(this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
+            if (this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
                 console.log(this.bottleToThrow);
                 this.bottleToThrow.hitEnemy = true;
-                if(!this.bottleToThrow.inAir){
+                if (!this.bottleToThrow.inAir) {
                     this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector
                 }
             }
-            
+
         })
     }
 
@@ -87,7 +93,7 @@ class World {
     /**
      * this function can go to the statusbar class. It only calls the image for the status bar.
      */
-    reduceHealthbar(energy, ImgSet){
+    reduceHealthbar(energy, ImgSet) {
         this.statusBarHealth.setPercentage(energy, ImgSet);
     }
 
@@ -109,7 +115,7 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
         this.drawChicken();
-        
+
         this.addObjectsToMap(this.level.clouds);
         this.drawBottle();
 
@@ -135,6 +141,7 @@ class World {
         if (this.character.x > 300) this.addToMap(this.statusBarBoss);
     }
 
+    
     /**
      * 
      * This function draws the image of the object with it's parameters for example if its mirroed (otherDirection)
@@ -151,16 +158,16 @@ class World {
     /**
      * this function removes the dead chicken after few moments
      */
-    drawChicken(){
+    drawChicken() {
         for (let i = 0; i < this.level.enemies.length; i++) {
             const enemy = this.level.enemies[i];
-            if((new Date().getTime() - enemy.deathTimeStamp) > 500){
-                this.level.enemies.splice(i,1);
-            } 
+            if ((new Date().getTime() - enemy.deathTimeStamp) > 500) {
+                this.level.enemies.splice(i, 1);
+            }
         }
         this.addObjectsToMap(this.level.enemies);
     }
-    
+
     /**
      * 
      * This function draws each elements of the provided object.
@@ -182,9 +189,9 @@ class World {
         this.ctx.translate(mo.width, 0); // moves the object with objectwidth to avoid image jump
         this.ctx.scale(-1, 1); // flips the image
         mo.x = mo.x * -1; // set mo object on the mirrored coordinate
-        if(mo instanceof Character)  mo.updateHitbox(20, 50, 0); 
-        if(mo instanceof Chicken)  mo.updateHitbox(0, 0, 20); 
-    
+        if (mo instanceof Character) mo.updateHitbox(20, 50, 0);
+        if (mo instanceof Chicken) mo.updateHitbox(0, 0, 20);
+
     }
 
     /**

@@ -12,7 +12,6 @@ class MovableObject extends DrawableObject {
     speedY = 0; //Geschwindigkeit des Körpers
     acceleration = 2.5; // Beschleunigung des Körpers
     fallingDown = false; // damit ich ein flag hab, dass mir anzeigt, dass der Körper wieder herunter kommt.
-    
     /**
      * 
      * this function plays all immages of the image set for an animation
