@@ -1,6 +1,6 @@
 class Endboss extends Enemies {
 
-  x = 700;
+  x = 1000;
   y = 160;
   width = 200;
   height = 200;
@@ -14,8 +14,11 @@ class Endboss extends Enemies {
   world;
   alertStart = new Date().getTime();
   firstContactWithBoss = true;
+  borderHit = false;
+  flagBossAlert = true;
+  flagBossWalk = false;
 
-  moveImages = [
+  walkImages = [
     './img/4_enemie_boss_chicken/1_walk/G1.png',
     './img/4_enemie_boss_chicken/1_walk/G2.png',
     './img/4_enemie_boss_chicken/1_walk/G3.png',
@@ -47,35 +50,31 @@ class Endboss extends Enemies {
   ];
 
   deadImages = [
-    './img/4_enemie_boss_chicken/5_dead/G23.png',
     './img/4_enemie_boss_chicken/5_dead/G24.png',
     './img/4_enemie_boss_chicken/5_dead/G25.png',
+    './img/4_enemie_boss_chicken/5_dead/G26.png',
   ]
 
   constructor() {
     super().loadImage('./img/4_enemie_boss_chicken/1_walk/G1.png');
-    super.loadImages(this.moveImages);
+    super.loadImages(this.walkImages);
     super.loadImages(this.attackImages);
     super.loadImages(this.aleartImages);
     super.loadImages(this.hurtImages);
     super.loadImages(this.deadImages);
     //this.movementLogic();
     //super.updateHitbox(0, 0, 40); // x für hitbox
-    this.x = 700;
+
     this.animate();
   }
 
-  movementLogic() {
-    setInterval(() => {
-      super.moveLeft(this.speed);
-    }, 100);
-
-  }
+  
   animate() {
 
     setInterval(() => {
       super.updateHitbox(20, 50, -20);
       this.bossAlert();
+      this.bossWalk();
       this.chkCollisionWithbottle();
     }, 130)
   }
@@ -85,23 +84,68 @@ class Endboss extends Enemies {
   // bossAlert-Funktion
   bossAlert() {
 
-    let timeDiv;
-    console.log(this.world.character.x);
-    if (this.world.character.x >= this.world.endbossArea.left - 100) {
-      //this.firstContactWithBoss = true;
-      timeDiv = new Date().getTime() - this.alertStart;
+      let timeDiv;
+     let borderChk = this.world.character.leftBorder >= this.world.endbossArea.left;
 
-      if (this.firstContactWithBoss && timeDiv < 4000) {
-        super.playAnimation(this.aleartImages);
-      } else if (this.flagBossAlert && timeDiv < 2000) {
-        super.playAnimation(this.aleartImages);
-      } else {
-        this.flagBossAlert = false;
-        this.firstContactWithBoss = false;
-      }
+     //Wenn die border erreicht wurde muss der Timer gestartet werden
+   this.startTimerFirstContact(borderChk);
+     timeDiv = new Date().getTime() - this.alertStart;
+     console.log(this.world.character.x);
+     if (this.borderHit) {
+      this.startAnimation(timeDiv);
+       
+       timeDiv = new Date().getTime() - this.alertStart;
+
+       if (!this.firstContactWithBoss && this.flagBossAlert && timeDiv < 2000) {
+         super.playAnimation(this.aleartImages);   
+         console.log('m');     
+       } else if (!(timeDiv < 2000) && !this.firstContactWithBoss) {
+         this.flagBossAlert = false;
+         this.flagBossWalk = true;
+       }
+     } 
+    
+
+    // }
+  }
+
+  /**
+   * this function sets the start time for the startAnimation() function
+   * @param {Boolean} borderChk - true if character hits the boss area
+   */
+  startTimerFirstContact(borderChk){
+    if (borderChk && !this.borderHit) {
+      this.alertStart = new Date().getTime();
+      this.borderHit = true;
     }
   }
 
+  /**
+   * this function plays the start animation 
+   * @param {Number} timeDiv - represents the time in ms between actual time and saved start time
+   */
+  startAnimation(timeDiv){
+    if (timeDiv < 4000 && this.firstContactWithBoss) {
+      super.playAnimation(this.aleartImages);
+    } else if (this.firstContactWithBoss) { //this.borderHit && 
+      this.firstContactWithBoss = false;
+      this.alertStart = new Date().getTime();
+    }
+  }
+
+  bossWalk(){
+    if (this.flagBossWalk) {
+      this.movementLogic();
+      super.playAnimation(this.walkImages);  
+    }
+  }
+
+  movementLogic() {
+    setInterval(() => {
+      super.moveLeft(this.speed);
+    }, 100);
+
+  }
 
   // die Endbossantimation:
   // Pepe erscheint: Endoss in aleart 1,5 sekunden vielleicht

@@ -11,7 +11,7 @@ class Character extends MovableObject {
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
   idleTimeStart = new Date().getTime();
-  leftBorder = 48;
+  leftBorder = this.width/2;
 
 
 
@@ -147,8 +147,9 @@ class Character extends MovableObject {
       this.otherDirection = false;
       super.updateHitbox(20, 50, 0); // Hitbox
       this.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
+      
       if (this.x >= this.world.endbossArea.left) {
-        this.leftBorder = this.world.endbossArea.left + 48; // set new border for the final fight
+        this.leftBorder = this.world.endbossArea.left + this.width/2; // set new border for the final fight
       }
     }
   }
