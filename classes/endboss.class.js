@@ -18,7 +18,7 @@ class Endboss extends Enemies {
   borderHit = false;
   flagBossAlert = true;
   flagBossWalk = false;
- // flagNewAttack = false;
+  flagNewAttack = true;
 
   moveInterval;
 
@@ -74,13 +74,19 @@ class Endboss extends Enemies {
 
 
   animate() {
+    this.moveInterval = setInterval(() => {
+      if (this.flagBossWalk) {
+        this.movementLogic(); 
+      }
+    }, this.refreshRate);//this.refreshRate
 
     setInterval(() => {
       super.updateHitbox(20, 50, -20);
       this.bossAlert();
-      this.bossWalk();
+      this.bossWalk();   
       this.chkCollisionWithbottle();
-    }, 130)
+    }, 130);
+
   }
 
   //Flags: bossAlert, boss walk, bossColliosion, otherDirection
@@ -90,12 +96,9 @@ class Endboss extends Enemies {
     let timeDiv;
     let borderChk = this.world.character.leftBorder >= this.world.endbossArea.left;
     this.startTimerFirstContact(borderChk);
- 
     timeDiv = new Date().getTime() - this.alertStart;
-  
     if (this.borderHit) {
-      this.startAnimation(timeDiv);
-     
+      this.startAnimation(timeDiv); 
       this.standardAlert(timeDiv);
     }
   }
@@ -134,39 +137,42 @@ class Endboss extends Enemies {
     } else if (!(timeDiv < 2000) && !this.firstContactWithBoss) {
       this.flagBossAlert = false;
       this.flagBossWalk = true;
-      //this.speed = this.startSpeed;
+      this.attackSuccuess = false;
+      //this.flagNewAttack = true;
+      if(this.flagNewAttack)this.speed = 0.8;
     }
   }
 
   bossWalk() {
-    if (this.flagBossWalk) {
-      
-      this.movementLogic();
+    if (this.flagBossWalk) { 
       super.playAnimation(this.walkImages);
+      
     }
   }
 
   movementLogic() {
-    //if (!this.flagNewAttack) {
-    this.moveInterval = setInterval(() => {
-      
-    //clearInterval(this.moveInterval);
-  
-      super.updateHitbox(20, 50, -20);
+   
+       super.updateHitbox(20, 50, -20);
       super.moveLeft(this.speed);
-      
-    }, 200);//this.refreshRate
-  //}
+
+   if (this.attackSuccuess && this.flagNewAttack) {
+    
+    super.changeCickenDirection();
+    
+    this.attackSuccuess = false;
+    this.flagNewAttack = false;
+    
+  }  
     if (this.x > this.world.endbossArea.right) {
-      debugger;
-      clearInterval(this.moveInterval);
-      this.otherDirection = !this.otherDirection;
+      //debugger;
+      //clearInterval(this.moveInterval);
+      //this.otherDirection = !this.otherDirection;
       this.x = this.startPosition;
-      this.speed = 0;
-        //super.changeCickenDirection();
+       //this.speed = 0;
+        super.changeCickenDirection();
         this.flagBossAlert = true;
         this.flagBossWalk = false;
-       // this.flagNewAttack = true;
+        this.flagNewAttack = true;
         this.alertStart = new Date().getTime();
         
       }

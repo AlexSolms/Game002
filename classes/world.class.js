@@ -46,7 +46,7 @@ class World {
             this.checkThrowObject();
             this.checkCollisions();
 
-        }, 50) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
+        }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
 
 
@@ -58,10 +58,11 @@ class World {
             if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
                 this.character.hit();
                 this.character.x -= 5;
-                enemy.changeCickenDirection();
+                if (enemy instanceof Chicken)enemy.changeCickenDirection();
                 if (enemy instanceof Endboss) {
-                    enemy.attackSuccues = true;
-                    console.log(this.level.enemies[0].attackSuccues)
+                    enemy.attackSuccuess = true;
+                   // console.log(this.level.enemies[0].attackSuccues);
+                  
                 }
                 this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
             }
