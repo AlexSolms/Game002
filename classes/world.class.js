@@ -15,7 +15,7 @@ class World {
     
     endbossArea = {
         left: 400,
-        right: 800
+        right: 1000
     }
 
 
@@ -70,7 +70,7 @@ class World {
 
             }
             if (this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
-                console.log(this.bottleToThrow);
+               // console.log(this.bottleToThrow);
                 this.bottleToThrow.hitEnemy = true;
                 if (!this.bottleToThrow.inAir) {
                     this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector

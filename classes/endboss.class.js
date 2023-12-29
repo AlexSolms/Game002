@@ -1,6 +1,6 @@
 class Endboss extends Enemies {
-
-  x = 1000;
+  startPosition= 1000;
+  x = this.startPosition;
   y = 160;
   width = 200;
   height = 200;
@@ -8,7 +8,8 @@ class Endboss extends Enemies {
   hitbox_y = this.y - 70;
   hitbox_width = this.width;
   hitbox_height = this.height - 50;
-  speed = 2;
+  startSpeed = 0.8;
+  speed = this.startSpeed;
   refreshRate = 10 / 6;
   attackSuccuess = false;
   world;
@@ -17,6 +18,9 @@ class Endboss extends Enemies {
   borderHit = false;
   flagBossAlert = true;
   flagBossWalk = false;
+ // flagNewAttack = false;
+
+  moveInterval;
 
   walkImages = [
     './img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -68,7 +72,7 @@ class Endboss extends Enemies {
     this.animate();
   }
 
-  
+
   animate() {
 
     setInterval(() => {
@@ -83,37 +87,24 @@ class Endboss extends Enemies {
 
   // bossAlert-Funktion
   bossAlert() {
-
-      let timeDiv;
-     let borderChk = this.world.character.leftBorder >= this.world.endbossArea.left;
-
-     //Wenn die border erreicht wurde muss der Timer gestartet werden
-   this.startTimerFirstContact(borderChk);
-     timeDiv = new Date().getTime() - this.alertStart;
-     console.log(this.world.character.x);
-     if (this.borderHit) {
+    let timeDiv;
+    let borderChk = this.world.character.leftBorder >= this.world.endbossArea.left;
+    this.startTimerFirstContact(borderChk);
+ 
+    timeDiv = new Date().getTime() - this.alertStart;
+  
+    if (this.borderHit) {
       this.startAnimation(timeDiv);
-       
-       timeDiv = new Date().getTime() - this.alertStart;
-
-       if (!this.firstContactWithBoss && this.flagBossAlert && timeDiv < 2000) {
-         super.playAnimation(this.aleartImages);   
-         console.log('m');     
-       } else if (!(timeDiv < 2000) && !this.firstContactWithBoss) {
-         this.flagBossAlert = false;
-         this.flagBossWalk = true;
-       }
-     } 
-    
-
-    // }
+     
+      this.standardAlert(timeDiv);
+    }
   }
 
   /**
    * this function sets the start time for the startAnimation() function
    * @param {Boolean} borderChk - true if character hits the boss area
    */
-  startTimerFirstContact(borderChk){
+  startTimerFirstContact(borderChk) {
     if (borderChk && !this.borderHit) {
       this.alertStart = new Date().getTime();
       this.borderHit = true;
@@ -124,8 +115,8 @@ class Endboss extends Enemies {
    * this function plays the start animation 
    * @param {Number} timeDiv - represents the time in ms between actual time and saved start time
    */
-  startAnimation(timeDiv){
-    if (timeDiv < 4000 && this.firstContactWithBoss) {
+  startAnimation(timeDiv) {
+    if (timeDiv < 2000 && this.firstContactWithBoss) {
       super.playAnimation(this.aleartImages);
     } else if (this.firstContactWithBoss) { //this.borderHit && 
       this.firstContactWithBoss = false;
@@ -133,17 +124,52 @@ class Endboss extends Enemies {
     }
   }
 
-  bossWalk(){
+  standardAlert(timeDiv) {
+    console.log(timeDiv);
+
+    if (!this.firstContactWithBoss && this.flagBossAlert && timeDiv < 2000) {
+      super.playAnimation(this.aleartImages);
+      //this.flagNewAttack= false;
+      //console.log('m');
+    } else if (!(timeDiv < 2000) && !this.firstContactWithBoss) {
+      this.flagBossAlert = false;
+      this.flagBossWalk = true;
+      //this.speed = this.startSpeed;
+    }
+  }
+
+  bossWalk() {
     if (this.flagBossWalk) {
+      
       this.movementLogic();
-      super.playAnimation(this.walkImages);  
+      super.playAnimation(this.walkImages);
     }
   }
 
   movementLogic() {
-    setInterval(() => {
+    //if (!this.flagNewAttack) {
+    this.moveInterval = setInterval(() => {
+      
+    //clearInterval(this.moveInterval);
+  
+      super.updateHitbox(20, 50, -20);
       super.moveLeft(this.speed);
-    }, 100);
+      
+    }, 200);//this.refreshRate
+  //}
+    if (this.x > this.world.endbossArea.right) {
+      debugger;
+      clearInterval(this.moveInterval);
+      this.otherDirection = !this.otherDirection;
+      this.x = this.startPosition;
+      this.speed = 0;
+        //super.changeCickenDirection();
+        this.flagBossAlert = true;
+        this.flagBossWalk = false;
+       // this.flagNewAttack = true;
+        this.alertStart = new Date().getTime();
+        
+      }
 
   }
 

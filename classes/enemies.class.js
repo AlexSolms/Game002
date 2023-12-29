@@ -1,5 +1,6 @@
 class Enemies extends MovableObject{
     world = {};
+    refreshRate = 10 / 6;
 
     /**
    * this function changes the walk direction of a chicken

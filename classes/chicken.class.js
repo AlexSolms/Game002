@@ -8,7 +8,7 @@ class Chicken extends Enemies {
   height = 60;
   hitbox_height = this.height;
   speed = 0.08;
-  refreshRate = 10 / 6;
+  //refreshRate = 10 / 6;
   
   intervalMove;
   intervalAnimation;
@@ -28,7 +28,7 @@ class Chicken extends Enemies {
     super.loadImages(this.moveImages);
     this.x = 200 + Math.random() * 2000;
     super.updateHitbox(0, 0, 40); // x für hitbox
-    this.speed = 0.08 + Math.random() * 0.10;
+    this.speed = 0.4 + Math.random() * 0.10;
     this.animate();
     this.chkCollision();
     //console.log();
