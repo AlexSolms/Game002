@@ -120,7 +120,7 @@ class MovableObject extends DrawableObject {
      * this function counts the energy after hit and sets a time stamp for the hurt function
      */
     hit() {
-        this.energy -= 5;
+        this.energy -= 10;
         if (this.energy < 0) {
             this.energy = 0;
         } else {

@@ -12,7 +12,7 @@ class World {
     camera_x = 0;
     bottleInInv = true;
     bottleInAir = false;
-    
+
     endbossArea = {
         left: 400,
         right: 1000
@@ -56,22 +56,19 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
-                this.character.hit();
+                if (!this.character.isAboveGround(0)) this.character.hit();
                 this.character.x -= 5;
-                if (enemy instanceof Chicken)enemy.changeCickenDirection();
+                if (enemy instanceof Chicken) enemy.changeCickenDirection();
                 if (enemy instanceof Endboss) {
                     enemy.attackSuccuess = true;
-                   // console.log(this.level.enemies[0].attackSuccues);
-                  
                 }
                 this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
             }
             if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) {
-                enemy.showChickenDeath();
-
+                if (enemy instanceof Chicken) enemy.showChickenDeath();
             }
             if (this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
-               // console.log(this.bottleToThrow);
+                // console.log(this.bottleToThrow);
                 this.bottleToThrow.hitEnemy = true;
                 if (!this.bottleToThrow.inAir) {
                     this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector
@@ -142,7 +139,7 @@ class World {
         if (this.character.x > 300) this.addToMap(this.statusBarBoss);
     }
 
-    
+
     /**
      * 
      * This function draws the image of the object with it's parameters for example if its mirroed (otherDirection)
@@ -162,7 +159,7 @@ class World {
     drawChicken() {
         for (let i = 0; i < this.level.enemies.length; i++) {
             const enemy = this.level.enemies[i];
-            if ((new Date().getTime() - enemy.deathTimeStamp) > 500) {
+            if ((enemy instanceof Chicken) && (new Date().getTime() - enemy.deathTimeStamp) > 500) {
                 this.level.enemies.splice(i, 1);
             }
         }

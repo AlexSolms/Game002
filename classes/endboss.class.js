@@ -1,5 +1,5 @@
 class Endboss extends Enemies {
-  startPosition= 1000;
+  startPosition = 1000;
   x = this.startPosition;
   y = 160;
   width = 200;
@@ -8,7 +8,7 @@ class Endboss extends Enemies {
   hitbox_y = this.y - 70;
   hitbox_width = this.width;
   hitbox_height = this.height - 50;
-  startSpeed = 0.8;
+  startSpeed = 1.8;
   speed = this.startSpeed;
   refreshRate = 10 / 6;
   attackSuccuess = false;
@@ -19,8 +19,10 @@ class Endboss extends Enemies {
   flagBossAlert = true;
   flagBossWalk = false;
   flagNewAttack = true;
+  bossHitPoints = 100;
 
   moveInterval;
+  animationInteral;
 
   walkImages = [
     './img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -75,16 +77,18 @@ class Endboss extends Enemies {
 
   animate() {
     this.moveInterval = setInterval(() => {
-      if (this.flagBossWalk) {
-        this.movementLogic(); 
+      if (this.flagBossWalk && !this.chickenDead) {
+        this.movementLogic();
       }
     }, this.refreshRate);//this.refreshRate
 
-    setInterval(() => {
-      super.updateHitbox(20, 50, -20);
-      this.bossAlert();
-      this.bossWalk();   
-      this.chkCollisionWithbottle();
+    this.animationInteral = setInterval(() => {
+      if (!this.chickenDead) {
+        super.updateHitbox(20, 50, -20);
+        this.bossAlert();
+        this.bossWalk();
+        this.chkCollisionWithbottle();
+      }
     }, 130);
 
   }
@@ -98,7 +102,7 @@ class Endboss extends Enemies {
     this.startTimerFirstContact(borderChk);
     timeDiv = new Date().getTime() - this.alertStart;
     if (this.borderHit) {
-      this.startAnimation(timeDiv); 
+      this.startAnimation(timeDiv);
       this.standardAlert(timeDiv);
     }
   }
@@ -128,7 +132,7 @@ class Endboss extends Enemies {
   }
 
   standardAlert(timeDiv) {
-    console.log(timeDiv);
+    //console.log(timeDiv);
 
     if (!this.firstContactWithBoss && this.flagBossAlert && timeDiv < 2000) {
       super.playAnimation(this.aleartImages);
@@ -139,58 +143,43 @@ class Endboss extends Enemies {
       this.flagBossWalk = true;
       this.attackSuccuess = false;
       //this.flagNewAttack = true;
-      if(this.flagNewAttack)this.speed = 0.8;
+      if (this.flagNewAttack) this.speed = 0.8;
     }
   }
 
   bossWalk() {
-    if (this.flagBossWalk) { 
-      super.playAnimation(this.walkImages);
-      
+    if (this.flagBossWalk) {
+
+      if ((this.x - this.world.character.x) < 100)
+        super.playAnimation(this.attackImages);
+      else super.playAnimation(this.walkImages);
     }
   }
 
   movementLogic() {
-   
-       super.updateHitbox(20, 50, -20);
-      super.moveLeft(this.speed);
+    super.updateHitbox(20, 50, -20);
+    super.moveLeft(this.speed);
 
-   if (this.attackSuccuess && this.flagNewAttack) {
-    
-    super.changeCickenDirection();
-    
-    this.attackSuccuess = false;
-    this.flagNewAttack = false;
-    
-  }  
+    if (this.attackSuccuess && this.flagNewAttack || this.x <= this.world.character.x) {
+      super.changeCickenDirection();
+      this.attackSuccuess = false;
+      this.flagNewAttack = false;
+    }
     if (this.x > this.world.endbossArea.right) {
-      //debugger;
-      //clearInterval(this.moveInterval);
-      //this.otherDirection = !this.otherDirection;
+
       this.x = this.startPosition;
-       //this.speed = 0;
-        super.changeCickenDirection();
-        this.flagBossAlert = true;
-        this.flagBossWalk = false;
-        this.flagNewAttack = true;
-        this.alertStart = new Date().getTime();
-        
-      }
+
+      super.changeCickenDirection();
+      this.flagBossAlert = true;
+      this.flagBossWalk = false;
+      this.flagNewAttack = true;
+      this.alertStart = new Date().getTime();
+
+    }
 
   }
 
-  // die Endbossantimation:
-  // Pepe erscheint: Endoss in aleart 1,5 sekunden vielleicht
-  // Endoss in walk nach läuft auf Pepe
-  // collision mit Pepe erst Attacke dann flip
-  // dann walk bis barrier, dann flip
-  // dann wieder von vorn.
-  // Hurt unterbricht das Angrifschema nicht 
-
-  // das funktioniert solange die Flasche noch in der Luft ist und noch die sp
-  /**
-  * this function checks if the chicken was hit by the bottle
-  */
+ 
   chkCollisionWithbottle() {
     if (this.world.bottleInAir && super.isColliding(this.world.bottleToThrow)) {
       this.showEndbossHurt();
@@ -202,8 +191,31 @@ class Endboss extends Enemies {
     super.playAnimation(this.hurtImages);
     super.hit();
     console.log('Energy: ', this.energy);
-    if (super.isDead()) super.playAnimation(this.deadImages);
+    if (super.isDead()) {
+      super.playAnimation(this.deadImages);
+      this.showChickenDeath();
+    
+    
+    }
   }
 
+  /**
+ * this function loads the death image, set the flag and stops all animation intervals
+ */
+  showChickenDeath() {
+    super.loadImage('./img/4_enemie_boss_chicken/5_dead/G26.png');
+    this.clearAllIntervals();
+    this.chickenDead = true;
+    this.deathTimeStamp = new Date().getTime();
+  }
+
+  /**
+ * this function clears all intervals zu stop any animation or movement
+ */
+  clearAllIntervals() {
+    clearInterval(this.moveInterval);
+    clearInterval(this.animationInteral);
+    // clearInterval(this.intervalCollision);
+  }
 
 }

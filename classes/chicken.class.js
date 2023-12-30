@@ -13,8 +13,7 @@ class Chicken extends Enemies {
   intervalMove;
   intervalAnimation;
   intervalCollision;
-  chickenDead = false;
-  deathTimeStamp;
+  
 
   
   moveImages = [
