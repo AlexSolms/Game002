@@ -122,9 +122,9 @@ class Character extends MovableObject {
   animationLogic(){
     super.updateHitbox(20, 50, 0);// Hitbox
     this.resetIdletime();
-    if (this.isDead()) super.playAnimation(this.deadImages);
-    else if (this.isHurt()) super.playAnimation(this.hurtImages);
-    else if (this.isAboveGround()) super.playAnimation(this.jumpImages);
+    if (super.isDead()) super.playAnimation(this.deadImages);
+    else if (super.isHurt()) super.playAnimation(this.hurtImages);
+    else if (super.isAboveGround()) super.playAnimation(this.jumpImages);
     else if (this.world.keyboard.right || this.world.keyboard.left) super.playAnimation(this.moveImages);
     else if ((new Date().getTime() - this.idleTimeStart) > 5000) super.playAnimation(this.longIdleImages);
     else super.playAnimation(this.idleImages);
@@ -134,7 +134,7 @@ class Character extends MovableObject {
    * this function resets the iddel time in the animation logic
    */
   resetIdletime() {
-    if (this.isHurt() || this.isAboveGround() || this.world.keyboard.right || this.world.keyboard.left)
+    if (super.isHurt() || super.isAboveGround() || this.world.keyboard.right || this.world.keyboard.left)
       this.idleTimeStart = new Date().getTime();
   }
 
@@ -142,11 +142,11 @@ class Character extends MovableObject {
  * this function covers the logic for the right movment
  */
   characterMoveRight() {
-    if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !this.isHurt()) {
+    if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !super.isHurt()) {
       super.moveRight();
       this.otherDirection = false;
       super.updateHitbox(20, 50, 0); // Hitbox
-      this.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
+      super.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
       
       if (this.x >= this.world.endbossArea.left) {
         this.leftBorder = this.world.endbossArea.left + this.width/2; // set new border for the final fight
@@ -158,10 +158,10 @@ class Character extends MovableObject {
  * this function covers the logic for the left movment
  */
   characterMoveLeft() {
-    if (this.world.keyboard.left && this.x > this.leftBorder && !this.isHurt()) {
+    if (this.world.keyboard.left && this.x > this.leftBorder && !super.isHurt()) {
       this.moveLeft(this.speed);
       this.otherDirection = true;
-      this.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
+      super.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
     }
   }
 
@@ -169,7 +169,7 @@ class Character extends MovableObject {
  * this function covers the logic for the jump movment
  */
   characterJump() {
-    if (this.world.keyboard.up && !this.isAboveGround() && !this.isHurt()) {
+    if (this.world.keyboard.up && !this.isAboveGround() && !super.isHurt()) {
       super.jump(30);
       //this.walkingSound.pause();
     }
@@ -179,7 +179,7 @@ class Character extends MovableObject {
    * this function sets the falling down flag true in case the character falls down
    */
   checkIfFallingDown() {
-    if (!this.isAboveGround()) this.fallingDown = false;
+    if (!super.isAboveGround()) this.fallingDown = false;
   }
 
 }

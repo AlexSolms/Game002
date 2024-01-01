@@ -21,8 +21,8 @@ class Endboss extends Enemies {
   flagNewAttack = true;
   bossHitPoints = 100;
 
-  moveInterval;
-  animationInteral;
+  intervalBossMove;
+  intervalBossAnimation;
 
   walkImages = [
     './img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -76,14 +76,14 @@ class Endboss extends Enemies {
 
 
   animate() {
-    this.moveInterval = setInterval(() => {
+    this.intervalBossMove = setInterval(() => {
       if (this.flagBossWalk && !this.chickenDead) {
         this.movementLogic();
       }
     }, this.refreshRate);//this.refreshRate
 
-    this.animationInteral = setInterval(() => {
-      if (!this.chickenDead) {
+    this.intervalBossAnimation = setInterval(() => {
+      if (!this.chickenDead && this.world) {
         super.updateHitbox(20, 50, -20);
         this.bossAlert();
         this.bossWalk();
@@ -179,6 +179,7 @@ class Endboss extends Enemies {
 
   }
 
+  // hier muss noch eine Logik rein die dem Boss nur einmal energy abzieht, solage die bottle noch in der Luft ist
  
   chkCollisionWithbottle() {
     if (this.world.bottleInAir && super.isColliding(this.world.bottleToThrow)) {
@@ -213,8 +214,8 @@ class Endboss extends Enemies {
  * this function clears all intervals zu stop any animation or movement
  */
   clearAllIntervals() {
-    clearInterval(this.moveInterval);
-    clearInterval(this.animationInteral);
+    clearInterval(this.intervalBossMove);
+    clearInterval(this.intervalBossAnimation);
     // clearInterval(this.intervalCollision);
   }
 

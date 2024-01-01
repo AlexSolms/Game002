@@ -12,6 +12,9 @@ class World {
     camera_x = 0;
     bottleInInv = true;
     bottleInAir = false;
+    lost = false;
+    won = false;
+    runInterval;
 
     endbossArea = {
         left: 400,
@@ -42,7 +45,7 @@ class World {
      * this function call a interval for repeating the checks for bottles and collisions
      */
     run() {
-        setInterval(() => {
+        this.runInterval = setInterval(() => {
             this.checkThrowObject();
             this.checkCollisions();
 
@@ -56,8 +59,10 @@ class World {
     checkCollisions() {
         this.level.enemies.forEach((enemy) => {
             if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
-                if (!this.character.isAboveGround(0)) this.character.hit();
-                this.character.x -= 5;
+                if (!this.character.isAboveGround(0)) {
+                    this.character.hit();
+                    this.character.x -= 5;
+                }
                 if (enemy instanceof Chicken) enemy.changeCickenDirection();
                 if (enemy instanceof Endboss) {
                     enemy.attackSuccuess = true;
@@ -76,6 +81,11 @@ class World {
             }
 
         })
+         if (this.character.energy == 0) {
+            this.lost = true;
+            clearInterval(this.runInterval);   
+            this.level.enemies.forEach((enemy) => enemy.clearAllIntervals());                     
+        } 
     }
 
     /**

@@ -3,13 +3,23 @@ let world;
 const CANVASWIDTH = 720; // brauche ich das?
 const CANVASHEIGHT = 400;
 let keyboard = new Keyboard();
+let startInterval;
 
 function init(){
     
     canvas = document.getElementById('canvas');
     world = new World(canvas, keyboard);
 
-    console.log('My character is ', world.character);
+    startInterval = setInterval(() => {
+        if(world.lost){
+            console.log('you lost');
+            clearInterval(startInterval);
+        }
+        if(world.won){
+            console.log('you lost');
+            clearInterval(startInterval);
+        }
+    }, 100);
 
 }
 
