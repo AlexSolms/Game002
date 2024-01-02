@@ -7,17 +7,21 @@ let startInterval;
 
 function init(){
     
-    canvas = document.getElementById('canvas');
+    canvas = document.getElementById('idCanvas');
     world = new World(canvas, keyboard);
 
     startInterval = setInterval(() => {
         if(world.lost){
+            //start lost screen
             console.log('you lost');
             clearInterval(startInterval);
+            document.getElementById('idYouLostScreen').classList.remove('d-none');
         }
         if(world.won){
-            console.log('you lost');
+            // start won screen
+            console.log('you won');
             clearInterval(startInterval);
+            document.getElementById('idYouWonScreen').classList.remove('d-none');
         }
     }, 100);
 

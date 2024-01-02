@@ -208,6 +208,7 @@ class Endboss extends Enemies {
     this.clearAllIntervals();
     this.chickenDead = true;
     this.deathTimeStamp = new Date().getTime();
+    this.world.won = true;
   }
 
   /**

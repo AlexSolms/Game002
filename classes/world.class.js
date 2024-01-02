@@ -82,6 +82,7 @@ class World {
 
         })
          if (this.character.energy == 0) {
+            console.log(this.character.energy);
             this.lost = true;
             clearInterval(this.runInterval);   
             this.level.enemies.forEach((enemy) => enemy.clearAllIntervals());                     

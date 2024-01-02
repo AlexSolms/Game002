@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,13 +28,25 @@
     <script src="./js/game.js" defer></script>
 
 </head>
+
 <body onload="init()">
+    <div id="idStartscreen" class="d-none startScreen">
+        <h1>El Pollo Loco</h1>
+    </div>
+    <div id="idCanvasContainer">
+        <canvas id="idCanvas" width="720px" height="400px">
+        </canvas>
+    </div>
+    <div id="idYouLostScreen" class="d-none youLostScreen">
+        
+        <h1>YOU LOST</h1>
+        <button>restart</button>
     
-    <h1>El Pollo Loco</h1>
-
-    <canvas id="canvas" width="720px" height="400px">
-
-
-    </canvas>
+    </div>
+    <div id="idYouWonScreen" class="d-none youWonScreen">
+        <h1>YOU WON</h1>
+        <button>restart</button>
+    </div>
 </body>
+
 </html>
