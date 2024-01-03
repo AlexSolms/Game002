@@ -7,6 +7,7 @@
     <title>El Pollo Loco</title>
 
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./font.css">
     <script src="./classes/drawableObject.class.js" defer></script>
     <script src="./classes/statusBar.class.js" defer></script>
     <script src="./classes/statusBarHealth.class.js" defer></script>
@@ -30,6 +31,7 @@
 </head>
 
 <body onload="init()">
+    <p>El Pollo Loco</p>
     <div id="idStartscreen" class="d-none startScreen">
         <h1>El Pollo Loco</h1>
     </div>
@@ -37,15 +39,18 @@
         <canvas id="idCanvas" width="720px" height="400px">
         </canvas>
     </div>
-    <div id="idYouLostScreen" class="d-none youLostScreen">
-        
-        <h1>YOU LOST</h1>
-        <button>restart</button>
+    <div id="idYouLostScreen" class="d-none bgScreen youLost"> <!-- bgScreen -->
+        <h1>GAME OVER!</h1>
+        <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="Game Over" > -->
+        <button onclick="reStart()">restart</button>
     
     </div>
-    <div id="idYouWonScreen" class="d-none youWonScreen">
-        <h1>YOU WON</h1>
-        <button>restart</button>
+    <div id="idYouWonScreen" class="d-none bgScreen youWon">
+        <p>CONGRATULATIONS</p>
+        <p>YOU WON!</p>
+        
+        <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="YOU WON" > -->
+        <button onclick="reStart()">restart</button>
     </div>
 </body>
 

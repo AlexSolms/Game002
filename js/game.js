@@ -27,6 +27,11 @@ function init(){
 
 }
 
+function reStart(){
+    window.location.reload();    
+}
+
+
 window.addEventListener("keydown", (e) => {
     //console.log(e);
     if(e.code === "ArrowUp" || e.code === "KeyW") keyboard.up = true;

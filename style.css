@@ -1,10 +1,29 @@
 body {
     display: flex;
     flex-direction: column;
-
+    
     align-items: center;
+    background-image: url("./img/5_background/second_half_background.png");
+    background-size: inherit;
+
+    height: 100vh;
 }
 
+p {
+    font-family: 'Signika Negative';
+    font-style: normal;
+    text-align: center;
+    font-weight: 700;
+    font-size: 70px;
+    background: #121FCF;
+    background: -webkit-linear-gradient(0deg, rgba(255, 154, 0, 1) 0%, rgba(255, 216, 0, 1) 50%, rgba(255, 154, 0, 1) 100%);
+    background: -moz-linear-gradient(0deg, rgba(255, 154, 0, 1) 0%, rgba(255, 216, 0, 1) 50%, rgba(255, 154, 0, 1) 100%);
+    background: linear-gradient(0deg, rgba(255, 154, 0, 1) 0%, rgba(255, 216, 0, 1) 50%, rgba(255, 154, 0, 1) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(3px 1px #952816);
+}
 
 canvas {
     background-color: black;
@@ -13,14 +32,23 @@ canvas {
 .d-none {
     display: none !important;
 }
-.youLostScreen{
+
+.bgScreenEndOfGame {
+    background-image: url("./img/5_background/first_half_background.png");
+}
+
+.bgScreenStartOfGame {
+    background-image: url("./img/9_intro_outro_screens/start/startscreen_2.png");
+}
+
+.bgScreen {
+    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     width: 720px;
     height: 400px;
-    background-image: url("./img/5_background/first_half_background.png");
-    background-size: cover;
-    
+    /*  background-image: url("./img/5_background/first_half_background.png");
+    background-size: cover; */
 }
