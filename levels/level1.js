@@ -1,5 +1,6 @@
 let previousCoinX = 400;
 let previousBottleX = 300;
+let previousCloudX = -50;
 const level1 = new Level( // ich übergebe hier Arrays als Parameter
 
 
@@ -14,12 +15,14 @@ const level1 = new Level( // ich übergebe hier Arrays als Parameter
         new Chicken(),
         new Endboss(),
     ],
-    clouds = [
-        new Cloud(),
-        new Cloud(),
-        new Cloud(),
-        new Cloud()
-    ],
+
+    clouds = Array.from({length: 100}, (_, index) => {
+        const x = previousCloudX + 20 + Math.random() * 100;
+        previousCloudX = x; // Aktualisiere die vorherige x-Position
+        const y = 0 + Math.random() * 100;
+        return new Cloud(x,y);
+    }),
+   
 
     backgroundObjects = [
         new BackgroundObject('./img/5_background/layers/air.png', -10),

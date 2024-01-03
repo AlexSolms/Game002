@@ -3,7 +3,9 @@ class Coin extends MovableObject {
     y = 165;
     width = 40;
     height = 80;
-    
+    hitbox_y = this.y;
+    hitbox_width =this.width;
+    hitbox_height = this.height;
 
 
 

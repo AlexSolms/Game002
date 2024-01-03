@@ -83,6 +83,18 @@ class World {
             }
 
         })
+        this.level.bottles.forEach((bottle) => {
+            if (this.character.isColliding(bottle)) {
+                console.log('bottle hit');
+            }
+
+        })
+        this.level.coins.forEach((coins) => {
+            if (this.character.isColliding(coins)) {
+                console.log('coins hit');
+            }
+
+        })
         if (this.character.energy == 0) {
             console.log(this.character.energy);
             this.lost = true;

@@ -3,7 +3,9 @@ class Bottle extends MovableObject{
     y = 290;
     width = 40;
     height = 80;
-    
+    hitbox_y = this.y;
+    hitbox_width =this.width;
+    hitbox_height = this.height;
 
     imgBottle = [
         './img/6_salsa_bottle/1_salsa_bottle_on_ground.png',
