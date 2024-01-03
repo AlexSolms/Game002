@@ -51,14 +51,6 @@ class ThrowableObject extends MovableObject {
             } 
     }, 60)
     }
-           /*  if (super.isAboveGround(50)) {
-                super.playAnimation(this.BottleInAirImages);
-                this.updateBottleHitbox();
-                this.inAir = true;
-            } else {
-                clearInterval(animationInterval); // Stoppe das Intervall, wenn alle Bilder abgespielt wurden
-                this.splash();
-            } */
     
 
     /**

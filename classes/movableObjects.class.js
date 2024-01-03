@@ -1,9 +1,9 @@
 class MovableObject extends DrawableObject {
 
-    hitbox_x; // x für hitbox
-    hitbox_y;
-    hitbox_height;
-    hitbox_width;
+    hitbox_x = this.x; // x für hitbox
+    hitbox_y = this.y;
+    hitbox_height = this.height;
+    hitbox_width = this.width;
     speed;
     otherDirection = false;
     energy = 100;

@@ -6,6 +6,8 @@ class World {
     statusBarBoss = new StatusBarBoss();
     level = level1;
     bottleToThrow; // = new ThrowableObject(this.character); //this.character
+    maxBottleCount;
+    maxCointCount;
     canvas;
     ctx;
     keyboard;
@@ -81,12 +83,12 @@ class World {
             }
 
         })
-         if (this.character.energy == 0) {
+        if (this.character.energy == 0) {
             console.log(this.character.energy);
             this.lost = true;
-            clearInterval(this.runInterval);   
-            this.level.enemies.forEach((enemy) => enemy.clearAllIntervals());                     
-        } 
+            clearInterval(this.runInterval);
+            this.level.enemies.forEach((enemy) => enemy.clearAllIntervals());
+        }
     }
 
     /**
@@ -125,8 +127,11 @@ class World {
         this.addToMap(this.character);
         this.drawChicken();
 
+        this.addObjectsToMap(this.level.coins);
+        this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.clouds);
         this.drawBottle();
+
 
         this.ctx.translate(-this.camera_x, 0);
     }
@@ -140,6 +145,13 @@ class World {
         } else this.bottleInAir = false;
     }
 
+    drawBottleOnGround() {
+
+    }
+
+    drawCoins() {
+
+    }
     /**
      *  this function contains all elements which have static postitions within the canvas
      */
