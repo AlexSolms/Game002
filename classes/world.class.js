@@ -68,23 +68,48 @@ class World {
                     this.character.x -= 5;
                 }
                 if (enemy instanceof Chicken) enemy.changeCickenDirection();
-                if (enemy instanceof Endboss) {
+                if (enemy instanceof Endboss) { // das hier will ich ausgliedern
                     enemy.attackSuccuess = true;
                 }
                 this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
             }
-            if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) {
-                if (enemy instanceof Chicken) enemy.showChickenDeath();
-            }
-            if (this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
-                // console.log(this.bottleToThrow);
-                this.bottleToThrow.hitEnemy = true;
-                if (!this.bottleToThrow.inAir) {
-                    this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector
-                }
-            }
-
+            this.characterJumpsOfChicken(enemy);
+            this.bottleHitEnemy(enemy);
         })
+        this.collectBottles();
+        this.collectCoins();
+        this.characterDead();
+
+    }
+
+
+    /**
+     * this function checks if character hits chicken on top an shows start show chicken death
+     */
+    characterJumpsOfChicken(enemy){
+        if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) {
+            if (enemy instanceof Chicken) enemy.showChickenDeath();
+        }
+    }
+
+    /**
+     * this function checks if bottle hits the enemy and sets flags
+     * hier kann ich dann den boss übergeben solabd ich ihn ausgegliedert habe.
+     */
+    bottleHitEnemy(enemy) {
+        if (this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
+            // console.log(this.bottleToThrow);
+            this.bottleToThrow.hitEnemy = true;
+            if (!this.bottleToThrow.inAir) {
+                this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector
+            }
+        }
+    }
+
+    /**
+     * this function collects the bottles
+     */
+    collectBottles() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 console.log('bottle hit');
@@ -92,8 +117,13 @@ class World {
                 this.bottleCount++;
                 console.log('bottles: ', this.bottleCount);
             }
-
         })
+    }
+
+    /**
+     * this function collects the coins
+     */
+    collectCoins() {
         this.level.coins.forEach((coins, index) => {
             if (this.character.isColliding(coins)) {
                 console.log('coins hit');
@@ -101,8 +131,13 @@ class World {
                 this.coinCount++;
                 console.log('coins: ', this.coinCount);
             }
-
         })
+    }
+
+    /**
+     * this function stops all intervalls and set the flag for lost screen
+     */
+    characterDead() {
         if (this.character.energy == 0) {
             console.log(this.character.energy);
             this.lost = true;

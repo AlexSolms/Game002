@@ -5,6 +5,7 @@ const level1 = new Level( // ich übergebe hier Arrays als Parameter
 
 
 
+
     enemies = [
         /*  new Chicken(),
          new Chicken(),
@@ -15,6 +16,8 @@ const level1 = new Level( // ich übergebe hier Arrays als Parameter
         new Chicken(),
         new Endboss(),
     ],
+
+    
 
     clouds = Array.from({length: 100}, (_, index) => {
         const x = previousCloudX + 20 + Math.random() * 100;
@@ -53,36 +56,8 @@ const level1 = new Level( // ich übergebe hier Arrays als Parameter
         const x = previousBottleX + 80 + Math.random() * 120; // Random zwischen 80 und 200
         previousBottleX = x; // Aktualisiere die vorherige x-Position
         return new Bottle(type, x);
-    })
-    /* coins = [
-        new Coin(100, 200),
-        new Coin(130, 210),
-        new Coin(160, 220),
-        new Coin(190, 240),
-        new Coin(210, 280),
-        new Coin(240, 280),
-        new Coin(270, 260),
-        new Coin(300, 240),
-        new Coin(330, 220),
-        new Coin(360, 210)
-    ],
-
-    bottles = [
-        new Bottle(1, 50),
-        new Bottle(1, 80),
-        new Bottle(2, 110),
-        new Bottle(1, 140),
-        new Bottle(1, 170),
-        new Bottle(2, 200),
-        new Bottle(2, 230),
-        new Bottle(1, 260),
-        new Bottle(2, 290),
-        new Bottle(1, 320),
-        new Bottle(2, 350),
-        new Bottle(1, 380),
-        new Bottle(2, 410),
-        new Bottle(1, 440)
-    ]
- */
-
+    }),
+    
+    endboss = new Endboss()
+    
 );
