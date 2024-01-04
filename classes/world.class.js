@@ -7,6 +7,8 @@ class World {
     level = level1;
     bottleToThrow; // = new ThrowableObject(this.character); //this.character
     maxBottleCount;
+    bottleCount = 0;
+    coinCount = 0;
     maxCointCount;
     canvas;
     ctx;
@@ -83,15 +85,21 @@ class World {
             }
 
         })
-        this.level.bottles.forEach((bottle) => {
+        this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
                 console.log('bottle hit');
+                this.level.bottles.splice(index, 1);
+                this.bottleCount++;
+                console.log('bottles: ', this.bottleCount);
             }
 
         })
-        this.level.coins.forEach((coins) => {
+        this.level.coins.forEach((coins, index) => {
             if (this.character.isColliding(coins)) {
                 console.log('coins hit');
+                this.level.coins.splice(index, 1);
+                this.coinCount++;
+                console.log('coins: ', this.coinCount);
             }
 
         })
@@ -157,13 +165,6 @@ class World {
         } else this.bottleInAir = false;
     }
 
-    drawBottleOnGround() {
-
-    }
-
-    drawCoins() {
-
-    }
     /**
      *  this function contains all elements which have static postitions within the canvas
      */

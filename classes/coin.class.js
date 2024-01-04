@@ -5,7 +5,7 @@ class Coin extends MovableObject {
     height = 80;
     hitbox_y = this.y;
     hitbox_width =this.width;
-    hitbox_height = this.height;
+    hitbox_height = this.height; 
 
 
 
