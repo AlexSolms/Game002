@@ -121,6 +121,7 @@ class MovableObject extends DrawableObject {
      */
     hit() {
         this.energy -= 10;
+        this.world.statusBars.charHelth.statBar.width += 10;
         if (this.energy < 0) {
             this.energy = 0;
         } else {

@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    statusBars = new StatusBars();
     statusBarHealth = new StatusBarHealth();
     statusBarCoin = new StatusBarCoin();
     statusBarBottle = new StatusBarBottle();
@@ -24,7 +25,6 @@ class World {
         left: 400,
         right: 1000
     }
-
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -84,7 +84,7 @@ class World {
      */
     chickenAttack(enemy){
         if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
-            this.character.reduceEnergy(5);
+            this.character.reduceEnergy(10);
             enemy.changeCickenDirection();
             this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
         }
@@ -119,6 +119,7 @@ class World {
     bossAttack() {
         if (this.character.isColliding(endboss) && !this.character.fallingDown && !endboss.chickenDead) {
             this.character.reduceEnergy(20);
+            this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
             endboss.attackSuccuess = true;
         }
     }
@@ -160,6 +161,7 @@ class World {
             this.lost = true;
             clearInterval(this.runInterval);
             this.level.enemies.forEach((enemy) => enemy.clearAllIntervals());
+            this.level.endboss.clearAllIntervals();
         }
     }
 
@@ -220,6 +222,10 @@ class World {
      */
     drawStaticElements() {
         this.addToMap(this.statusBarHealth);
+        
+        this.addToMap(this.statusBars.charHelth.backBar);
+        this.addToMap(this.statusBars.charHelth.statBar);
+        this.addToMap(this.statusBars.charHelth.icon);
         this.addToMap(this.statusBarCoin);
         this.addToMap(this.statusBarBottle);
         if (this.character.x > 300) this.addToMap(this.statusBarBoss);
@@ -233,7 +239,7 @@ class World {
     addToMap(objectToDraw) {
         if (objectToDraw.otherDirection) this.flipImg(objectToDraw); // otherDirection wird in einer Instanz für dieses Element gesetzt
         objectToDraw.draw(this.ctx);
-        if (!(objectToDraw instanceof StatusBar)) objectToDraw.drawFrame(this.ctx, this.keyboard.debug);
+        if (!(objectToDraw instanceof StatusBar)&&!(objectToDraw instanceof StatusBarObjects)) objectToDraw.drawFrame(this.ctx, this.keyboard.debug);
         if (objectToDraw.otherDirection) this.flipImgBack(objectToDraw); // reset needed to change this object only
     }
 
