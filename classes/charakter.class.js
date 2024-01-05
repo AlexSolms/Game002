@@ -11,7 +11,7 @@ class Character extends MovableObject {
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
   idleTimeStart = new Date().getTime();
-  leftBorder = this.width/2;
+  leftBorder = this.width / 2;
 
 
 
@@ -97,9 +97,9 @@ class Character extends MovableObject {
 
 
 
-/**
- * this function contains the intervals for all animation function for the character
- */
+  /**
+   * this function contains the intervals for all animation function for the character
+   */
   animate() {
     setInterval(() => {
       this.walkingSound.pause();
@@ -107,19 +107,19 @@ class Character extends MovableObject {
       //hier muss eine Logic rein. Wenn this.x eine bestimmte Stelle erreicht hat, dann darf sich das Bild nicht mehr verschieben
       this.world.camera_x = -this.x + 50; // for moving teh complete content in oppsite direcrion of the charakter, die 50 ist der Startpunkt des Charakters
     }, 100 / 6)
-    setInterval(() =>this.animationLogic(), 130)
+    setInterval(() => this.animationLogic(), 130)
   }
 
-  movementLogic(){
+  movementLogic() {
     this.checkIfFallingDown();
-      this.characterMoveRight();
-      this.characterMoveLeft();
-      this.characterJump();
+    this.characterMoveRight();
+    this.characterMoveLeft();
+    this.characterJump();
   }
   /**
    * this function contains the image animation logic for all process steps 
    */
-  animationLogic(){
+  animationLogic() {
     super.updateHitbox(20, 50, 0);// Hitbox
     this.resetIdletime();
     if (super.isDead()) super.playAnimation(this.deadImages);
@@ -138,18 +138,18 @@ class Character extends MovableObject {
       this.idleTimeStart = new Date().getTime();
   }
 
-/**
- * this function covers the logic for the right movment
- */
+  /**
+   * this function covers the logic for the right movment
+   */
   characterMoveRight() {
     if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !super.isHurt()) {
       super.moveRight();
       this.otherDirection = false;
       super.updateHitbox(20, 50, 0); // Hitbox
-      super.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
-      
+      super.isAboveGround() ? this.walkingSound.pause() : this.walkingSound.play();
+
       if (this.x >= this.world.endbossArea.left) {
-        this.leftBorder = this.world.endbossArea.left + this.width/2; // set new border for the final fight
+        this.leftBorder = this.world.endbossArea.left + this.width / 2; // set new border for the final fight
       }
     }
   }
@@ -161,13 +161,13 @@ class Character extends MovableObject {
     if (this.world.keyboard.left && this.x > this.leftBorder && !super.isHurt()) {
       this.moveLeft(this.speed);
       this.otherDirection = true;
-      super.isAboveGround()?this.walkingSound.pause():this.walkingSound.play();
+      super.isAboveGround() ? this.walkingSound.pause() : this.walkingSound.play();
     }
   }
 
-/**
- * this function covers the logic for the jump movment
- */
+  /**
+   * this function covers the logic for the jump movment
+   */
   characterJump() {
     if (this.world.keyboard.up && !this.isAboveGround() && !super.isHurt()) {
       super.jump(30);
@@ -180,6 +180,17 @@ class Character extends MovableObject {
    */
   checkIfFallingDown() {
     if (!super.isAboveGround()) this.fallingDown = false;
+  }
+
+  /**
+   * this function reduces the energy of the charakter
+   * @param {Number} factor 
+   */
+  reduceEnergy(factor) {
+    if (!this.isAboveGround(0)) {
+      this.hit();
+      this.x -= factor;
+    }
   }
 
 }

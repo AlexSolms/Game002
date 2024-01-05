@@ -13,8 +13,8 @@ const level1 = new Level( // ich übergebe hier Arrays als Parameter
         new Chicken(),
         new Chicken(),
         new Chicken(),
-        new Chicken(),
-        new Endboss(),
+        new Chicken()
+      //  new Endboss(),
     ],
 
     

@@ -40,6 +40,7 @@ class World {
      */
     setWorld() {
         this.character.world = this;
+        this.level.endboss.world = this;
         for (let i = 0; i < this.level.enemies.length; i++) {
             this.level.enemies[i].world = this;
         }
@@ -52,48 +53,57 @@ class World {
         this.runInterval = setInterval(() => {
             this.checkThrowObject();
             this.checkCollisions();
-
         }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
-
 
     /**
      * this function checks if the caracter is in a colission with an enemy.
      */
     checkCollisions() {
+        this.chickenCollision();
+        this.collectBottles();
+        this.collectCoins();
+        this.bossAttack();
+        this.characterDead();
+    }
+
+    /**
+     * this function controls the bevaviour of the special enemy with different collions
+     */
+    chickenCollision(){
         this.level.enemies.forEach((enemy) => {
-            if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
-                if (!this.character.isAboveGround(0)) {
-                    this.character.hit();
-                    this.character.x -= 5;
-                }
-                if (enemy instanceof Chicken) enemy.changeCickenDirection();
-                if (enemy instanceof Endboss) { // das hier will ich ausgliedern
-                    enemy.attackSuccuess = true;
-                }
-                this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
-            }
+            this.chickenAttack(enemy);
             this.characterJumpsOfChicken(enemy);
             this.bottleHitEnemy(enemy);
         })
-        this.collectBottles();
-        this.collectCoins();
-        this.characterDead();
-
     }
 
+    /**
+     * this function checks if the chicken hits the character
+     * @param {Object} enemy - the explizit enemy object
+     */
+    chickenAttack(enemy){
+        if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
+            this.character.reduceEnergy(5);
+            enemy.changeCickenDirection();
+            this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
+        }
+    }
 
     /**
      * this function checks if character hits chicken on top an shows start show chicken death
+     * @param {Object} enemy - the explizit enemy object
      */
-    characterJumpsOfChicken(enemy){
+    characterJumpsOfChicken(enemy) {
         if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) {
-            if (enemy instanceof Chicken) enemy.showChickenDeath();
+           // if (enemy instanceof Chicken) 
+            enemy.showChickenDeath();
         }
     }
 
     /**
      * this function checks if bottle hits the enemy and sets flags
+     * @param {Object} enemy - the explizit enemy object
      * hier kann ich dann den boss übergeben solabd ich ihn ausgegliedert habe.
      */
     bottleHitEnemy(enemy) {
@@ -103,6 +113,13 @@ class World {
             if (!this.bottleToThrow.inAir) {
                 this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector
             }
+        }
+    }
+
+    bossAttack() {
+        if (this.character.isColliding(endboss) && !this.character.fallingDown && !endboss.chickenDead) {
+            this.character.reduceEnergy(20);
+            endboss.attackSuccuess = true;
         }
     }
 
@@ -181,13 +198,11 @@ class World {
         this.addObjectsToMap(this.level.backgroundObjects);
         this.addToMap(this.character);
         this.drawChicken();
-
+        this.addToMap(this.level.endboss);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
         this.addObjectsToMap(this.level.clouds);
         this.drawBottle();
-
-
         this.ctx.translate(-this.camera_x, 0);
     }
 
@@ -210,7 +225,6 @@ class World {
         if (this.character.x > 300) this.addToMap(this.statusBarBoss);
     }
 
-
     /**
      * 
      * This function draws the image of the object with it's parameters for example if its mirroed (otherDirection)
@@ -220,7 +234,6 @@ class World {
         if (objectToDraw.otherDirection) this.flipImg(objectToDraw); // otherDirection wird in einer Instanz für dieses Element gesetzt
         objectToDraw.draw(this.ctx);
         if (!(objectToDraw instanceof StatusBar)) objectToDraw.drawFrame(this.ctx, this.keyboard.debug);
-
         if (objectToDraw.otherDirection) this.flipImgBack(objectToDraw); // reset needed to change this object only
     }
 
