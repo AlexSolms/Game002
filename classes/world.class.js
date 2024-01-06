@@ -227,13 +227,15 @@ class World {
         this.addBarsToMap('charBottle');
        
        
-       // if (this.character.x > 300) this.addToMap(this.statusBarBoss);
+        if (this.character.x > 300) {
+            this.addBarsToMap('charEndboss');
+        }
     }
 
     addBarsToMap(bar){
         this.addToMap(this.statusBars[bar].backBar);
         this.addToMap(this.statusBars[bar].statBar);
-        this.addToMap(this.statusBars[bar].icon);
+        this.addToMap(this.statusBars[bar].icon); 
     }
 
     /**

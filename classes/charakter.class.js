@@ -187,7 +187,7 @@ class Character extends MovableObject {
    */
   reduceEnergy(factor) {
     if (!this.isAboveGround(0)) {
-      this.hit(factor);
+      this.hit(factor, false);
       this.x -= 5;
     }
   }

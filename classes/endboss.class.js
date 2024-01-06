@@ -20,6 +20,7 @@ class Endboss extends Enemies {
   flagBossWalk = false;
   flagNewAttack = true;
   bossHitPoints = 100;
+  hitFactor = 15;
 
   intervalBossMove;
   intervalBossAnimation;
@@ -190,7 +191,7 @@ class Endboss extends Enemies {
   showEndbossHurt() {
     //Aktuell bekommt der Boss noch mehrfach Schaden, wenn die Flasche an ihm zerschellt. Ich brauche also ein flag, dass mir zeigt 
     super.playAnimation(this.hurtImages);
-    super.hit();
+    super.hit(this.hitFactor, true);
     console.log('Energy: ', this.energy);
     if (super.isDead()) {
       super.playAnimation(this.deadImages);

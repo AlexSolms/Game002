@@ -19,9 +19,9 @@ class StatusBars extends StatusBarObjects{
         icon : new StatusBarObjects('./img/7_statusbars/3_icons/icon_salsa_bottle.png', 180, 65, 50, 50),
     };
 
-   /*  charEndboss ={
-        backBar : new StatusBarObjects('./img/7_statusbars/4_bar_elements/statusbar_empty.png', 500, 5, 200, 50),
-        statBar : new StatusBarObjects('./img/7_statusbars/4_bar_elements/statusbar_green.png', 500, 5, 0, 50),
-        icon : new StatusBarObjects('. /img/7_statusbars/3_icons/icon_health_endboss.png', 700, -5, 50, 50),
-    }; */
+     charEndboss ={
+        backBar : new StatusBarObjects('./img/7_statusbars/4_bar_elements/statusbar_empty_reverse.png', 500, 5, 200, 50),
+        statBar : new StatusBarObjects('./img/7_statusbars/4_bar_elements/statusbar_green_reverse.png', 500, 5, 200, 50),
+        icon : new StatusBarObjects('./img/7_statusbars/3_icons/icon_health_endboss.png', 660, 0, 50, 50),
+    }; 
 }
