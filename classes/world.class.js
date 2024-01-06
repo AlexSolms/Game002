@@ -1,10 +1,10 @@
 class World {
     character = new Character();
     statusBars = new StatusBars();
-    statusBarHealth = new StatusBarHealth();
+    /* statusBarHealth = new StatusBarHealth();
     statusBarCoin = new StatusBarCoin();
     statusBarBottle = new StatusBarBottle();
-    statusBarBoss = new StatusBarBoss();
+    statusBarBoss = new StatusBarBoss(); */
     level = level1;
     bottleToThrow; // = new ThrowableObject(this.character); //this.character
     maxBottleCount;
@@ -86,7 +86,7 @@ class World {
         if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
             this.character.reduceEnergy(10);
             enemy.changeCickenDirection();
-            this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
+            // this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
         }
     }
 
@@ -119,7 +119,7 @@ class World {
     bossAttack() {
         if (this.character.isColliding(endboss) && !this.character.fallingDown && !endboss.chickenDead) {
             this.character.reduceEnergy(20);
-            this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
+            // this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
             endboss.attackSuccuess = true;
         }
     }
@@ -178,9 +178,9 @@ class World {
     /**
      * this function can go to the statusbar class. It only calls the image for the status bar.
      */
-    reduceHealthbar(energy, ImgSet) {
+   /*  reduceHealthbar(energy, ImgSet) {
         this.statusBarHealth.setPercentage(energy, ImgSet);
-    }
+    } */
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -221,14 +221,19 @@ class World {
      *  this function contains all elements which have static postitions within the canvas
      */
     drawStaticElements() {
-        this.addToMap(this.statusBarHealth);
         
-        this.addToMap(this.statusBars.charHelth.backBar);
-        this.addToMap(this.statusBars.charHelth.statBar);
-        this.addToMap(this.statusBars.charHelth.icon);
-        this.addToMap(this.statusBarCoin);
-        this.addToMap(this.statusBarBottle);
-        if (this.character.x > 300) this.addToMap(this.statusBarBoss);
+        this.addBarsToMap('charHelth');
+        this.addBarsToMap('charCoin');
+        this.addBarsToMap('charBottle');
+       
+       
+       // if (this.character.x > 300) this.addToMap(this.statusBarBoss);
+    }
+
+    addBarsToMap(bar){
+        this.addToMap(this.statusBars[bar].backBar);
+        this.addToMap(this.statusBars[bar].statBar);
+        this.addToMap(this.statusBars[bar].icon);
     }
 
     /**

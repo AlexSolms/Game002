@@ -3,12 +3,9 @@ class StatusBarBoss extends StatusBar{
     y = 0;
 
     bossHealthImages = [
-        './img/7_statusbars/2_statusbar_endboss/orange0.png',
-        './img/7_statusbars/2_statusbar_endboss/orange20.png',
-        './img/7_statusbars/2_statusbar_endboss/orange40.png',
-        './img/7_statusbars/2_statusbar_endboss/orange60.png',
-        './img/7_statusbars/2_statusbar_endboss/orange80.png',
-        './img/7_statusbars/2_statusbar_endboss/orange100.png'
+        './img/7_statusbars/2_statusbar_endboss/blue.png',
+        './img/7_statusbars/2_statusbar_endboss/green.png'
+        
     ];
 
     constructor(){

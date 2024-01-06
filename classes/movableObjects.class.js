@@ -119,9 +119,10 @@ class MovableObject extends DrawableObject {
     /**
      * this function counts the energy after hit and sets a time stamp for the hurt function
      */
-    hit() {
-        this.energy -= 10;
-        this.world.statusBars.charHelth.statBar.width += 10;
+    hit(factor) {
+        this.energy -= factor;
+        // this.world.statusBars.charHelth.statBar.width = (this.energy/this.world.statusBars.charHelth.statBar.width) * 100;
+        this.world.statusBars.charHelth.statBar.width -= 2*factor;
         if (this.energy < 0) {
             this.energy = 0;
         } else {
