@@ -122,10 +122,10 @@ class MovableObject extends DrawableObject {
     hit(factor, boss) {
         this.energy -= factor;
         // this.world.statusBars.charHelth.statBar.width = (this.energy/this.world.statusBars.charHelth.statBar.width) * 100;
-        if(!boss) this.world.statusBars.charHelth.statBar.width -= 2*factor  ;
+        if(!boss) this.world.statusBars.helth.statBar.width -= 2*factor  ;
         else {
-            this.world.statusBars.charEndboss.statBar.width -= 2*factor;
-            this.world.statusBars.charEndboss.statBar.x += 2*factor;
+            this.world.statusBars.endboss.statBar.width -= 2*factor;
+            this.world.statusBars.endboss.statBar.x += 2*factor;
         }
         if (this.energy < 0) {
             this.energy = 0;

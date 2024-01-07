@@ -7,10 +7,10 @@ class World {
     statusBarBoss = new StatusBarBoss(); */
     level = level1;
     bottleToThrow; // = new ThrowableObject(this.character); //this.character
-    maxBottleCount;
+    max_bottleCount = 5;
     bottleCount = 0;
     coinCount = 0;
-    maxCointCount;
+    max_coinCount = 5;
     canvas;
     ctx;
     keyboard;
@@ -70,7 +70,7 @@ class World {
     /**
      * this function controls the bevaviour of the special enemy with different collions
      */
-    chickenCollision(){
+    chickenCollision() {
         this.level.enemies.forEach((enemy) => {
             this.chickenAttack(enemy);
             this.characterJumpsOfChicken(enemy);
@@ -82,7 +82,7 @@ class World {
      * this function checks if the chicken hits the character
      * @param {Object} enemy - the explizit enemy object
      */
-    chickenAttack(enemy){
+    chickenAttack(enemy) {
         if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
             this.character.reduceEnergy(10);
             enemy.changeCickenDirection();
@@ -96,7 +96,7 @@ class World {
      */
     characterJumpsOfChicken(enemy) {
         if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) {
-           // if (enemy instanceof Chicken) 
+            // if (enemy instanceof Chicken) 
             enemy.showChickenDeath();
         }
     }
@@ -132,8 +132,7 @@ class World {
             if (this.character.isColliding(bottle)) {
                 console.log('bottle hit');
                 this.level.bottles.splice(index, 1);
-                this.bottleCount++;
-                console.log('bottles: ', this.bottleCount);
+                this.statusBarStatwidth('bottle');
             }
         })
     }
@@ -146,10 +145,23 @@ class World {
             if (this.character.isColliding(coins)) {
                 console.log('coins hit');
                 this.level.coins.splice(index, 1);
-                this.coinCount++;
-                console.log('coins: ', this.coinCount);
+                this.statusBarStatwidth('coin');
             }
         })
+    }
+
+    /**
+     * this function changes the statusbar for coins and bottles
+     * @param {String} type - defines which statusbar should be changed
+     */
+    statusBarStatwidth(type) {
+        const countKey = type + 'Count';
+        const maxCountKey = 'max_' + type + 'Count';
+        if (this[countKey] < this[maxCountKey]) {
+            this[countKey]++;
+            this.statusBars[type].statBar.width = this[countKey] / this[maxCountKey] * this.statusBars[type].backBar.width;
+            console.log(type + 's: ', this[countKey]);
+        }
     }
 
     /**
@@ -178,9 +190,9 @@ class World {
     /**
      * this function can go to the statusbar class. It only calls the image for the status bar.
      */
-   /*  reduceHealthbar(energy, ImgSet) {
-        this.statusBarHealth.setPercentage(energy, ImgSet);
-    } */
+    /*  reduceHealthbar(energy, ImgSet) {
+         this.statusBarHealth.setPercentage(energy, ImgSet);
+     } */
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -221,21 +233,21 @@ class World {
      *  this function contains all elements which have static postitions within the canvas
      */
     drawStaticElements() {
-        
-        this.addBarsToMap('charHelth');
-        this.addBarsToMap('charCoin');
-        this.addBarsToMap('charBottle');
-       
-       
+
+        this.addBarsToMap('helth');
+        this.addBarsToMap('coin');
+        this.addBarsToMap('bottle');
+
+
         if (this.character.x > 300) {
-            this.addBarsToMap('charEndboss');
+            this.addBarsToMap('endboss');
         }
     }
 
-    addBarsToMap(bar){
+    addBarsToMap(bar) {
         this.addToMap(this.statusBars[bar].backBar);
         this.addToMap(this.statusBars[bar].statBar);
-        this.addToMap(this.statusBars[bar].icon); 
+        this.addToMap(this.statusBars[bar].icon);
     }
 
     /**
@@ -246,7 +258,7 @@ class World {
     addToMap(objectToDraw) {
         if (objectToDraw.otherDirection) this.flipImg(objectToDraw); // otherDirection wird in einer Instanz für dieses Element gesetzt
         objectToDraw.draw(this.ctx);
-        if (!(objectToDraw instanceof StatusBar)&&!(objectToDraw instanceof StatusBarObjects)) objectToDraw.drawFrame(this.ctx, this.keyboard.debug);
+        if (!(objectToDraw instanceof StatusBarObjects)) objectToDraw.drawFrame(this.ctx, this.keyboard.debug);
         if (objectToDraw.otherDirection) this.flipImgBack(objectToDraw); // reset needed to change this object only
     }
 
