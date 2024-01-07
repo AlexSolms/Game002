@@ -7,6 +7,7 @@ class ThrowableObject extends MovableObject {
     bottleHit = false;
     inAir = false;
     hitEnemy= false;
+    world;
 
     BottleInAirImages = [
         './img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -66,6 +67,7 @@ class ThrowableObject extends MovableObject {
                 clearInterval(splashInterval); // Stoppe das Intervall, wenn alle Bilder der Splash-Animation abgespielt wurden
                 this.bottleHit = true;
                 this.inAir = false;
+                
             }
         }, 50);
     }

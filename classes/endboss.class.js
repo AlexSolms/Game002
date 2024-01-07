@@ -19,6 +19,7 @@ class Endboss extends Enemies {
   flagBossAlert = true;
   flagBossWalk = false;
   flagNewAttack = true;
+  flagNewHurt = true;
   bossHitPoints = 100;
   hitFactor = 15;
 
@@ -181,7 +182,7 @@ class Endboss extends Enemies {
   }
 
   // hier muss noch eine Logik rein die dem Boss nur einmal energy abzieht, solage die bottle noch in der Luft ist
- 
+
   chkCollisionWithbottle() {
     if (this.world.bottleInAir && super.isColliding(this.world.bottleToThrow)) {
       this.showEndbossHurt();
@@ -191,13 +192,20 @@ class Endboss extends Enemies {
   showEndbossHurt() {
     //Aktuell bekommt der Boss noch mehrfach Schaden, wenn die Flasche an ihm zerschellt. Ich brauche also ein flag, dass mir zeigt 
     super.playAnimation(this.hurtImages);
-    super.hit(this.hitFactor, true);
-    console.log('Energy: ', this.energy);
+    if (this.flagNewHurt) {
+      this.world.bottleHitEnemy(this);
+      //debugger;
+      super.hit(this.hitFactor, true);
+      console.log(this.energy);
+      if (this.world.bottleToThrow.hitEnemy) this.flagNewHurt = false;
+    }
+    //if (!this.world.bottleToThrow.inAir) this.flagNewHurt= true;
+    console.log('bottle in air: ', this.world.bottleToThrow.inAir);
     if (super.isDead()) {
       super.playAnimation(this.deadImages);
       this.showChickenDeath();
-    
-    
+
+
     }
   }
 

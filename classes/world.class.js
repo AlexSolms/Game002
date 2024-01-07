@@ -112,6 +112,7 @@ class World {
             this.bottleToThrow.hitEnemy = true;
             if (!this.bottleToThrow.inAir) {
                 this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector
+                this.level.endboss.flagNewHurt = true;
             }
         }
     }
@@ -130,7 +131,7 @@ class World {
     collectBottles() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle)) {
-                console.log('bottle hit');
+                //console.log('bottle hit');
                 this.level.bottles.splice(index, 1);
                 this.statusBarStatwidth('bottle');
             }
@@ -143,7 +144,7 @@ class World {
     collectCoins() {
         this.level.coins.forEach((coins, index) => {
             if (this.character.isColliding(coins)) {
-                console.log('coins hit');
+                //console.log('coins hit');
                 this.level.coins.splice(index, 1);
                 this.statusBarStatwidth('coin');
             }
@@ -160,7 +161,7 @@ class World {
         if (this[countKey] < this[maxCountKey]) {
             this[countKey]++;
             this.statusBars[type].statBar.width = this[countKey] / this[maxCountKey] * this.statusBars[type].backBar.width;
-            console.log(type + 's: ', this[countKey]);
+            //console.log(type + 's: ', this[countKey]);
         }
     }
 
@@ -187,12 +188,7 @@ class World {
         }
     }
 
-    /**
-     * this function can go to the statusbar class. It only calls the image for the status bar.
-     */
-    /*  reduceHealthbar(energy, ImgSet) {
-         this.statusBarHealth.setPercentage(energy, ImgSet);
-     } */
+    
 
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -233,17 +229,18 @@ class World {
      *  this function contains all elements which have static postitions within the canvas
      */
     drawStaticElements() {
-
         this.addBarsToMap('helth');
         this.addBarsToMap('coin');
         this.addBarsToMap('bottle');
-
-
         if (this.character.x > 300) {
             this.addBarsToMap('endboss');
         }
     }
 
+    /**
+     * This function adds each image jor each statusbar to canvas finaly
+     * @param {String} bar - defines which status bar should be draw
+     */
     addBarsToMap(bar) {
         this.addToMap(this.statusBars[bar].backBar);
         this.addToMap(this.statusBars[bar].statBar);

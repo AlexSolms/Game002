@@ -122,18 +122,40 @@ class MovableObject extends DrawableObject {
     hit(factor, boss) {
         this.energy -= factor;
         // this.world.statusBars.charHelth.statBar.width = (this.energy/this.world.statusBars.charHelth.statBar.width) * 100;
-        if(!boss) this.world.statusBars.helth.statBar.width -= 2*factor  ;
-        else {
-            this.world.statusBars.endboss.statBar.width -= 2*factor;
-            this.world.statusBars.endboss.statBar.x += 2*factor;
-        }
+        
         if (this.energy < 0) {
             this.energy = 0;
         } else {
+            this.reduceHealthBar(factor, boss);
             this.lastHit = new Date().getTime();
         }
     }
 
+    reduceHealthBar(factor, boss){
+        let width = this.world.statusBars.endboss.statBar.width;
+        console.log(width);
+        if(this.world.level.endboss.energy == 0) {
+            console.log('jetze');
+        }
+  /*  if(!boss) this.world.statusBars.helth.statBar.width -= 2*factor  ;
+    else {
+         (width <= 2*factor)? width -= 2*factor : width = 0;
+        this.world.statusBars.endboss.statBar.x += 2*factor;
+    }*/
+         if(!boss) this.world.statusBars.helth.statBar.width -= 2*factor  ;
+        else {
+            this.world.statusBars.endboss.statBar.width -= 2*factor;
+            this.world.statusBars.endboss.statBar.x += 2*factor;
+        } 
+    }
+
+  /*   let width = this.world.statusBars.endboss.statBar.width;
+    if(!boss) this.world.statusBars.helth.statBar.width -= 2*factor  ;
+    else {
+         (width <= 2*factor)? width = 0 : width -= 2*factor;
+        this.world.statusBars.endboss.statBar.x += 2*factor;
+    }
+ */
     /**
      * this function provides the dead flag to signal if energy is zwro
      * @returns - returns true if energy is zero
