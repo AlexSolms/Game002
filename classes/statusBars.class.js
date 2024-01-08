@@ -22,6 +22,6 @@ class StatusBars extends StatusBarObjects{
      endboss ={
         backBar : new StatusBarObjects('./img/7_statusbars/4_bar_elements/statusbar_empty_reverse.png', 500, 5, 200, 50),
         statBar : new StatusBarObjects('./img/7_statusbars/4_bar_elements/statusbar_green_reverse.png', 500, 5, 200, 50),
-        icon : new StatusBarObjects('./img/7_statusbars/3_icons/icon_health_endboss.png', 660, 0, 50, 50),
+        icon : new StatusBarObjects('./img/7_statusbars/3_icons/icon_health_endboss.png', 662, 0, 50, 50),
     }; 
 }

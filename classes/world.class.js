@@ -1,10 +1,6 @@
 class World {
     character = new Character();
     statusBars = new StatusBars();
-    /* statusBarHealth = new StatusBarHealth();
-    statusBarCoin = new StatusBarCoin();
-    statusBarBottle = new StatusBarBottle();
-    statusBarBoss = new StatusBarBoss(); */
     level = level1;
     bottleToThrow; // = new ThrowableObject(this.character); //this.character
     max_bottleCount = 5;
@@ -86,7 +82,6 @@ class World {
         if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
             this.character.reduceEnergy(10);
             enemy.changeCickenDirection();
-            // this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
         }
     }
 
@@ -95,8 +90,7 @@ class World {
      * @param {Object} enemy - the explizit enemy object
      */
     characterJumpsOfChicken(enemy) {
-        if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) {
-            // if (enemy instanceof Chicken) 
+        if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) { 
             enemy.showChickenDeath();
         }
     }
@@ -108,11 +102,9 @@ class World {
      */
     bottleHitEnemy(enemy) {
         if (this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
-            // console.log(this.bottleToThrow);
             this.bottleToThrow.hitEnemy = true;
             if (!this.bottleToThrow.inAir) {
-                this.bottleToThrow = null; // über gibt diese Instanz dem Garbage collector
-                this.level.endboss.flagNewHurt = true;
+                this.bottleToThrow = null; // for garbage collector
             }
         }
     }
@@ -120,8 +112,7 @@ class World {
     bossAttack() {
         if (this.character.isColliding(endboss) && !this.character.fallingDown && !endboss.chickenDead) {
             this.character.reduceEnergy(20);
-            // this.reduceHealthbar(this.character.energy, this.statusBarHealth.statusHealthImages);
-            endboss.attackSuccuess = true;
+            this.level.endboss.attackSuccuess = true;
         }
     }
 

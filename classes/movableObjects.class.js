@@ -46,11 +46,11 @@ class MovableObject extends DrawableObject {
     }
 
     isColliding(mo) {
-        if( mo instanceof Character  ){ //&& mo.otherDirection mo.fallingDown && && mo.fallingDown && mo.otherDirection
-            
-                //console.log(mo.otherDirection);
-                mo.hitbox_x = Math.abs(mo.hitbox_x);
-            
+        if (mo instanceof Character) { //&& mo.otherDirection mo.fallingDown && && mo.fallingDown && mo.otherDirection
+
+            //console.log(mo.otherDirection);
+            mo.hitbox_x = Math.abs(mo.hitbox_x);
+
             //console.log('charakter_X:', mo.hitbox_x ,', charakterFrontX:', (mo.hitbox_x + mo.hitbox_width),', ChickenleftX: ', this.hitbox_x,', charakter_bottom_Y:', (mo.hitbox_y + mo.hitbox_height));//, ', Chicken_Y: ', this.hitbox_y
         }
         return this.hitbox_x + this.hitbox_width > mo.hitbox_x && //1
@@ -78,7 +78,7 @@ class MovableObject extends DrawableObject {
                 this.y -= this.speedY;
                 // if (this.y > this.ground) { this.y = this.ground; } // damit fange ich ab, dass Pepe tifer sinkt als er soll
                 this.speedY -= this.acceleration;
-                if(this.y <10){
+                if (this.y < 10) {
                     this.fallingDown = true;
                 }
             }
@@ -122,40 +122,34 @@ class MovableObject extends DrawableObject {
     hit(factor, boss) {
         this.energy -= factor;
         // this.world.statusBars.charHelth.statBar.width = (this.energy/this.world.statusBars.charHelth.statBar.width) * 100;
-        
+
         if (this.energy < 0) {
             this.energy = 0;
+            if(boss) this.world.statusBars.endboss.statBar.width = 0;
         } else {
             this.reduceHealthBar(factor, boss);
             this.lastHit = new Date().getTime();
         }
     }
 
-    reduceHealthBar(factor, boss){
+    reduceHealthBar(factor, boss) {
         let width = this.world.statusBars.endboss.statBar.width;
-        console.log(width);
-        if(this.world.level.endboss.energy == 0) {
+        //console.log(width);
+        if (this.world.level.endboss.energy == 0) {
             console.log('jetze');
         }
-  /*  if(!boss) this.world.statusBars.helth.statBar.width -= 2*factor  ;
-    else {
-         (width <= 2*factor)? width -= 2*factor : width = 0;
-        this.world.statusBars.endboss.statBar.x += 2*factor;
-    }*/
-         if(!boss) this.world.statusBars.helth.statBar.width -= 2*factor  ;
+        if (!boss) this.world.statusBars.helth.statBar.width -= 2 * factor;
         else {
-            this.world.statusBars.endboss.statBar.width -= 2*factor;
-            this.world.statusBars.endboss.statBar.x += 2*factor;
-        } 
+            console.log('x davor:', this.world.statusBars.endboss.statBar.x);
+            console.log('width davor:', this.world.statusBars.endboss.statBar.width);
+            this.world.statusBars.endboss.statBar.width -= 2 * factor + 2;
+            this.world.statusBars.endboss.statBar.x += 2 * factor;
+            console.log('width:', this.world.statusBars.endboss.statBar.width);
+            console.log('x:', this.world.statusBars.endboss.statBar.x);
+        }
     }
 
-  /*   let width = this.world.statusBars.endboss.statBar.width;
-    if(!boss) this.world.statusBars.helth.statBar.width -= 2*factor  ;
-    else {
-         (width <= 2*factor)? width = 0 : width -= 2*factor;
-        this.world.statusBars.endboss.statBar.x += 2*factor;
-    }
- */
+
     /**
      * this function provides the dead flag to signal if energy is zwro
      * @returns - returns true if energy is zero

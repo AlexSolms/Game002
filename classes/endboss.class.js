@@ -64,26 +64,24 @@ class Endboss extends Enemies {
   ]
 
   constructor() {
-    super().loadImage('./img/4_enemie_boss_chicken/1_walk/G1.png');
+    super();
+    super.loadImage('./img/4_enemie_boss_chicken/1_walk/G1.png');
     super.loadImages(this.walkImages);
     super.loadImages(this.attackImages);
     super.loadImages(this.aleartImages);
     super.loadImages(this.hurtImages);
     super.loadImages(this.deadImages);
-    //this.movementLogic();
-    //super.updateHitbox(0, 0, 40); // x für hitbox
-
     this.animate();
   }
 
 
+  /**
+   * this function starts the intervals for movement and animation
+   */
   animate() {
     this.intervalBossMove = setInterval(() => {
-      if (this.flagBossWalk && !this.chickenDead) {
-        this.movementLogic();
-      }
+      if (this.flagBossWalk && !this.chickenDead) this.movementLogic();
     }, this.refreshRate);//this.refreshRate
-
     this.intervalBossAnimation = setInterval(() => {
       if (!this.chickenDead && this.world) {
         super.updateHitbox(20, 50, -20);
@@ -92,7 +90,6 @@ class Endboss extends Enemies {
         this.chkCollisionWithbottle();
       }
     }, 130);
-
   }
 
   //Flags: bossAlert, boss walk, bossColliosion, otherDirection
@@ -133,86 +130,83 @@ class Endboss extends Enemies {
     }
   }
 
+  /**
+   * this funktion plays the alert animation if the flag was set and so on
+   * @param {Number} timeDiv - provides the time diverence between start and now
+   */
   standardAlert(timeDiv) {
-    //console.log(timeDiv);
-
     if (!this.firstContactWithBoss && this.flagBossAlert && timeDiv < 2000) {
       super.playAnimation(this.aleartImages);
-      //this.flagNewAttack= false;
-      //console.log('m');
     } else if (!(timeDiv < 2000) && !this.firstContactWithBoss) {
       this.flagBossAlert = false;
       this.flagBossWalk = true;
       this.attackSuccuess = false;
-      //this.flagNewAttack = true;
       if (this.flagNewAttack) this.speed = 0.8;
     }
   }
 
+  /**
+   * this function plays the walk animation for the boss
+   */
   bossWalk() {
     if (this.flagBossWalk) {
-
       if ((this.x - this.world.character.x) < 100)
         super.playAnimation(this.attackImages);
       else super.playAnimation(this.walkImages);
     }
   }
 
+  /**
+   * this function provides the logic for the boss movement
+   */
   movementLogic() {
     super.updateHitbox(20, 50, -20);
     super.moveLeft(this.speed);
-
     if (this.attackSuccuess && this.flagNewAttack || this.x <= this.world.character.x) {
       super.changeCickenDirection();
       this.attackSuccuess = false;
       this.flagNewAttack = false;
     }
     if (this.x > this.world.endbossArea.right) {
-
       this.x = this.startPosition;
-
       super.changeCickenDirection();
       this.flagBossAlert = true;
       this.flagBossWalk = false;
       this.flagNewAttack = true;
       this.alertStart = new Date().getTime();
-
     }
-
   }
 
   // hier muss noch eine Logik rein die dem Boss nur einmal energy abzieht, solage die bottle noch in der Luft ist
-
+  /**
+   * this funktion just calls the endboss hurt logic
+   */
   chkCollisionWithbottle() {
     if (this.world.bottleInAir && super.isColliding(this.world.bottleToThrow)) {
       this.showEndbossHurt();
     }
   }
 
+  /**
+   * this function provides the logic for the endboss animation and calls the hit() funtkion
+   */
   showEndbossHurt() {
-    //Aktuell bekommt der Boss noch mehrfach Schaden, wenn die Flasche an ihm zerschellt. Ich brauche also ein flag, dass mir zeigt 
     super.playAnimation(this.hurtImages);
-    if (this.flagNewHurt) {
+    if (!this.world.bottleToThrow.hitEnemy) {//it is only true whe a new instanz of bottle is created
       this.world.bottleHitEnemy(this);
-      //debugger;
       super.hit(this.hitFactor, true);
-      console.log(this.energy);
-      if (this.world.bottleToThrow.hitEnemy) this.flagNewHurt = false;
     }
-    //if (!this.world.bottleToThrow.inAir) this.flagNewHurt= true;
-    console.log('bottle in air: ', this.world.bottleToThrow.inAir);
     if (super.isDead()) {
       super.playAnimation(this.deadImages);
-      this.showChickenDeath();
-
-
+      this.showBossDeath();
     }
   }
 
+
   /**
- * this function loads the death image, set the flag and stops all animation intervals
- */
-  showChickenDeath() {
+  * this function loads the death image, set the flag and stops all animation intervals
+  */
+  showBossDeath() {
     super.loadImage('./img/4_enemie_boss_chicken/5_dead/G26.png');
     this.clearAllIntervals();
     this.chickenDead = true;
@@ -221,8 +215,8 @@ class Endboss extends Enemies {
   }
 
   /**
- * this function clears all intervals zu stop any animation or movement
- */
+  * this function clears all intervals zu stop any animation or movement
+  */
   clearAllIntervals() {
     clearInterval(this.intervalBossMove);
     clearInterval(this.intervalBossAnimation);
