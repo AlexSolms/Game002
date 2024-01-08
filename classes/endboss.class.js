@@ -162,11 +162,25 @@ class Endboss extends Enemies {
   movementLogic() {
     super.updateHitbox(20, 50, -20);
     super.moveLeft(this.speed);
-    if (this.attackSuccuess && this.flagNewAttack || this.x <= this.world.character.x) {
-      super.changeCickenDirection();
-      this.attackSuccuess = false;
-      this.flagNewAttack = false;
-    }
+    this.hitLeft();
+    this.hitRight();
+  }
+
+  /**
+   * this function provides logic if the boss hits the character
+   */
+hitLeft(){
+  if (this.attackSuccuess && this.flagNewAttack || this.x <= this.world.character.x) {
+    super.changeCickenDirection();
+    this.attackSuccuess = false;
+    this.flagNewAttack = false;
+  }
+}
+
+  /** 
+   * this function provides the logic for the boss if he hits right boss area border
+   */
+  hitRight(){
     if (this.x > this.world.endbossArea.right) {
       this.x = this.startPosition;
       super.changeCickenDirection();

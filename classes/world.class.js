@@ -121,7 +121,7 @@ class World {
      */
     collectBottles() {
         this.level.bottles.forEach((bottle, index) => {
-            if (this.character.isColliding(bottle)) {
+            if (this.character.isColliding(bottle) && this.bottleCount < this.max_bottleCount) {
                 //console.log('bottle hit');
                 this.level.bottles.splice(index, 1);
                 this.statusBarStatwidth('bottle');
@@ -170,12 +170,14 @@ class World {
     }
 
     /**
-     * this function creates a new instanz of a bottle
+     * this function creates a new instanz of a bottle only when bottle in inventory and not in air
      */
     checkThrowObject() {
-        if (this.keyboard.E && this.bottleInInv && !this.bottleInAir) {
+        if (this.keyboard.E && this.bottleCount > 0 && !this.bottleInAir) {
             this.bottleToThrow = new ThrowableObject(this.character);
             this.bottleInAir = true;
+            this.bottleCount--;
+            this.statusBars.bottle.statBar.width = this.bottleCount / this.max_bottleCount * this.statusBars.bottle.backBar.width;
         }
     }
 
