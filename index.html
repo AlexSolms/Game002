@@ -30,26 +30,36 @@
 </head>
 
 <body onload="init()">
-    <p>El Pollo Loco</p>
-    <div id="idStartscreen" class="d-none startScreen">
-        <h1>El Pollo Loco</h1>
-    </div>
-    <div id="idCanvasContainer">
-        <canvas id="idCanvas" width="720px" height="400px">
-        </canvas>
-    </div>
-    <div id="idYouLostScreen" class="d-none bgScreen youLost"> <!-- bgScreen -->
-        <h1>GAME OVER!</h1>
-        <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="Game Over" > -->
-        <button onclick="reStart()">restart</button>
-    
-    </div>
-    <div id="idYouWonScreen" class="d-none bgScreen youWon">
-        <p>CONGRATULATIONS</p>
-        <p>YOU WON!</p>
+
+    <div id="idStartscreen" class="startScreen">
         
-        <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="YOU WON" > -->
-        <button onclick="reStart()">restart</button>
+        <img src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="">
+        <!-- <h1 class="fontArt">El Pollo Loco</h1> -->
+        <div class="buttonContainer">
+            <button class="myButton" onclick="start()">Start</button>
+        </div>
+        <!-- <a href="#" class="myButton">Start</a> -->
+    </div>
+    <div id="idGamecontainer" class="d-none">
+        <p class="fontArt">El Pollo Loco</p>
+        <div id="idCanvasContainer">
+            <canvas id="idCanvas" width="720px" height="400px">
+            </canvas>
+        </div>
+
+        <div id="idYouLostScreen" class="d-none bgScreen youLost"> <!-- bgScreen -->
+            <h1 class="fontArt">GAME OVER!</h1>
+            <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="Game Over" > -->
+            <button onclick="reStart()">restart</button>
+
+        </div>
+        <div id="idYouWonScreen" class="d-none bgScreen youWon">
+            <p class="fontArt">CONGRATULATIONS</p>
+            <p class="fontArt">YOU WON!</p>
+
+            <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="YOU WON" > -->
+            <button onclick="reStart()">restart</button>
+        </div>
     </div>
 </body>
 

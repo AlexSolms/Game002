@@ -26,10 +26,15 @@ function init(){
     }, 100);
 
 }
+function start(){
+    document.getElementById('idStartscreen').classList.add('d-none');
+    document.getElementById('idGamecontainer').classList.remove('d-none');
+}
 
 function reStart(){
     window.location.reload();    
 }
+
 
 
 window.addEventListener("keydown", (e) => {
