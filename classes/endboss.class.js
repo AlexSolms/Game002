@@ -1,5 +1,6 @@
 class Endboss extends Enemies {
-  startPosition = 1000;
+  world;
+  startPosition = 2227;
   x = this.startPosition;
   y = 160;
   width = 200;
@@ -12,7 +13,7 @@ class Endboss extends Enemies {
   speed = this.startSpeed;
   refreshRate = 10 / 6;
   attackSuccuess = false;
-  world;
+ 
   alertStart = new Date().getTime();
   firstContactWithBoss = true;
   borderHit = false;

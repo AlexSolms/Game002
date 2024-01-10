@@ -1,16 +1,23 @@
 body {
     display: flex;
+    flex-direction: column;
     margin: 0;
     height: 100vh;
     width: auto;
     font-family: 'Signika Negative';
     font-style: normal;
     text-align: center;
+    background-image: url("./img/5_background/desert-5112222.svg");
+    background-position: center;
+    background-size: cover;
+
 }
 
 .bodyContainer {
     display: flex;
-    background-image: url("./img/5_background/second_half_background.png");
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(248, 234, 215, 0.322);
     background-size: auto;
     height: 100%;
     width: auto;
@@ -27,6 +34,11 @@ body {
     filter: drop-shadow(3px 1px #952816);
 }
 
+.headlinePosition {
+    position: absolute;
+    top: calc(100vh - 90%);
+}
+
 
 
 p {
@@ -36,7 +48,10 @@ p {
 
 canvas {
     background-color: black;
+    display: block;
+
 }
+
 
 .d-none {
     display: none !important;
@@ -55,17 +70,22 @@ canvas {
     width: auto;
 }
 
-.startScreen img { 
-    
+.startScreen img {
+    height: 100%;
     width: 100%;
 }
 
 .gameScreen {}
 
 .bgScreen {
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+position: absolute;
     width: 720px;
     height: 400px;
+    top: 0;
 }
 
 
@@ -101,4 +121,23 @@ canvas {
 .myButton:active {
     /* position:relative; */
     top: 1px;
+}
+
+@media only screen and (max-width: 720px){
+    canvas {
+        width: 100%;
+    }
+    .headlinePosition{
+        display: none;
+    }
+    
+}
+@media only screen and (max-height: 480px){
+    canvas {
+        height: 100vh;
+    }
+    .headlinePosition{
+        display: none;
+    }
+    
 }

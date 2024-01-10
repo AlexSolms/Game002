@@ -18,8 +18,9 @@ class World {
     runInterval;
 
     endbossArea = {
-        left: 400,
-        right: 1000
+        
+        right: this.level.endboss.startPosition +100,
+        left: this.level.endboss.startPosition -500
     }
 
     constructor(canvas, keyboard) {

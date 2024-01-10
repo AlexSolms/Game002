@@ -25,7 +25,7 @@ class Chicken extends Enemies {
   constructor() {
     super().loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
     super.loadImages(this.moveImages);
-    this.x = 350 + Math.random() * 2000;
+    this.x = 400 + Math.random() * 2000;
     super.updateHitbox(0, 0, 40); // x für hitbox
     this.speed = 0.4 + Math.random() * 0.10;
     this.animate();
@@ -67,23 +67,6 @@ class Chicken extends Enemies {
     }
   }
 
-
-  //''''''''''''''this function is implemented in world and no longer neccessary here ''''''''''''
-  /**
-   * this function checks if the character hits the chicken or the chicken hits the character
-   */
-  /* chkCollisionWithCharacter() {
-    //console.log('falling down: ', this.world.character.fallingDown);
-    if (super.isColliding(this.world.character) && this.world.character.fallingDown) {
-      this.showChickenDeath();
-    } else if (super.isColliding(this.world.character) && !this.world.character.fallingDown) {
-      super.changeCickenDirection();
-    }
-  } */
-    //''''''''''''''Comment End ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
-
-
   /**
    * this function loads the death image, set the flag and stops all animation intervals
    */
@@ -94,9 +77,6 @@ class Chicken extends Enemies {
     this.deathTimeStamp = new Date().getTime();
   }
 
- 
-  
-
   /**
    * this function clears all intervals zu stop any animation or movement
    */
@@ -105,6 +85,5 @@ class Chicken extends Enemies {
     clearInterval(this.intervalChickenAnimation);
     clearInterval(this.intervalChickenCollision);
   }
-
 
 }
