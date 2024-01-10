@@ -92,7 +92,7 @@ class Character extends MovableObject {
     super.loadImages(this.longIdleImages);
     super.applyGravity(0);
     this.animate();
-    super.updateHitbox(20, 50, 0);
+    super.updateHitbox(20, 50, -80);
   }
 
 
@@ -120,7 +120,6 @@ class Character extends MovableObject {
    * this function contains the image animation logic for all process steps 
    */
   animationLogic() {
-    super.updateHitbox(20, 50, 0);// Hitbox
     this.resetIdletime();
     if (super.isDead()) super.playAnimation(this.deadImages);
     else if (super.isHurt()) super.playAnimation(this.hurtImages);
@@ -145,7 +144,7 @@ class Character extends MovableObject {
     if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !super.isHurt()) {
       super.moveRight();
       this.otherDirection = false;
-      super.updateHitbox(20, 50, 0); // Hitbox
+      super.updateHitbox(20, 50, -80); // Hitbox
       super.isAboveGround() ? this.walkingSound.pause() : this.walkingSound.play(); 
       if (this.x >= this.world.endbossArea.left) {
         this.leftBorder = this.world.endbossArea.left + this.width / 2; // set new border for the final fight
@@ -158,6 +157,7 @@ class Character extends MovableObject {
  */
   characterMoveLeft() {
     if (this.world.keyboard.left && this.x > this.leftBorder && !super.isHurt()) {
+      super.updateHitbox(20, 50, -80);// Hitbox
       this.moveLeft(this.speed);
       this.otherDirection = true;
       super.isAboveGround() ? this.walkingSound.pause() : this.walkingSound.play();
@@ -170,7 +170,6 @@ class Character extends MovableObject {
   characterJump() {
     if (this.world.keyboard.up && !this.isAboveGround() && !super.isHurt()) {
       super.jump(30);
-      //this.walkingSound.pause();
     }
   }
 
@@ -179,6 +178,7 @@ class Character extends MovableObject {
    */
   checkIfFallingDown() {
     if (!super.isAboveGround()) this.fallingDown = false;
+    super.updateHitbox(20, 50, -80);// Hitbox
   }
 
   /**
