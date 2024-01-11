@@ -10,21 +10,11 @@ body {
     background-image: url("./img/5_background/desert-5112222.svg");
     background-position: center;
     background-size: cover;
-
 }
 
-.bodyContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(248, 234, 215, 0.322);
-    background-size: auto;
-    height: 100%;
-    width: auto;
-}
+
 
 .fontArt {
-    /* background: #121FCF; */
     background: -webkit-linear-gradient(0deg, rgba(255, 154, 0, 1) 0%, rgba(255, 216, 0, 1) 50%, rgba(255, 154, 0, 1) 100%);
     background: -moz-linear-gradient(0deg, rgba(255, 154, 0, 1) 0%, rgba(255, 216, 0, 1) 50%, rgba(255, 154, 0, 1) 100%);
     background: linear-gradient(0deg, rgba(255, 154, 0, 1) 0%, rgba(255, 216, 0, 1) 50%, rgba(255, 154, 0, 1) 100%);
@@ -34,24 +24,48 @@ body {
     filter: drop-shadow(3px 1px #952816);
 }
 
-.headlinePosition {
-    position: absolute;
-    top: calc(100vh - 90%);
+.bodyContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgba(248, 234, 215, 0.322);
+    background-size: auto;
+    height: 100%;
+    width: auto;
+}
+
+.startScreen {
+    display: block;
+    height: 100%;
+    width: auto;
+}
+
+.startScreen img {
+    height: 100%;
+    width: 100%;
 }
 
 
+.gameScreen {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height:max-content;
+    justify-content: center;
 
-p {
-    font-weight: 700;
-    font-size: 70px;
 }
 
+
+.canvasContainer{
+position: relative;
+}
 canvas {
+    /* position: relative; */
     background-color: black;
     display: block;
 
 }
-
 
 .d-none {
     display: none !important;
@@ -62,33 +76,29 @@ canvas {
 }
 
 
-.startScreen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: auto;
-}
 
-.startScreen img {
-    height: 100%;
-    width: 100%;
-}
-
-.gameScreen {}
 
 .bgScreen {
     display: flex;
-    flex-direction: column;
+    flex: content;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-position: absolute;
-    width: 720px;
-    height: 400px;
+    position: absolute;
+    /* width: 720px;
+    height: 400px;*/
     top: 0;
+    left: 0; 
+    width: 100%;
+    height: 100%;
 }
+.ovlerlayButtonArea{
+    width: 70px;
 
-
+}
+.youLost{
+    flex: 1;
+}
 .buttonContainer {
     position: absolute;
     width: 100px;
@@ -123,21 +133,40 @@ position: absolute;
     top: 1px;
 }
 
-@media only screen and (max-width: 720px){
+.headlinePosition {
+    margin: 0;
+}
+
+
+
+p {
+    font-weight: 700;
+    font-size: 70px;
+}
+
+
+@media only screen and (max-width: 720px) {
     canvas {
         width: 100%;
     }
-    .headlinePosition{
+
+    .headlinePosition {
         display: none;
     }
-    
+
 }
-@media only screen and (max-height: 480px){
+
+@media only screen and (max-height: 530px) {
+    .headlinePosition {
+        display: none;
+    }
+
+}
+
+@media only screen and (max-height: 480px) {
     canvas {
         height: 100vh;
     }
-    .headlinePosition{
-        display: none;
-    }
-    
+
+
 }

@@ -27,8 +27,10 @@ function init(){
 
 }
 function start(){
+    document.getElementById('idOverlay').classList.remove('d-none');
     document.getElementById('idStartscreen').classList.add('d-none');
     document.getElementById('idGamecontainer').classList.remove('d-none');
+    document.getElementById('idHeadline').classList.remove('d-none');
 }
 
 function reStart(){
@@ -43,8 +45,8 @@ window.addEventListener("keydown", (e) => {
     if(e.code === "ArrowDown" || e.code === "KeyS") keyboard.down = true;
     if(e.code === "ArrowLeft" || e.code === "KeyA") keyboard.left = true;
     if(e.code === "ArrowRight" || e.code === "KeyD") keyboard.right = true;
-    if( e.code === "KeyE") keyboard.E = true;
-    if(e.code === "KeyB") keyboard.debug = !keyboard.debug;
+    if( e.code === "KeyE") keyboard.E = true; // bottle throw
+    if(e.code === "KeyB") keyboard.debug = !keyboard.debug; //debug mode
     if(e.code === "Space") keyboard.space = true;
     (keyboard.up||keyboard.down||keyboard.left||keyboard.right) ? keyboard.press = true : keyboard.press = false;
  });

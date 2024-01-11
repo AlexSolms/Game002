@@ -6,7 +6,7 @@ class World {
     max_bottleCount = 5;
     bottleCount = 0;
     coinCount = 0;
-    max_coinCount = 5;
+    max_coinCount = this.level.coins.length;
     canvas;
     ctx;
     keyboard;
