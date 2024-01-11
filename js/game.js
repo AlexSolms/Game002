@@ -39,7 +39,7 @@ function reStart(){
 
 
 
-window.addEventListener("keydown", (e) => {
+/* window.addEventListener("keydown", (e) => {
     //console.log(e);
     if(e.code === "ArrowUp" || e.code === "KeyW") keyboard.up = true;
     if(e.code === "ArrowDown" || e.code === "KeyS") keyboard.down = true;
@@ -61,4 +61,4 @@ window.addEventListener("keydown", (e) => {
     if( e.code === "KeyE") keyboard.E = false;
     if(e.code === "Space") keyboard.space = false;
     keyboard.press = false;
- });
+ }); */

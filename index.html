@@ -37,32 +37,44 @@
                 <button class="myButton" onclick="start()">Start</button>
             </div>
         </div>
-        <p id="idHeadline" class="fontArt d-none headlinePosition">El Pollo Loco</p> 
+        <p id="idHeadline" class="fontArt d-none headlinePosition">El Pollo Loco</p>
         <div id="idGamecontainer" class="d-none gameScreen">
-           
+
             <div id="idCanvasContainer" class="canvasContainer">
                 <canvas id="idCanvas" width="720px" height="400px">
                 </canvas>
             </div>
-            <div id="idOverlay" class=" bgScreen">
+            <div id="idOverlay" class="d-none bgScreen">
                 <div id="idLeftButtons" class="ovlerlayButtonArea">
-test
-                </div>
-                <div id="idYouLostScreen" class=" youLost"> <!-- bgScreen -->
-                    <h1 class="fontArt">GAME OVER!</h1>
-                    <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="Game Over" > -->
-                    <button class="myButton" onclick="reStart()">restart</button>
+                    <div>
+                        <div id="idThrow1" class="controlButton fontArt">&curarrm;</div>
+                        <div id="idJump1" class="controlButton fontArt">&#8687;</div>
+                    </div>
+                    <div id="idMoveLeft" class="controlButton fontArt">&#8678;</div>
 
                 </div>
-                <div id="idYouWonScreen" class="d-none youWon">
-                    <p class="fontArt">CONGRATULATIONS</p>
-                    <p class="fontArt">YOU WON!</p>
+                <div id="idLostOrWinScreen" class="lostOrWinScreen">
+                    <div id="idYouLostScreen" class="d-none youLost"> <!-- bgScreen -->
+                        <h1 class="fontArt">GAME OVER!</h1>
+                        <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="Game Over" > -->
+                        <button class="myButton" onclick="reStart()">restart</button>
 
-                    <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="YOU WON" > -->
-                    <button class="myButton" onclick="reStart()">restart</button>
+                    </div>
+                    <div id="idYouWonScreen" class="d-none youWon">
+                        <p class="fontArt">CONGRATULATIONS</p>
+                        <p class="fontArt">YOU WON!</p>
+
+                        <!-- <img src="./img/9_intro_outro_screens/game_over/game over!.png" alt="YOU WON" > -->
+                        <button class="myButton" onclick="reStart()">restart</button>
+                    </div>
                 </div>
                 <div id="idRightButtons" class="ovlerlayButtonArea">
-test2
+                    <div>
+                        <div id="idThrow2" class="controlButton fontArt">&curarrm;</div>
+                        <div id="idJump2" class="controlButton fontArt">&#8687;</div>
+                    </div>
+                    <div id="idMoveRight" class="controlButton fontArt">&#8680;</div>
+
                 </div>
             </div>
         </div>

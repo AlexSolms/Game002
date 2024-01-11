@@ -174,7 +174,7 @@ class World {
      * this function creates a new instanz of a bottle only when bottle in inventory and not in air
      */
     checkThrowObject() {
-        if (this.keyboard.E && this.bottleCount > 0 && !this.bottleInAir) {
+        if (this.keyboard.throw && this.bottleCount > 0 && !this.bottleInAir) {
             this.bottleToThrow = new ThrowableObject(this.character);
             this.bottleInAir = true;
             this.bottleCount--;
