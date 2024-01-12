@@ -13,7 +13,7 @@ class Endboss extends Enemies {
   speed = this.startSpeed;
   refreshRate = 10 / 6;
   attackSuccuess = false;
- 
+
   alertStart = new Date().getTime();
   firstContactWithBoss = true;
   borderHit = false;
@@ -95,7 +95,9 @@ class Endboss extends Enemies {
 
   //Flags: bossAlert, boss walk, bossColliosion, otherDirection
 
-  // bossAlert-Funktion
+  /**
+   * this function starts the boss alert animation if the charater reaches the bos area
+   */
   bossAlert() {
     let timeDiv;
     let borderChk = this.world.character.leftBorder >= this.world.endbossArea.left;
@@ -170,18 +172,18 @@ class Endboss extends Enemies {
   /**
    * this function provides logic if the boss hits the character
    */
-hitLeft(){
-  if (this.attackSuccuess && this.flagNewAttack || this.x <= this.world.character.x) {
-    super.changeCickenDirection();
-    this.attackSuccuess = false;
-    this.flagNewAttack = false;
+  hitLeft() {
+    if (this.attackSuccuess && this.flagNewAttack || this.x <= this.world.character.x) {
+      super.changeCickenDirection();
+      this.attackSuccuess = false;
+      this.flagNewAttack = false;
+    }
   }
-}
 
   /** 
    * this function provides the logic for the boss if he hits right boss area border
    */
-  hitRight(){
+  hitRight() {
     if (this.x > this.world.endbossArea.right) {
       this.x = this.startPosition;
       super.changeCickenDirection();

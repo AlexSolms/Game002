@@ -58,7 +58,6 @@ class Keyboard {
     tochControl() {
         this.eventlistenerTouchStart();
         this.eventlistenerTouchEnd();
-
     }
 
     /**

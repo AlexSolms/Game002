@@ -6,7 +6,7 @@ class ThrowableObject extends MovableObject {
     imgCount = 0;
     bottleHit = false;
     inAir = false;
-    hitEnemy= false;
+    hitEnemy = false;
     world;
 
     BottleInAirImages = [
@@ -30,29 +30,28 @@ class ThrowableObject extends MovableObject {
         super.loadImages(this.BottleSplash);
         this.x = character.x + character.hitbox_width;
         this.hitbox_x = this.x;
-        this.y = character.y + character.height/8; // hier muss ich noch was anpassen, die Flasche fliegt nicht mehr so hoch
+        this.y = character.y + character.height / 8; // hier muss ich noch was anpassen, die Flasche fliegt nicht mehr so hoch
         this.hitbox_y = this.y;
         this.animate();
     }
 
     /**
-     * this function plays the spin animation asl long bottle is above ground and switch to the slpash animaition if the ground is hit
-     * Need to be change to check if the enemy was hit using the collision option
-      */
+     * this function plays the spin animation as long bottle is above ground and switch to the slpash animaition if hits hits the ground or an enemy
+     */
     animate() {
         this.throw();
         let animationInterval = setInterval(() => {
-            if(this.hitEnemy || !super.isAboveGround(50)){
-                clearInterval(animationInterval); // Stoppe das Intervall, wenn alle Bilder abgespielt wurden
+            if (this.hitEnemy || !super.isAboveGround(50)) {
+                clearInterval(animationInterval); // Stops interval of spinning bottle if bottle hits the ground or an enemy
                 this.splash();
-            }else {
+            } else {
                 super.playAnimation(this.BottleInAirImages);
                 this.updateBottleHitbox();
                 this.inAir = true;
-            } 
-    }, 60)
+            }
+        }, 60)
     }
-    
+
 
     /**
      * This function plays the bottle splash animation
@@ -64,10 +63,9 @@ class ThrowableObject extends MovableObject {
                 super.playAnimation(this.BottleSplash);
                 this.imgCount++;
             } else {
-                clearInterval(splashInterval); // Stoppe das Intervall, wenn alle Bilder der Splash-Animation abgespielt wurden
+                clearInterval(splashInterval); // Stops interval,when all images of Splash-Animation was played
                 this.bottleHit = true;
                 this.inAir = false;
-                
             }
         }, 50);
     }
@@ -82,7 +80,7 @@ class ThrowableObject extends MovableObject {
             if (super.isAboveGround(30)) {
                 this.x += 15;
             } else {
-                clearInterval(throwInterval); // Stoppe das Intervall, wenn das Objekt den Boden erreicht hat
+                clearInterval(throwInterval); // Stops interval,when object hit the ground
             }
         }, 40);
     }
@@ -90,7 +88,7 @@ class ThrowableObject extends MovableObject {
     /**
      * this function just updates the hitbox
      */
-    updateBottleHitbox(){
+    updateBottleHitbox() {
         this.hitbox_x = this.x;
         this.hitbox_y = this.y;
         this.hitbox_height = 60;

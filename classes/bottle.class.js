@@ -12,8 +12,12 @@ class Bottle extends MovableObject{
         './img/6_salsa_bottle/2_salsa_bottle_on_ground.png',
     ]
 
+    /**
+     * this constructor function contains the logic for toggeling the bottle image
+     * @param {Number} number - for toggle the bottle image
+     * @param {Number} x - position of bottle
+     */
     constructor(number, x){
-       
         super().loadImage('./img/6_salsa_bottle/' + number +'_salsa_bottle_on_ground.png'); 
         this.x = x;
         this.hitbox_x = this.x;

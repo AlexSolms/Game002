@@ -6,30 +6,29 @@ const CANVASHEIGHT = 400;
 let keyboard = new Keyboard();
 let startInterval;
 
-
+/**
+ * this is the init function for starting teh game
+ */
 function init(){
-    
     canvas = document.getElementById('idCanvas');
     world = new World(canvas, keyboard);
-
     startInterval = setInterval(() => {
         if(world.lost){
-            //start lost screen
             world.clearGameIntervals();
-            console.log('you lost');
             clearInterval(startInterval);
             document.getElementById('idYouLostScreen').classList.remove('d-none');
         }
         if(world.won){
-            // start won screen
             world.clearGameIntervals();
-            console.log('you won');
             clearInterval(startInterval);
             document.getElementById('idYouWonScreen').classList.remove('d-none');
         }
     }, 100);
-
 }
+
+/**
+ * this function toggles the d-none class for specific elements
+ */
 function start(){
     document.getElementById('idOverlay').classList.remove('d-none');
     document.getElementById('idStartscreen').classList.add('d-none');

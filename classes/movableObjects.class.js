@@ -1,19 +1,19 @@
 class MovableObject extends DrawableObject {
 
-    hitbox_x = this.x; // x für hitbox
+    hitbox_x = this.x;
     hitbox_y = this.y;
     hitbox_height = this.height;
     hitbox_width = this.width;
-    speed;
+    speed; // for x direction
     otherDirection = false;
     energy = 100;
     lastHit;
+    ground = 165;
+    speedY = 0; //speed of entity
+    acceleration = 2.5; // acceleration of entity
+    fallingDown = false; // for flagging the move down of object
 
-    speedY = 0; //Geschwindigkeit des Körpers
-    acceleration = 2.5; // Beschleunigung des Körpers
-    fallingDown = false; // damit ich ein flag hab, dass mir anzeigt, dass der Körper wieder herunter kommt.
-    /**
-     * 
+    /** 
      * this function plays all immages of the image set for an animation
      * @param {Array} imgSet - contains the image set which should be drawed
      */
@@ -25,7 +25,11 @@ class MovableObject extends DrawableObject {
     }
 
 
-
+    /**
+     * this function draws the hitbox for special entities
+     * @param {Object} ctx - the special object liek endboss chicken...
+     * @param {Boolean} keyboardDebug - true if B key was hit
+     */
     drawFrame(ctx, keyboardDebug) {
         if (keyboardDebug && (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject)) {
             ctx.beginPath();
@@ -36,56 +40,59 @@ class MovableObject extends DrawableObject {
         }
     }
 
-    isCollidingNeu(obj) {
-        return (this.hitbox_x + this.hitbox_width) >= obj.hitbox_x && //1
-            this.hitbox_x <= (obj.hitbox_x + obj.hitbox_width) &&
-            (this.hitbox_y + this.offsetY + this.hitbox_height) >= obj.hitbox_y && // 3
-            (this.hitbox_y + this.offsetY) <= (obj.hitbox_y + obj.hitbox_height) && //4
-            obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
 
-    }
+    /*  isCollidingNeu(obj) {
+         return (this.hitbox_x + this.hitbox_width) >= obj.hitbox_x && //1
+             this.hitbox_x <= (obj.hitbox_x + obj.hitbox_width) &&
+             (this.hitbox_y + this.offsetY + this.hitbox_height) >= obj.hitbox_y && // 3
+             (this.hitbox_y + this.offsetY) <= (obj.hitbox_y + obj.hitbox_height) && //4
+             obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
+ 
+     } */
 
+    /**
+     * this function returns true if the calling entity hits the object mo
+     * @param {Object} mo - object for comparing
+     * @returns  - true, if colliding
+     */
     isColliding(mo) {
-        if (mo instanceof Character) { //&& mo.otherDirection mo.fallingDown && && mo.fallingDown && mo.otherDirection
-
-            //console.log(mo.otherDirection);
+        if (mo instanceof Character) {
             mo.hitbox_x = Math.abs(mo.hitbox_x);
-
-            //console.log('charakter_X:', mo.hitbox_x ,', charakterFrontX:', (mo.hitbox_x + mo.hitbox_width),', ChickenleftX: ', this.hitbox_x,', charakter_bottom_Y:', (mo.hitbox_y + mo.hitbox_height));//, ', Chicken_Y: ', this.hitbox_y
         }
-        return this.hitbox_x + this.hitbox_width > mo.hitbox_x && //1
-            this.hitbox_y + this.hitbox_height > mo.hitbox_y && // 3
-            this.hitbox_x < (mo.hitbox_x + mo.hitbox_width) && //mo.hitbox_x 
-            this.hitbox_y < mo.hitbox_y + mo.hitbox_height; //4
+        return this.hitbox_x + this.hitbox_width > mo.hitbox_x &&
+            this.hitbox_y + this.hitbox_height > mo.hitbox_y &&
+            this.hitbox_x < (mo.hitbox_x + mo.hitbox_width) &&
+            this.hitbox_y < mo.hitbox_y + mo.hitbox_height;
     }
 
-
+    /**
+     * this function is used in intervals to set the new position for the image of the calling instanz
+     */
     moveRight() {
         this.x += this.speed;
     }
 
-
+    /**
+     * this function is used in intervals to set the new position for the image of the calling instanz
+     */
     moveLeft(speed) {
         this.x -= speed;
     }
 
-
+    /**
+     * this function contains the logic for movement of entities (jupmp, throw)
+     * @param {Number} groundOffset - value for the y offset
+     */
     applyGravity(groundOffset) {
-
         setInterval(() => {
-            //console.log(this.isAboveGround(groundOffset), this.speedY, this.y);
             if (this.isAboveGround(groundOffset) || this.speedY > 0) {
                 this.y -= this.speedY;
-                // if (this.y > this.ground) { this.y = this.ground; } // damit fange ich ab, dass Pepe tifer sinkt als er soll
                 this.speedY -= this.acceleration;
-                if (this.y < 10) {
-                    this.fallingDown = true;
-                }
+                if (this.y < 10) this.fallingDown = true;
             }
         }, 1000 / 25)
-
     }
-    ground = 165;
+
 
     /**
      * this function just checks if the y coordinate above the defined ground
@@ -96,7 +103,7 @@ class MovableObject extends DrawableObject {
     }
 
     /**
-     * 
+     * this function sets the writes thi jumpHeight into speedY 
      * @param {Number} jumpHight - max high of jump
      */
     jump(jumpHight) {
@@ -121,34 +128,27 @@ class MovableObject extends DrawableObject {
      */
     hit(factor, boss) {
         this.energy -= factor;
-        // this.world.statusBars.charHelth.statBar.width = (this.energy/this.world.statusBars.charHelth.statBar.width) * 100;
-
         if (this.energy < 0) {
             this.energy = 0;
-            if(boss) this.world.statusBars.endboss.statBar.width = 0;
+            if (boss) this.world.statusBars.endboss.statBar.width = 0;
         } else {
             this.reduceHealthBar(factor, boss);
             this.lastHit = new Date().getTime();
         }
     }
 
+    /**
+     * this function reduces the healt bars of character and boss by the given factor
+     * @param {Number} factor - reducing the the healthbar by factor
+     * @param {Boolean} boss - true if this is a function call from boss
+     */
     reduceHealthBar(factor, boss) {
-        let width = this.world.statusBars.endboss.statBar.width;
-        //console.log(width);
-        if (this.world.level.endboss.energy == 0) {
-            console.log('jetze');
-        }
         if (!boss) this.world.statusBars.helth.statBar.width -= 2 * factor;
         else {
-            console.log('x davor:', this.world.statusBars.endboss.statBar.x);
-            console.log('width davor:', this.world.statusBars.endboss.statBar.width);
-            this.world.statusBars.endboss.statBar.width -= 2 * factor + 2;
-            this.world.statusBars.endboss.statBar.x += 2 * factor;
-            console.log('width:', this.world.statusBars.endboss.statBar.width);
-            console.log('x:', this.world.statusBars.endboss.statBar.x);
+            this.world.statusBars.endboss.statBar.width -= 2 * factor;
+            this.world.statusBars.endboss.statBar.x += 2 * factor - 2;
         }
     }
-
 
     /**
      * this function provides the dead flag to signal if energy is zwro

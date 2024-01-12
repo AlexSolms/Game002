@@ -1,12 +1,8 @@
 class Character extends MovableObject {
-  x = 50; // ich will den Char im canvas verschieben
-  // hitbox_x = this.x + 20; // x für hitbox
-  y = 165//-150;//165; // Diese Werte müssen sich dynamisch anpassen können. Basis ist die Höhe und die Breite des Canvas
-  //hitbox_y = this.y;
-  height = 200; // Die Werte müssen sich also skalieren können, wenn sich die Auflösung ändert
-  //hitbox_height = this.height;
+  x = 50; 
+  y = 165
+  height = 200; 
   width = 100;
-  //hitbox_width = this.width - 50;
   speed = 3;
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
@@ -14,9 +10,6 @@ class Character extends MovableObject {
   leftBorder = this.width / 2;
   intervalCharMove;
   intervalCharAnim;
-
-
-
 
   moveImages = [
     './img/2_character_pepe/2_walk/W-21.png',
@@ -44,7 +37,6 @@ class Character extends MovableObject {
     './img/2_character_pepe/4_hurt/H-42.png',
     './img/2_character_pepe/4_hurt/H-42.png'
   ];
-
 
   deadImages = [
     './img/2_character_pepe/5_dead/D-51.png',
@@ -96,8 +88,6 @@ class Character extends MovableObject {
     super.updateHitbox(20, 50, -80);
   }
 
-
-
   /**
    * this function contains the intervals for all animation function for the character
    */
@@ -106,19 +96,22 @@ class Character extends MovableObject {
       if (!startScreen) {
         this.walkingSound.pause();
         this.movementLogic();
-        //hier muss eine Logic rein. Wenn this.x eine bestimmte Stelle erreicht hat, dann darf sich das Bild nicht mehr verschieben
-       if(this.x < (this.world.endbossArea.left +100)) this.world.camera_x = -this.x + 50; // for moving teh complete content in oppsite direcrion of the charakter, die 50 ist der Startpunkt des Charakters
+       if(this.x < (this.world.endbossArea.left +100)) this.world.camera_x = -this.x + 50; 
       }
     }, 100 / 6)
     this.intervalCharAnim = setInterval(() => this.animationLogic(), 130)
   }
 
+  /**
+   * this logic calls function for movement of the character
+   */
   movementLogic() {
     this.checkIfFallingDown();
     this.characterMoveRight();
     this.characterMoveLeft();
     this.characterJump();
   }
+
   /**
    * this function contains the image animation logic for all process steps 
    */
@@ -136,7 +129,7 @@ class Character extends MovableObject {
    * this function resets the iddel time in the animation logic
    */
   resetIdletime() {
-    if (super.isHurt() || super.isAboveGround() || this.world.keyboard.press) //|| this.world.keyboard.left
+    if (super.isHurt() || super.isAboveGround() || this.world.keyboard.press) 
       this.idleTimeStart = new Date().getTime();
   }
 
@@ -147,7 +140,7 @@ class Character extends MovableObject {
     if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !super.isHurt()) {
       super.moveRight();
       this.otherDirection = false;
-      super.updateHitbox(20, 50, -80); // Hitbox
+      super.updateHitbox(20, 50, -80); 
       super.isAboveGround() ? this.walkingSound.pause() : this.walkingSound.play();
       if (this.x >= this.world.endbossArea.left) {
         this.leftBorder = this.world.endbossArea.left + this.width / 2; // set new border for the final fight
@@ -160,7 +153,7 @@ class Character extends MovableObject {
  */
   characterMoveLeft() {
     if (this.world.keyboard.left && this.x > this.leftBorder && !super.isHurt()) {
-      super.updateHitbox(20, 50, -80);// Hitbox
+      super.updateHitbox(20, 50, -80);
       this.moveLeft(this.speed);
       this.otherDirection = true;
       super.isAboveGround() ? this.walkingSound.pause() : this.walkingSound.play();
@@ -181,7 +174,7 @@ class Character extends MovableObject {
    */
   checkIfFallingDown() {
     if (!super.isAboveGround()) this.fallingDown = false;
-    super.updateHitbox(20, 50, -80);// Hitbox
+    super.updateHitbox(20, 50, -80);
   }
 
   /**
@@ -195,6 +188,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * this function stops the intervals for character
+   */
   stopCharInterval(){
     clearInterval(this.intervalCharMove);
     clearInterval(this.intervalCharAnim);

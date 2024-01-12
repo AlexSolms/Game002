@@ -18,9 +18,9 @@ class World {
     runInterval;
 
     endbossArea = {
-        
-        right: this.level.endboss.startPosition +100,
-        left: this.level.endboss.startPosition -500
+
+        right: this.level.endboss.startPosition + 100,
+        left: this.level.endboss.startPosition - 500
     }
 
     constructor(canvas, keyboard) {
@@ -81,7 +81,6 @@ class World {
      */
     chickenAttack(enemy) {
         if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
-            console.log(enemy);
             this.character.reduceEnergy(10);
             enemy.changeCickenDirection();
         }
@@ -92,7 +91,7 @@ class World {
      * @param {Object} enemy - the explizit enemy object
      */
     characterJumpsOfChicken(enemy) {
-        if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) { 
+        if (this.character.isColliding(enemy) && this.character.fallingDown && !enemy.chickenDead) {
             enemy.showChickenDeath();
         }
     }
@@ -105,12 +104,13 @@ class World {
     bottleHitEnemy(enemy) {
         if (this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
             this.bottleToThrow.hitEnemy = true;
-            if (!this.bottleToThrow.inAir) {
-                this.bottleToThrow = null; // for garbage collector
-            }
+            if (!this.bottleToThrow.inAir) this.bottleToThrow = null; // for garbage collector
         }
     }
 
+    /**
+     * this function contains logic if boss hits character
+     */
     bossAttack() {
         if (this.character.isColliding(endboss) && !this.character.fallingDown && !endboss.chickenDead) {
             this.character.reduceEnergy(20);
@@ -124,7 +124,6 @@ class World {
     collectBottles() {
         this.level.bottles.forEach((bottle, index) => {
             if (this.character.isColliding(bottle) && this.bottleCount < this.max_bottleCount) {
-                //console.log('bottle hit');
                 this.level.bottles.splice(index, 1);
                 this.statusBarStatwidth('bottle');
             }
@@ -137,7 +136,6 @@ class World {
     collectCoins() {
         this.level.coins.forEach((coins, index) => {
             if (this.character.isColliding(coins)) {
-                //console.log('coins hit');
                 this.level.coins.splice(index, 1);
                 this.statusBarStatwidth('coin');
             }
@@ -154,7 +152,6 @@ class World {
         if (this[countKey] < this[maxCountKey]) {
             this[countKey]++;
             this.statusBars[type].statBar.width = this[countKey] / this[maxCountKey] * this.statusBars[type].backBar.width;
-            //console.log(type + 's: ', this[countKey]);
         }
     }
 
@@ -162,15 +159,13 @@ class World {
      * this function stops all intervalls and set the flag for lost screen
      */
     characterDead() {
-        if (this.character.energy == 0) {
-            console.log(this.character.energy);
-            this.lost = true;
-            //this.clearGameIntervals();
-        }
+        if (this.character.energy == 0) this.lost = true;
     }
 
-
-    clearGameIntervals(){
+    /**
+     * this function stops all intervals of the game
+     */
+    clearGameIntervals() {
         clearInterval(this.runInterval);
         this.level.enemies.forEach((enemy) => enemy.clearAllIntervals());
         this.level.endboss.clearAllIntervals();
@@ -189,8 +184,9 @@ class World {
         }
     }
 
-    
-
+    /**
+     * thsi function contains logic for drawing all elements into canvas
+     */
     draw() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.drawFlexElements();
@@ -233,7 +229,7 @@ class World {
         this.addBarsToMap('helth');
         this.addBarsToMap('coin');
         this.addBarsToMap('bottle');
-        if (this.character.x > (this.level.endboss.x -700)) {
+        if (this.character.x > (this.level.endboss.x - 700)) {
             this.addBarsToMap('endboss');
         }
     }
@@ -249,7 +245,6 @@ class World {
     }
 
     /**
-     * 
      * This function draws the image of the object with it's parameters for example if its mirroed (otherDirection)
      * @param {Object} objectToDraw - object which needs to to be drawed
      */
@@ -266,7 +261,10 @@ class World {
     drawChicken() {
         for (let i = 0; i < this.level.enemies.length; i++) {
             const enemy = this.level.enemies[i];
-            if ((enemy instanceof Chicken) && (((new Date().getTime() - enemy.deathTimeStamp) > 500) || (this.level.enemies[i].x < -10)) ) {
+            let isChicken = enemy instanceof Chicken;
+            let isDeadShowTimeDone = ((new Date().getTime() - enemy.deathTimeStamp) > 500);
+            let isoutOfCanvas = (this.level.enemies[i].x < -10);
+            if (isChicken && (isDeadShowTimeDone || isoutOfCanvas)) {
                 this.level.enemies.splice(i, 1);
             }
         }
@@ -274,18 +272,14 @@ class World {
     }
 
     /**
-     * 
      * This function draws each elements of the provided object.
      * @param {Object} objects - repesents a set of similar objects which needs to draw
      */
     addObjectsToMap(objects) {
-        objects.forEach(e => {
-            this.addToMap(e);
-        })
+        objects.forEach(e => this.addToMap(e))
     }
 
     /**
-     * 
      * this function saves the context of the canvas and flipps a single object (mo) 
      * @param {object} mo - represents the instanz which needs to flip 
      */
@@ -296,18 +290,14 @@ class World {
         mo.x = mo.x * -1; // set mo object on the mirrored coordinate
         if (mo instanceof Character) mo.updateHitbox(20, 50, -80);
         if (mo instanceof Chicken) mo.updateHitbox(0, 0, 20);
-
     }
 
     /**
-     * 
+     * this function contains logic for flipping back the image of object mo
      * @param {object} mo 
      */
     flipImgBack(mo) {
         mo.x = mo.x * -1 // set object on the mirrored coordinate
         this.ctx.restore() // restores the ctx objekt 
     }
-
-
-
 }

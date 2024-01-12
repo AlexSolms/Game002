@@ -9,13 +9,13 @@ class Chicken extends Enemies {
   hitbox_height = this.height;
   speed = 0.08;
   //refreshRate = 10 / 6;
-  
+
   intervalChickenMove;
   intervalChickenAnimation;
   intervalChickenCollision;
-  
 
-  
+
+
   moveImages = [
     './img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',
     './img/3_enemies_chicken/chicken_normal/1_walk/2_w.png',
@@ -26,25 +26,26 @@ class Chicken extends Enemies {
     super().loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
     super.loadImages(this.moveImages);
     this.x = 400 + Math.random() * 2000;
-    super.updateHitbox(0, 0, 40); // x für hitbox
+    super.updateHitbox(0, 0, 40); 
     this.speed = 0.4 + Math.random() * 0.10;
     this.animate();
     this.chkCollision();
-    //console.log();
   }
 
 
+  /**
+   * this function strats the intervals for chicken
+   */
   animate() {
     this.intervalChickenMove = setInterval(() => {
-      if(this.world.character?.x > 80){
-      super.moveLeft(this.speed);
-      this.updateHitbox(0, 0, 20);
-    }
+      if (this.world.character?.x > 80) {
+        super.moveLeft(this.speed);
+        this.updateHitbox(0, 0, 20);
+      }
     }, this.refreshRate)
-
     this.intervalChickenAnimation = setInterval(() => {
-      if(this.world.character?.x > 80)
-      super.playAnimation(this.moveImages);
+      if (this.world.character?.x > 80)
+        super.playAnimation(this.moveImages);
     }, 130)
   }
 
@@ -54,8 +55,7 @@ class Chicken extends Enemies {
   chkCollision() {
     this.intervalChickenCollision = setInterval(() => {
       this.chkCollisionWithbottle();
-     // this.chkCollisionWithCharacter();
-    }, 100); // ich will hier eigentlich checken, ob gerade eine Kollision stattgefunden hat.
+    }, 100);
   }
 
   /**
