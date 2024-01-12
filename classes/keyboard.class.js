@@ -1,9 +1,8 @@
 class Keyboard {
-    up = false;
+    jump = false;
     down = false;
     left = false;
     right = false;
-    space = false;
     press = false;
     debug = false;
     throw = false;
@@ -28,14 +27,14 @@ class Keyboard {
     eventlistenerKeyDown() {
         window.addEventListener("keydown", (e) => {
             //console.log(e);
-            if (e.code === "ArrowUp" || e.code === "KeyW") this.up = true;
+            if (e.code === "ArrowUp" || e.code === "KeyW") this.jump = true;
             if (e.code === "ArrowDown" || e.code === "KeyS") this.down = true; // not in use
             if (e.code === "ArrowLeft" || e.code === "KeyA") this.left = true;
             if (e.code === "ArrowRight" || e.code === "KeyD") this.right = true;
-            if (e.code === "KeyE") this.throw = true; // bottle throw
+            if (e.code === "Space") this.throw = true; // bottle throw
             if (e.code === "KeyB") this.debug = !this.debug; //debug mode
-            if (e.code === "Space") this.space = true;
-            (this.up || this.down || this.left || this.right) ? this.press = true : this.press = false;
+            (this.jump || this.throw || this.left || this.right) ? this.press = true : this.press = false;
+            console.log('press: ', this.press);
         });
     }
 
@@ -44,12 +43,11 @@ class Keyboard {
      */
     eventlistenerKeyUp() {
         window.addEventListener("keyup", (e) => {
-            if (e.code === "ArrowUp" || e.code === "KeyW") this.up = false;
+            if (e.code === "ArrowUp" || e.code === "KeyW") this.jump = false;
             if (e.code === "ArrowDown" || e.code === "KeyS") this.down = false;
             if (e.code === "ArrowLeft" || e.code === "KeyA") this.left = false;
             if (e.code === "ArrowRight" || e.code === "KeyD") this.right = false;
-            if (e.code === "KeyE") this.throw = false;
-            if (e.code === "Space") this.space = false;
+            if (e.code === "Space") this.throw = false;
             this.press = false;
         });
     }
@@ -63,55 +61,52 @@ class Keyboard {
 
     }
 
-
-
+    /**
+    * this function is a collection of all calls of the eventlistener for event touchstart
+    */
     eventlistenerTouchStart() {
-        this.touchEventlistener('idThrow1', 'touchstart', (action) => {
-            this.throw = action;
-        });
-        this.touchEventlistener('idThrow2', 'touchstart', (action) => {
-            this.throw = action;
-        });
-        this.touchEventlistener('idJump1', 'touchstart', (action) => {
-            this.up = action;
-        });
-        this.touchEventlistener('idJump2', 'touchstart', (action) => {
-            this.up = action;
-        });
-        this.touchEventlistener('idMoveLeft', 'touchstart', (action) => {
-            this.left = action;
-        });
-        this.touchEventlistener('idMoveRight', 'touchstart', (action) => {
-            this.right = action;
-        });
+        this.setupTouchListeners(['idThrow1', 'idThrow2'], 'touchstart', 'throw');
+        this.setupTouchListeners(['idJump1', 'idJump2'], 'touchstart', 'jump');
+        this.setupTouchListeners(['idMoveLeft'], 'touchstart', 'left');
+        this.setupTouchListeners(['idMoveRight'], 'touchstart', 'right');
     }
 
+    /**
+     * this function is a collection of all calls of the eventlistener for event touchend
+     */
     eventlistenerTouchEnd() {
-        this.touchEventlistener('idThrow1', 'touchend', (action) => {
-            this.throw = action;
-        });
-        this.touchEventlistener('idThrow2', 'touchend', (action) => {
-            this.throw = action;
-        });
-        this.touchEventlistener('idJump1', 'touchend', (action) => {
-            this.up = action;
-        });
-        this.touchEventlistener('idJump2', 'touchend', (action) => {
-            this.up = action;
-        });
-        this.touchEventlistener('idMoveLeft', 'touchend', (action) => {
-            this.left = action;
-        });
-        this.touchEventlistener('idMoveRight', 'touchend', (action) => {
-            this.right = action;
+        this.setupTouchListeners(['idThrow1', 'idThrow2'], 'touchend', 'throw');
+        this.setupTouchListeners(['idJump1', 'idJump2'], 'touchend', 'jump');
+        this.setupTouchListeners(['idMoveLeft'], 'touchend', 'left');
+        this.setupTouchListeners(['idMoveRight'], 'touchend', 'right');
+    }
+
+    /**
+     * this function is used to reduce code by looping through an array of elements with the similar functionality
+     * @param {Array} elementIds - contains all element IDs with a similar functionality
+     * @param {*} touchEvent - the event name 
+     * @param {*} propertyName - the property which sould be changed
+     */
+    setupTouchListeners(elementIds, touchEvent, propertyName) {
+        elementIds.forEach((elementId) => {
+            this.touchEventlistener(elementId, touchEvent, (isPressed) => {
+                this[propertyName] = isPressed;
+                isPressed ? this.press = true : this.press = false;
+            });
         });
     }
 
+    /**
+     * 
+     * @param {String} elementID - indicates the element ID to act on
+     * @param {String} touchEvent - repesents which event was happen
+     * @param {Function} callback - function which contains as parameter the result if element is touched
+     */
     touchEventlistener(elementID, touchEvent, callback) {
         document.getElementById(elementID).addEventListener(touchEvent, (e) => {
             e.preventDefault();
             callback(touchEvent === 'touchstart');
         });
     }
-   
+
 }

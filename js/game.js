@@ -1,9 +1,11 @@
 let canvas;
 let world;
+let startScreen = true;
 const CANVASWIDTH = 720; // brauche ich das?
 const CANVASHEIGHT = 400;
 let keyboard = new Keyboard();
 let startInterval;
+
 
 function init(){
     
@@ -13,12 +15,14 @@ function init(){
     startInterval = setInterval(() => {
         if(world.lost){
             //start lost screen
+            world.clearGameIntervals();
             console.log('you lost');
             clearInterval(startInterval);
             document.getElementById('idYouLostScreen').classList.remove('d-none');
         }
         if(world.won){
             // start won screen
+            world.clearGameIntervals();
             console.log('you won');
             clearInterval(startInterval);
             document.getElementById('idYouWonScreen').classList.remove('d-none');
@@ -31,6 +35,7 @@ function start(){
     document.getElementById('idStartscreen').classList.add('d-none');
     document.getElementById('idGamecontainer').classList.remove('d-none');
     document.getElementById('idHeadline').classList.remove('d-none');
+    startScreen = false;
 }
 
 function reStart(){

@@ -1,5 +1,5 @@
 class Character extends MovableObject {
-  x = 50;
+  x = 50; // ich will den Char im canvas verschieben
   // hitbox_x = this.x + 20; // x für hitbox
   y = 165//-150;//165; // Diese Werte müssen sich dynamisch anpassen können. Basis ist die Höhe und die Breite des Canvas
   //hitbox_y = this.y;
@@ -12,7 +12,8 @@ class Character extends MovableObject {
   walkingSound = new Audio('./audio/footstep2.mp3');
   idleTimeStart = new Date().getTime();
   leftBorder = this.width / 2;
-
+  intervalCharMove;
+  intervalCharAnim;
 
 
 
@@ -101,13 +102,15 @@ class Character extends MovableObject {
    * this function contains the intervals for all animation function for the character
    */
   animate() {
-    setInterval(() => {
-      this.walkingSound.pause();
-      this.movementLogic();
-      //hier muss eine Logic rein. Wenn this.x eine bestimmte Stelle erreicht hat, dann darf sich das Bild nicht mehr verschieben
-      this.world.camera_x = -this.x + 50; // for moving teh complete content in oppsite direcrion of the charakter, die 50 ist der Startpunkt des Charakters
+    this.intervalCharMove = setInterval(() => {
+      if (!startScreen) {
+        this.walkingSound.pause();
+        this.movementLogic();
+        //hier muss eine Logic rein. Wenn this.x eine bestimmte Stelle erreicht hat, dann darf sich das Bild nicht mehr verschieben
+       if(this.x < (this.world.endbossArea.left +100)) this.world.camera_x = -this.x + 50; // for moving teh complete content in oppsite direcrion of the charakter, die 50 ist der Startpunkt des Charakters
+      }
     }, 100 / 6)
-    setInterval(() => this.animationLogic(), 130)
+    this.intervalCharAnim = setInterval(() => this.animationLogic(), 130)
   }
 
   movementLogic() {
@@ -133,7 +136,7 @@ class Character extends MovableObject {
    * this function resets the iddel time in the animation logic
    */
   resetIdletime() {
-    if (super.isHurt() || super.isAboveGround() || this.world.keyboard.right || this.world.keyboard.left)
+    if (super.isHurt() || super.isAboveGround() || this.world.keyboard.press) //|| this.world.keyboard.left
       this.idleTimeStart = new Date().getTime();
   }
 
@@ -145,7 +148,7 @@ class Character extends MovableObject {
       super.moveRight();
       this.otherDirection = false;
       super.updateHitbox(20, 50, -80); // Hitbox
-      super.isAboveGround() ? this.walkingSound.pause() : this.walkingSound.play(); 
+      super.isAboveGround() ? this.walkingSound.pause() : this.walkingSound.play();
       if (this.x >= this.world.endbossArea.left) {
         this.leftBorder = this.world.endbossArea.left + this.width / 2; // set new border for the final fight
       }
@@ -168,7 +171,7 @@ class Character extends MovableObject {
    * this function covers the logic for the jump movment
    */
   characterJump() {
-    if (this.world.keyboard.up && !this.isAboveGround() && !super.isHurt()) {
+    if (this.world.keyboard.jump && !this.isAboveGround() && !super.isHurt()) {
       super.jump(30);
     }
   }
@@ -191,4 +194,10 @@ class Character extends MovableObject {
       this.x -= 5;
     }
   }
+
+  stopCharInterval(){
+    clearInterval(this.intervalCharMove);
+    clearInterval(this.intervalCharAnim);
+  }
 }
+

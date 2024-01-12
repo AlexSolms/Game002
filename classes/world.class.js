@@ -81,6 +81,7 @@ class World {
      */
     chickenAttack(enemy) {
         if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
+            console.log(enemy);
             this.character.reduceEnergy(10);
             enemy.changeCickenDirection();
         }
@@ -164,17 +165,23 @@ class World {
         if (this.character.energy == 0) {
             console.log(this.character.energy);
             this.lost = true;
-            clearInterval(this.runInterval);
-            this.level.enemies.forEach((enemy) => enemy.clearAllIntervals());
-            this.level.endboss.clearAllIntervals();
+            //this.clearGameIntervals();
         }
+    }
+
+
+    clearGameIntervals(){
+        clearInterval(this.runInterval);
+        this.level.enemies.forEach((enemy) => enemy.clearAllIntervals());
+        this.level.endboss.clearAllIntervals();
+        this.character.stopCharInterval();
     }
 
     /**
      * this function creates a new instanz of a bottle only when bottle in inventory and not in air
      */
     checkThrowObject() {
-        if (this.keyboard.throw && this.bottleCount > 0 && !this.bottleInAir) {
+        if (this.keyboard.throw && this.bottleCount > 0 && !this.bottleInAir && !this.character.otherDirection) {
             this.bottleToThrow = new ThrowableObject(this.character);
             this.bottleInAir = true;
             this.bottleCount--;
@@ -226,7 +233,7 @@ class World {
         this.addBarsToMap('helth');
         this.addBarsToMap('coin');
         this.addBarsToMap('bottle');
-        if (this.character.x > 300) {
+        if (this.character.x > (this.level.endboss.x -700)) {
             this.addBarsToMap('endboss');
         }
     }
@@ -259,7 +266,7 @@ class World {
     drawChicken() {
         for (let i = 0; i < this.level.enemies.length; i++) {
             const enemy = this.level.enemies[i];
-            if ((enemy instanceof Chicken) && (new Date().getTime() - enemy.deathTimeStamp) > 500) {
+            if ((enemy instanceof Chicken) && (((new Date().getTime() - enemy.deathTimeStamp) > 500) || (this.level.enemies[i].x < -10)) ) {
                 this.level.enemies.splice(i, 1);
             }
         }
