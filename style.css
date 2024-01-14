@@ -51,15 +51,63 @@ body {
     position: relative;
     display: flex;
     align-items: center;
-    height:max-content;
+    height: max-content;
     justify-content: center;
 
 }
-
-
-.canvasContainer{
-position: relative;
+/* instruction area */
+.helpcontainer {
+    position: relative;
+    display: flex;
+    align-items: flex-end; 
+    justify-content: center;
+    width: 100%; 
 }
+.helpcontainer p {
+    font-size: small;
+   
+}
+.helpBottonContainer{
+    position: absolute;
+}
+.instructionArea{
+    position: absolute;
+}
+
+.keySettings{
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    /* filter: none !important; */
+    filter: drop-shadow(1px 1px #111111);
+} 
+.keySettings p{
+    display: flex;
+    
+    align-items: center;
+    gap: 3px;
+} 
+.keyFrame{
+    border-radius: 4px;
+    border-style: solid;
+    border-width: thin;
+    padding: 1px;
+    min-width: 16px;
+    filter:none !important;
+}
+.keyFrameSize{
+    width: 16px;    
+}
+
+.changeFont{
+    font-size: x-small;
+    font-weight: bold;
+}
+/* instruction area */
+.canvasContainer {
+    position: relative;
+}
+
 canvas {
     /* position: relative; */
     background-color: black;
@@ -88,12 +136,12 @@ canvas {
     /* width: 720px;
     height: 400px;*/
     top: 0;
-    left: 0; 
+    left: 0;
     width: 100%;
     height: 100%;
 }
 
-.ovlerlayButtonArea{
+.ovlerlayButtonArea {
     width: 70px;
     display: flex;
     flex-direction: column;
@@ -102,15 +150,15 @@ canvas {
     height: 100%;
 }
 
-.youLost{
+.youLost {
     flex: 1;
 }
 
-.lostOrWinScreen{
+.lostOrWinScreen {
     flex: 1;
 }
 
-.controlButton{
+.controlButton {
     /* width: 50px; */
     /* height: 50px; */
     font-size: 70px;
@@ -120,6 +168,7 @@ canvas {
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); Schatten */
 
 }
+
 .buttonContainer {
     position: absolute;
     width: 100px;
