@@ -1,16 +1,21 @@
 class Character extends MovableObject {
-  x = 50; 
+  x = 50;
   y = 165
-  height = 200; 
+  height = 200;
   width = 100;
   speed = 3;
   world;
   walkingSound = new Audio('./audio/footstep2.mp3');
+  deathManSound = new Audio('./audio/death_man.wav');
+  ouchSound = new Audio('./audio/ouch.mp3');
   idleTimeStart = new Date().getTime();
   leftBorder = this.width / 2;
   intervalCharMove;
   intervalCharAnim;
   maxHitPoints = 100;
+  death = false;
+  deathImage = 0;
+  deathStart = true;
 
   moveImages = [
     './img/2_character_pepe/2_walk/W-21.png',
@@ -97,7 +102,7 @@ class Character extends MovableObject {
       if (!startScreen) {
         this.walkingSound.pause();
         this.movementLogic();
-       if(this.x < (this.world.endbossArea.left +100)) this.world.camera_x = -this.x + 50; 
+        if (this.x < (this.world.endbossArea.left + 100)) this.world.camera_x = -this.x + 50;
       }
     }, 100 / 6)
     this.intervalCharAnim = setInterval(() => this.animationLogic(), 130)
@@ -118,8 +123,8 @@ class Character extends MovableObject {
    */
   animationLogic() {
     this.resetIdletime();
-    if (super.isDead()) super.playAnimation(this.deadImages);
-    else if (super.isHurt()) super.playAnimation(this.hurtImages);
+    if (super.isDead()) this.deadRoutine();
+    else if (super.isHurt()) this.hurtRoutine();
     else if (super.isAboveGround()) super.playAnimation(this.jumpImages);
     else if (this.world.keyboard.right || this.world.keyboard.left) super.playAnimation(this.moveImages);
     else if ((new Date().getTime() - this.idleTimeStart) > 5000) super.playAnimation(this.longIdleImages);
@@ -130,7 +135,7 @@ class Character extends MovableObject {
    * this function resets the iddel time in the animation logic
    */
   resetIdletime() {
-    if (super.isHurt() || super.isAboveGround() || this.world.keyboard.press) 
+    if (super.isHurt() || super.isAboveGround() || this.world.keyboard.press)
       this.idleTimeStart = new Date().getTime();
   }
 
@@ -141,7 +146,7 @@ class Character extends MovableObject {
     if (this.world.keyboard.right && this.x < this.world.level.levelEndX && !super.isHurt()) {
       super.moveRight();
       this.otherDirection = false;
-      super.updateHitbox(20, 50, -80); 
+      super.updateHitbox(20, 50, -80);
       super.isAboveGround() || this.world.mute ? this.walkingSound.pause() : this.walkingSound.play();
       if (this.x >= this.world.endbossArea.left) {
         this.leftBorder = this.world.endbossArea.left + this.width / 2; // set new border for the final fight
@@ -190,9 +195,35 @@ class Character extends MovableObject {
   }
 
   /**
+   * this function plays the dead animation and sets the death flag
+   */
+  deadRoutine(){
+    if (this.deathStart) {
+      this.currentImage = 0;
+      this.deathStart = false;
+    }
+    if (this.deathImage < this.deadImages.length) {
+      super.playAnimation(this.deadImages);
+      this.deathImage++;
+    }
+    else {
+      this.world.mute ? this.deathManSound.pause() : this.deathManSound.play();
+      this.death = true;
+    }
+  }
+
+  /**
+   * this function plays the hurt animation and the hurt sound
+   */
+  hurtRoutine(){
+    super.playAnimation(this.hurtImages);
+    this.world.mute ? this.ouchSound.pause() : this.ouchSound.play();
+  }
+
+  /**
    * this function stops the intervals for character
    */
-  stopCharInterval(){
+  stopCharInterval() {
     clearInterval(this.intervalCharMove);
     clearInterval(this.intervalCharAnim);
   }
