@@ -18,8 +18,7 @@ class World {
     runInterval;
 
     endbossArea = {
-
-        right: this.level.endboss.startPosition + 100,
+        right: this.level.endboss.startPosition + 50,
         left: this.level.endboss.startPosition - 500
     }
 
@@ -203,12 +202,12 @@ class World {
     drawFlexElements() {
         this.ctx.translate(this.camera_x, 0);
         this.addObjectsToMap(this.level.backgroundObjects);
+        this.addObjectsToMap(this.level.clouds);
         this.addToMap(this.character);
         this.drawChicken();
         this.addToMap(this.level.endboss);
         this.addObjectsToMap(this.level.coins);
         this.addObjectsToMap(this.level.bottles);
-        this.addObjectsToMap(this.level.clouds);
         this.drawBottle();
         this.ctx.translate(-this.camera_x, 0);
     }

@@ -1,8 +1,8 @@
 class Bottle extends MovableObject{
 
-    y = 290;
-    width = 40;
-    height = 80;
+    y = 300;
+    width = 50;
+    height = 60;
     hitbox_y = this.y;
     hitbox_width =this.width;
     hitbox_height = this.height;
