@@ -26,7 +26,6 @@ class Keyboard {
      */
     eventlistenerKeyDown() {
         window.addEventListener("keydown", (e) => {
-            //console.log(e);
             if (e.code === "ArrowUp" || e.code === "KeyW") this.jump = true;
             if (e.code === "ArrowDown" || e.code === "KeyS") this.down = true; // not in use
             if (e.code === "ArrowLeft" || e.code === "KeyA") this.left = true;
@@ -34,7 +33,6 @@ class Keyboard {
             if (e.code === "Space") this.throw = true; // bottle throw
             if (e.code === "KeyB") this.debug = !this.debug; //debug mode
             (this.jump || this.throw || this.left || this.right) ? this.press = true : this.press = false;
-            console.log('press: ', this.press);
         });
     }
 

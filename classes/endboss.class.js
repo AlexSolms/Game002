@@ -21,8 +21,10 @@ class Endboss extends Enemies {
   flagBossWalk = false;
   flagNewAttack = true;
   flagNewHurt = true;
-  bossHitPoints = 100;
-  hitFactor = 15;
+  maxHitPoints = 100;
+  hitFactor = 17;
+  bossHitSound = new Audio('./audio/chickenHit.mp3');
+
 
   intervalBossMove;
   intervalBossAnimation;
@@ -201,6 +203,7 @@ class Endboss extends Enemies {
   chkCollisionWithbottle() {
     if (this.world.bottleInAir && super.isColliding(this.world.bottleToThrow)) {
       this.showEndbossHurt();
+      this.world.mute ? this.bossHitSound.pause() : this.bossHitSound.play();
     }
   }
 

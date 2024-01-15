@@ -40,16 +40,6 @@ class MovableObject extends DrawableObject {
         }
     }
 
-
-    /*  isCollidingNeu(obj) {
-         return (this.hitbox_x + this.hitbox_width) >= obj.hitbox_x && //1
-             this.hitbox_x <= (obj.hitbox_x + obj.hitbox_width) &&
-             (this.hitbox_y + this.offsetY + this.hitbox_height) >= obj.hitbox_y && // 3
-             (this.hitbox_y + this.offsetY) <= (obj.hitbox_y + obj.hitbox_height) && //4
-             obj.onCollisionCourse; // Optional: hiermit könnten wir schauen, ob ein Objekt sich in die richtige Richtung bewegt. Nur dann kollidieren wir. Nützlich bei Gegenständen, auf denen man stehen kann.
- 
-     } */
-
     /**
      * this function returns true if the calling entity hits the object mo
      * @param {Object} mo - object for comparing
@@ -143,10 +133,12 @@ class MovableObject extends DrawableObject {
      * @param {Boolean} boss - true if this is a function call from boss
      */
     reduceHealthBar(factor, boss) {
-        if (!boss) this.world.statusBars.helth.statBar.width -= 2 * factor;
+        let div = this.maxHitPoints/factor;
+        let barMax = this.world.statusBars.helth.backBar.width;
+        if (!boss) this.world.statusBars.helth.statBar.width -= barMax/div;
         else {
-            this.world.statusBars.endboss.statBar.width -= 2 * factor;
-            this.world.statusBars.endboss.statBar.x += 2 * factor - 2;
+            this.world.statusBars.endboss.statBar.width -= barMax/div;
+            this.world.statusBars.endboss.statBar.x += barMax/div - 2;
         }
     }
 

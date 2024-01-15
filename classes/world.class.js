@@ -19,6 +19,9 @@ class World {
     mute;
     gamesound = new Audio('./audio/backgroundsound.mp3');
     splashSound = new Audio('./audio/water-splash.mp3');
+    singleChickenSound = new Audio('./audio/singleChicken.mp3');
+    
+    
 
     endbossArea = {
         right: this.level.endboss.startPosition + 50,
@@ -33,7 +36,6 @@ class World {
         this.run();
         this.draw();
         this.mute = mute;
-        console.log('Mute: ', this.mute);
     }
 
     /**
@@ -56,6 +58,7 @@ class World {
             this.mute ? this.gamesound.pause() : this.gamesound.play();
             this.checkThrowObject();
             this.checkCollisions();
+            
         }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
     }
 
@@ -78,6 +81,7 @@ class World {
             this.chickenAttack(enemy);
             this.characterJumpsOfChicken(enemy);
             this.bottleHitEnemy(enemy);
+            this.mute ? this.singleChickenSound.pause() : this.singleChickenSound.play();
         })
     }
 
@@ -88,7 +92,7 @@ class World {
     chickenAttack(enemy) {
         if (this.character.isColliding(enemy) && !this.character.fallingDown && !enemy.chickenDead) {
             this.character.reduceEnergy(10);
-            enemy.changeCickenDirection();
+            enemy.changeCickenDirection();    
         }
     }
 

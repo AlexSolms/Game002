@@ -10,6 +10,7 @@ class Character extends MovableObject {
   leftBorder = this.width / 2;
   intervalCharMove;
   intervalCharAnim;
+  maxHitPoints = 100;
 
   moveImages = [
     './img/2_character_pepe/2_walk/W-21.png',
