@@ -125,6 +125,7 @@ body {
     display: flex;
     align-items: center;
     gap: 3px;
+    justify-content: center;
 }
 
 .keyFrame {
@@ -143,6 +144,9 @@ body {
 .changeFont {
     font-size: x-small;
     font-weight: bold;
+}
+.whattodo{
+    font-size: 15px !important;
 }
 
 /* instruction area */

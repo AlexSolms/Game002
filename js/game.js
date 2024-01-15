@@ -12,6 +12,10 @@ let startInterval;
 function init() {
     canvas = document.getElementById('idCanvas');
     world = new World(canvas, keyboard);
+    if (!is_touch_enabled()){
+        document.getElementById('idLeftButtons').classList.add('d-none');
+        document.getElementById('idRightButtons').classList.add('d-none');
+    }
     startInterval = setInterval(() => {
         if (world.lost) winSettings('idYouLostScreen');
         if (world.won) winSettings('idYouWonScreen');
@@ -54,4 +58,14 @@ function helpMenu() {
     document.getElementById('idHelpContainer').classList.toggle('d-none');
     document.getElementById('idHelpBottonContainer2').classList.toggle('d-none');
     document.getElementById('idHelpBottonContainer3').classList.toggle('d-none');
+}
+
+/**
+ * this function detects if the screen is a touch screen
+ * @returns - true is touch is enabled
+ */
+function is_touch_enabled() {
+    return ( 'ontouchstart' in window ) || 
+           ( navigator.maxTouchPoints > 0 ) || 
+           ( navigator.msMaxTouchPoints > 0 );
 }
