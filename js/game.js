@@ -17,11 +17,14 @@ function init(){
             world.clearGameIntervals();
             clearInterval(startInterval);
             document.getElementById('idYouLostScreen').classList.remove('d-none');
+            document.getElementById('idHelpBottonContainer2').classList.add('d-none');
+            
         }
         if(world.won){
             world.clearGameIntervals();
             clearInterval(startInterval);
             document.getElementById('idYouWonScreen').classList.remove('d-none');
+            document.getElementById('idHelpBottonContainer2').classList.add('d-none');
         }
     }, 100);
 }
@@ -39,4 +42,10 @@ function start(){
 
 function reStart(){
     window.location.reload();    
+}
+
+function helpMenu() {
+    document.getElementById('idHelpContainer').classList.toggle('d-none');
+    document.getElementById('idHelpBottonContainer2').classList.toggle('d-none');
+    document.getElementById('idHelpBottonContainer3').classList.toggle('d-none');
 }

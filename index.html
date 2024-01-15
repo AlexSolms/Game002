@@ -36,6 +36,11 @@
             <div class="buttonContainer">
                 <button class="myButton" onclick="start()">Start</button>
             </div>
+            <div id="idHelpBottonContainer3" class="helpBottonContainer3">
+                <div id="idHelpButton3" class="helpBotton"  onclick="helpMenu()">
+                    <span class="fontArt">&#x2139;</span>
+                </div>
+            </div>
         </div>
         <p id="idHeadline" class="fontArt d-none headlinePosition">El Pollo Loco</p>
         <div id="idGamecontainer" class="d-none gameScreen">
@@ -51,14 +56,18 @@
                         <div id="idJump1" class="controlButton fontArt">&#8687;</div>
                     </div>
                     <div id="idMoveLeft" class="controlButton fontArt">&#8678;</div>
-
+                </div>
+                <div id="idHelpBottonContainer2" class="helpBottonContainer">
+                    <div id="idHelpButton2" class="helpBotton" onclick="helpMenu()">
+                        <span class="fontArt">&#x2139;</span>
+                    </div>
                 </div>
                 <div id="idLostOrWinScreen" class="lostOrWinScreen">
-                    <div id="idYouLostScreen" class="d-none youLost"> <!-- bgScreen -->
+                    <div id="idYouLostScreen" class="d-none youLost">
                         <h1 class="fontArt">GAME OVER!</h1>
                         <button class="myButton" onclick="reStart()">restart</button>
                     </div>
-                    <div id="idYouWonScreen" class="d-none youWon">
+                    <div id="idYouWonScreen" class="d-none  youWon">
                         <p class="fontArt">CONGRATULATIONS</p>
                         <p class="fontArt">YOU WON!</p>
                         <button class="myButton" onclick="reStart()">restart</button>
@@ -70,16 +79,14 @@
                         <div id="idJump2" class="controlButton fontArt">&#8687;</div>
                     </div>
                     <div id="idMoveRight" class="controlButton fontArt">&#8680;</div>
-
                 </div>
             </div>
-
         </div>
-        <div id="idHelpContainer" class="helpcontainer ">
-            <div class="helpBottonContainer">
-                <div id="idHelpBottonContainer" >
-                    <div id="idHelpButton">
-                        &#x2139;
+        <div id="idHelpContainer" class="helpcontainer d-none">
+            <div class="helpSupContainer">
+                <div id="idHelpBottonContainer">
+                    <div id="idHelpButton" class="helpBotton"  onclick="helpMenu()">
+                        <span class="fontArt">&#x2139;</span>
                     </div>
                 </div>
                 <div id="idInstructionArea" class="instructionArea">
@@ -99,7 +106,9 @@
                             <img class="keyFrame keyFrameSize" src="./img/icons/rightarrow.svg" alt="leftArrow"> or
                             <span class="keyFrame">&#160;d&#160;</span>
                         </p>
-                        <p id="idKeySetThrow">Move throw: <span class="keyFrame">&#160;Space&#160;</span></p>
+                        <p id="idKeySetThrow">Move throw: <span class="keyFrame">&curarrm;</span> or
+                            <span class="keyFrame">&#160;Space&#160;</span>
+                        </p>
                     </div>
                 </div>
             </div>
