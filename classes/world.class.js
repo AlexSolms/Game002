@@ -17,6 +17,8 @@ class World {
     won = false;
     runInterval;
     mute;
+    gamesound = new Audio('./audio/backgroundsound.mp3');
+    splashSound = new Audio('./audio/water-splash.mp3');
 
     endbossArea = {
         right: this.level.endboss.startPosition + 50,
@@ -43,6 +45,7 @@ class World {
         for (let i = 0; i < this.level.enemies.length; i++) {
             this.level.enemies[i].world = this;
         }
+        
     }
 
     /**
@@ -50,6 +53,7 @@ class World {
      */
     run() {
         this.runInterval = setInterval(() => {
+            this.mute ? this.gamesound.pause() : this.gamesound.play();
             this.checkThrowObject();
             this.checkCollisions();
         }, 100) // wichtig, kann man noch verkleinern, damit sich der Char nicht in den Gegneer bewegt
@@ -105,6 +109,7 @@ class World {
      */
     bottleHitEnemy(enemy) {
         if (this.bottleToThrow && this.bottleToThrow.isColliding(enemy)) {
+           // this.mute ? this.splashSound.pause() : this.splashSound.play();
             this.bottleToThrow.hitEnemy = true;
             if (!this.bottleToThrow.inAir) this.bottleToThrow = null; // for garbage collector
         }
@@ -180,6 +185,7 @@ class World {
     checkThrowObject() {
         if (this.keyboard.throw && this.bottleCount > 0 && !this.bottleInAir && !this.character.otherDirection) {
             this.bottleToThrow = new ThrowableObject(this.character);
+            this.bottleToThrow.world = this;
             this.bottleInAir = true;
             this.bottleCount--;
             this.statusBars.bottle.statBar.width = this.bottleCount / this.max_bottleCount * this.statusBars.bottle.backBar.width;

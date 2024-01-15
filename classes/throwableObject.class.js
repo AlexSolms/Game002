@@ -8,6 +8,8 @@ class ThrowableObject extends MovableObject {
     inAir = false;
     hitEnemy = false;
     world;
+    mute;
+    splashSound = new Audio('./audio/water-splash.mp3');
 
     BottleInAirImages = [
         './img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png',
@@ -44,7 +46,9 @@ class ThrowableObject extends MovableObject {
             if (this.hitEnemy || !super.isAboveGround(50)) {
                 clearInterval(animationInterval); // Stops interval of spinning bottle if bottle hits the ground or an enemy
                 this.splash();
+                this.world.mute ? this.splashSound.pause() : this.splashSound.play();
             } else {
+                
                 super.playAnimation(this.BottleInAirImages);
                 this.updateBottleHitbox();
                 this.inAir = true;
@@ -58,7 +62,14 @@ class ThrowableObject extends MovableObject {
      */
     splash() {
         let splashInterval = setInterval(() => {
+         /*    if(this.world.mute) {
+                this.splashSound.pause;
+            }
+            else{ */
+            // this.splashSound.play;
+          /*   } */
             if (this.imgCount < 6) {
+                
                 this.updateBottleHitbox();
                 super.playAnimation(this.BottleSplash);
                 this.imgCount++;
