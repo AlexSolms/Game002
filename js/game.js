@@ -5,13 +5,14 @@ const CANVASWIDTH = 720; // brauche ich das?
 const CANVASHEIGHT = 400;
 let keyboard = new Keyboard();
 let startInterval;
+let mute = true;
 
 /**
  * this is the init function for starting teh game
  */
 function init() {
     canvas = document.getElementById('idCanvas');
-    world = new World(canvas, keyboard);
+    world = new World(canvas, keyboard, mute);
     if (!is_touch_enabled()){
         document.getElementById('idLeftButtons').classList.add('d-none');
         document.getElementById('idRightButtons').classList.add('d-none');
@@ -68,4 +69,12 @@ function is_touch_enabled() {
     return ( 'ontouchstart' in window ) || 
            ( navigator.maxTouchPoints > 0 ) || 
            ( navigator.msMaxTouchPoints > 0 );
+}
+
+function toggleMute() {
+    document.getElementById('idMute').classList.toggle('d-none');
+    document.getElementById('idUnMute').classList.toggle('d-none');
+    mute = !mute;
+    world.mute = mute;
+    
 }

@@ -119,6 +119,7 @@ body {
     flex-direction: row;
     gap: 16px;
     filter: none !important;
+    justify-content: center;
 }
 
 .keySettings p {
@@ -139,6 +140,10 @@ body {
 
 .keyFrameSize {
     width: 16px;
+}
+.muteButton{
+    width: 30px;
+    height: 30px;
 }
 
 .changeFont {

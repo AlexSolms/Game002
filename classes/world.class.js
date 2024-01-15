@@ -16,19 +16,22 @@ class World {
     lost = false;
     won = false;
     runInterval;
+    mute;
 
     endbossArea = {
         right: this.level.endboss.startPosition + 50,
         left: this.level.endboss.startPosition - 500
     }
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard, mute) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.setWorld();
         this.run();
         this.draw();
+        this.mute = mute;
+        console.log('Mute: ', this.mute);
     }
 
     /**
