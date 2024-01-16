@@ -24,10 +24,10 @@ class Chicken extends Enemies {
     './img/3_enemies_chicken/chicken_normal/1_walk/3_w.png',
   ]
 
-  constructor() {
+  constructor(x) {
     super().loadImage('./img/3_enemies_chicken/chicken_normal/1_walk/1_w.png');
     super.loadImages(this.moveImages);
-    this.x = 400 + Math.random() * 2000;
+    this.x = x;//400 + Math.random() * 4000;
     super.updateHitbox(0, 0, 40); 
     this.speed = 0.4 + Math.random() * 0.10;
     this.animate();

@@ -1,62 +1,119 @@
 let previousCoinX = 400;
 let previousBottleX = 300;
 let previousCloudX = -50;
-const level1 = new Level( // ich übergebe hier Arrays als Parameter
+let previousChickenX = 500;
+let chickenMax = 15;
+const maxCoin = 10;
+const maxBottle = 27;
+let cloudMax = 100;
+const maxBackgroundCount = 5;
+const backgroundStartPos = -10;
+const backgroundWidth = 729;
+const backgroundObjects = createBackgroundObjects();
+const worldEnd = (backgroundWidth * (maxBackgroundCount + 1));
+console.log(worldEnd);
 
-
-
-
-    enemies = [
-        new Chicken(),
-         new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(),
-        new Chicken(), 
-        new Chicken()
-    ],
-
-    
-
-    clouds = Array.from({length: 100}, (_, index) => {
-        const x = previousCloudX + 20 + Math.random() * 100;
-        previousCloudX = x; // Aktualisiere die vorherige x-Position
-        const y = 0 + Math.random() * 100;
-        return new Cloud(x,y);
-    }),
-   
-
-    backgroundObjects = [
-        new BackgroundObject('./img/5_background/layers/air.png', -10),
-        new BackgroundObject('./img/5_background/layers/3_third_layer/1.png', -10),
-        new BackgroundObject('./img/5_background/layers/2_second_layer/1.png', -10),
-        new BackgroundObject('./img/5_background/layers/1_first_layer/1.png', -10),
-        new BackgroundObject('./img/5_background/layers/air.png', 719),
-        new BackgroundObject('./img/5_background/layers/3_third_layer/2.png', 719),
-        new BackgroundObject('./img/5_background/layers/2_second_layer/2.png', 719),
-        new BackgroundObject('./img/5_background/layers/1_first_layer/2.png', 719),
-        new BackgroundObject('./img/5_background/layers/air.png', 1448),
-        new BackgroundObject('./img/5_background/layers/3_third_layer/1.png', 1448),
-        new BackgroundObject('./img/5_background/layers/2_second_layer/1.png', 1448),
-        new BackgroundObject('./img/5_background/layers/1_first_layer/1.png', 1448),
-        new BackgroundObject('./img/5_background/layers/air.png', 2177),
-        new BackgroundObject('./img/5_background/layers/3_third_layer/2.png', 2177),
-        new BackgroundObject('./img/5_background/layers/2_second_layer/2.png', 2177),
-        new BackgroundObject('./img/5_background/layers/1_first_layer/2.png', 2177),
-    ],
-    coins = Array.from({ length: 10 }, (_, index) => {
-        const x = previousCoinX + 80 + Math.random() * 120; // Random zwischen 80 und 200
-        const y = 100 + Math.random() * 150;
-        previousCoinX = x; // Aktualisiere die vorherige x-Position
-        return new Coin(x, y);
-    }),
-    bottles = Array.from({ length: 14 }, (_, index) => {
-        const type = Math.floor(Math.random() * 2) + 1;
-        const x = previousBottleX + 80 + Math.random() * 120; // Random zwischen 80 und 200
-        previousBottleX = x; // Aktualisiere die vorherige x-Position
-        return new Bottle(type, x);
-    }),
-    
-    endboss = new Endboss()
-    
+const level1 = new Level( 
+    enemies = Array.from({ length: chickenMax }, generateChicken),//() => new Chicken(worldEnd - backgroundWidth)),
+    clouds = Array.from({ length: cloudMax }, generateCloud),
+    backgroundObjects, 
+    coins = Array.from({ length: maxCoin }, generateCoin),
+    bottles = Array.from({ length: maxBottle }, generateBottle),
+    endboss = new Endboss(worldEnd - 450)
 );
+
+/**
+ * this function repeats adding of background sets to backgroundObjects based on maxBackgroundCount
+ * @returns - the object with all backgrounds
+ */
+function createBackgroundObjects() {
+    const backgroundObjects = [];
+    for (let i = 0; i <= maxBackgroundCount; i++) {
+        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/air.png`, backgroundStartPos + i*backgroundWidth));
+        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/3_third_layer/${i % 2 + 1}.png`, backgroundStartPos + i*backgroundWidth));
+        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/2_second_layer/${i % 2 + 1}.png`, backgroundStartPos + i*backgroundWidth));
+        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/1_first_layer/${i % 2 + 1}.png`, backgroundStartPos + i*backgroundWidth));
+    }
+    return backgroundObjects;
+}
+
+/**
+ * this function calculates the x coordinate based on the x position of predecessor
+ * 
+ * @param {Number} previousobjX - position of predecessor
+ * @param {Number} minDist - min distance to predecessor
+ * @param {Number} multiplier - factor for multiply it to a random number to add it to the min distance
+ * @returns - x position
+ */
+function xPosition(previousobjX, minDist, multiplier) {
+    return previousobjX + minDist + Math.random() * multiplier;
+}
+
+/**
+ * this function generates a random Y position between the min y height and a multiplier
+ * 
+ * @param {Number} minY -min hight
+ * @param {Number} multiplier -factor for multiply it to a random number to add it to the min hight
+ * @returns - Y position 
+ */
+function yPosition(minY, multiplier) {
+    return minY + Math.random() * multiplier;
+}
+
+
+// I know the following both functions looks similar and it could covered in one function. 
+// I didnt go this way because of the paramaters which needs to be set.
+
+/**
+ * this function generates a new cloud based on the x postition of the predecessor
+ * @returns - position of new cloud
+ */
+function generateCloud() {
+    const x = xPosition(previousCloudX, 20, 150);
+    const y = yPosition(0, 100);
+    previousCloudX = x;
+    return new Cloud(x, y);
+}
+
+/**
+ * this function generates a new coin based on the x postition of the predecessor
+ * @returns - position of new coin
+ */
+function generateCoin() {
+    const x = xPosition(previousCoinX, minSpwanDistanz(maxCoin), 70);
+    const y = yPosition(100, 150);
+    previousCoinX = x;
+    return new Coin(x, y);
+}
+
+
+/**
+ * this function generates a new bottle based on the x postition of the predecessor
+ * @returns - position of new bottle
+ */
+function generateBottle() {
+    const type = Math.floor(Math.random() * 2) + 1;
+    const x = xPosition(previousBottleX, minSpwanDistanz(maxBottle), 60);
+    previousBottleX = x;
+    return new Bottle(type, x);
+}
+
+/**
+ * this function generates a new chicken based on the x postition of the predecessor
+ * @returns - position of new chicken
+ */
+function generateChicken() {
+    const type = Math.floor(Math.random() * 2) + 1;
+    const x = xPosition(previousChickenX, minSpwanDistanz(chickenMax), 60);
+    previousChickenX = x;
+    return new Chicken(x);
+}
+
+/**
+ * this function returns the min distance between 2 objects based on the world size
+ * @param {Number} objCount - number of objects
+ * @returns - min distance between 2 objects
+ */
+function minSpwanDistanz(objCount) {
+    return (worldEnd-(backgroundWidth*2))/objCount;
+}

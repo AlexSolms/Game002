@@ -1,6 +1,6 @@
 class Endboss extends Enemies {
   world;
-  startPosition = 2227;
+  startPosition = 5000;//2227;
   x = this.startPosition;
   y = 160;
   width = 200;
@@ -66,7 +66,7 @@ class Endboss extends Enemies {
     './img/4_enemie_boss_chicken/5_dead/G26.png',
   ]
 
-  constructor() {
+  constructor(startPosition) {
     super();
     super.loadImage('./img/4_enemie_boss_chicken/1_walk/G1.png');
     super.loadImages(this.walkImages);
@@ -75,6 +75,8 @@ class Endboss extends Enemies {
     super.loadImages(this.hurtImages);
     super.loadImages(this.deadImages);
     this.animate();
+    this.startPosition = startPosition;
+    this.x = startPosition;
   }
 
 

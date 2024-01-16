@@ -2,7 +2,7 @@ class World {
     character = new Character();
     statusBars = new StatusBars();
     level = level1;
-    bottleToThrow; // = new ThrowableObject(this.character); //this.character
+    bottleToThrow;
     max_bottleCount = 5;
     bottleCount = 0;
     coinCount = 0;
@@ -81,7 +81,7 @@ class World {
             this.chickenAttack(enemy);
             this.characterJumpsOfChicken(enemy);
             this.bottleHitEnemy(enemy);
-            this.mute ? this.singleChickenSound.pause() : this.singleChickenSound.play();
+            !this.mute && this.character.x>50 ? this.singleChickenSound.play() : this.singleChickenSound.pause();
         })
     }
 

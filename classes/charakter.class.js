@@ -104,8 +104,8 @@ class Character extends MovableObject {
         this.movementLogic();
         if (this.x < (this.world.endbossArea.left + 100)) this.world.camera_x = -this.x + 50;
       }
-    }, 100 / 6)
-    this.intervalCharAnim = setInterval(() => this.animationLogic(), 130)
+    }, 100 / 8)
+    this.intervalCharAnim = setInterval(() => this.animationLogic(), 120)
   }
 
   /**
