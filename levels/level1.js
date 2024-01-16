@@ -11,12 +11,12 @@ const backgroundStartPos = -10;
 const backgroundWidth = 729;
 const backgroundObjects = createBackgroundObjects();
 const worldEnd = (backgroundWidth * (maxBackgroundCount + 1));
-console.log(worldEnd);
 
-const level1 = new Level( 
-    enemies = Array.from({ length: chickenMax }, generateChicken),//() => new Chicken(worldEnd - backgroundWidth)),
+
+const level1 = new Level(
+    enemies = Array.from({ length: chickenMax }, generateChicken),
     clouds = Array.from({ length: cloudMax }, generateCloud),
-    backgroundObjects, 
+    backgroundObjects,
     coins = Array.from({ length: maxCoin }, generateCoin),
     bottles = Array.from({ length: maxBottle }, generateBottle),
     endboss = new Endboss(worldEnd - 450)
@@ -29,10 +29,10 @@ const level1 = new Level(
 function createBackgroundObjects() {
     const backgroundObjects = [];
     for (let i = 0; i <= maxBackgroundCount; i++) {
-        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/air.png`, backgroundStartPos + i*backgroundWidth));
-        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/3_third_layer/${i % 2 + 1}.png`, backgroundStartPos + i*backgroundWidth));
-        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/2_second_layer/${i % 2 + 1}.png`, backgroundStartPos + i*backgroundWidth));
-        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/1_first_layer/${i % 2 + 1}.png`, backgroundStartPos + i*backgroundWidth));
+        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/air.png`, backgroundStartPos + i * backgroundWidth));
+        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/3_third_layer/${i % 2 + 1}.png`, backgroundStartPos + i * backgroundWidth));
+        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/2_second_layer/${i % 2 + 1}.png`, backgroundStartPos + i * backgroundWidth));
+        backgroundObjects.push(new BackgroundObject(`./img/5_background/layers/1_first_layer/${i % 2 + 1}.png`, backgroundStartPos + i * backgroundWidth));
     }
     return backgroundObjects;
 }
@@ -93,7 +93,7 @@ function generateCoin() {
  */
 function generateBottle() {
     const type = Math.floor(Math.random() * 2) + 1;
-    const x = xPosition(previousBottleX, minSpwanDistanz(maxBottle), 60);
+    const x = xPosition(previousBottleX, minSpwanDistanz(maxBottle), 50);
     previousBottleX = x;
     return new Bottle(type, x);
 }
@@ -103,8 +103,7 @@ function generateBottle() {
  * @returns - position of new chicken
  */
 function generateChicken() {
-    const type = Math.floor(Math.random() * 2) + 1;
-    const x = xPosition(previousChickenX, minSpwanDistanz(chickenMax), 60);
+    const x = xPosition(previousChickenX, minSpwanDistanz(chickenMax), 50);
     previousChickenX = x;
     return new Chicken(x);
 }
@@ -115,5 +114,5 @@ function generateChicken() {
  * @returns - min distance between 2 objects
  */
 function minSpwanDistanz(objCount) {
-    return (worldEnd-(backgroundWidth*2))/objCount;
+    return (worldEnd - (backgroundWidth * 2)) / objCount;
 }

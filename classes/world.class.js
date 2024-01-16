@@ -169,7 +169,7 @@ class World {
     /**
      * this function stops all intervalls and set the flag for lost screen
      */
-    characterDead() { // muss das ändern. erst wenn das death flag gesetzt ist darf der lost screen kommen
+    characterDead() { 
         if (this.character.death) this.lost = true;
     }
 

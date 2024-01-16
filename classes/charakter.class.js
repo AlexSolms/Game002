@@ -147,7 +147,7 @@ class Character extends MovableObject {
       super.moveRight();
       this.otherDirection = false;
       super.updateHitbox(20, 50, -80);
-      super.isAboveGround() || this.world.mute ? this.walkingSound.pause() : this.walkingSound.play();
+      super.isAboveGround() || this.world.mute || this.world.lost || this.world.true ? this.walkingSound.pause() : this.walkingSound.play();
       if (this.x >= this.world.endbossArea.left) {
         this.leftBorder = this.world.endbossArea.left + this.width / 2; // set new border for the final fight
       }
@@ -162,7 +162,7 @@ class Character extends MovableObject {
       super.updateHitbox(20, 50, -80);
       this.moveLeft(this.speed);
       this.otherDirection = true;
-      super.isAboveGround() || this.world.mute ? this.walkingSound.pause() : this.walkingSound.play();
+      super.isAboveGround() || this.world.mute || this.world.lost || this.world.true ? this.walkingSound.pause() : this.walkingSound.play();
     }
   }
 

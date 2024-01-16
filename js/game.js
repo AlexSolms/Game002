@@ -6,6 +6,8 @@ const CANVASHEIGHT = 400;
 let keyboard = new Keyboard();
 let startInterval;
 let mute = true;
+const winSound = './audio/win.wav';
+const looseSound = './audio/gameOver.mp3';
 
 /**
  * this is the init function for starting teh game
@@ -13,14 +15,37 @@ let mute = true;
 function init() {
     canvas = document.getElementById('idCanvas');
     world = new World(canvas, keyboard, mute);
-    if (!is_touch_enabled()){
+    if (!is_touch_enabled()) {
         document.getElementById('idLeftButtons').classList.add('d-none');
         document.getElementById('idRightButtons').classList.add('d-none');
     }
     startInterval = setInterval(() => {
-        if (world.lost) winSettings('idYouLostScreen');
-        if (world.won) winSettings('idYouWonScreen');
+        if (world.lost) endScreen('idYouLostScreen', looseSound);
+        if (world.won) endScreen('idYouWonScreen', winSound); 
     }, 100);
+}
+
+
+/**
+ * this function starts the end screen inklusive sound
+ */
+function endScreen(srceen, endSound){
+    winSettings(srceen);
+    world.gamesound.pause();
+    world.lost = false;
+    world.win = false;
+    setTimeout(function () {
+        playSound(endSound);
+    }, 500);
+}
+
+/**
+ * this function plays the end sound
+ * @param {String} soundPath - path to soundfile
+ */
+function playSound(soundPath) {
+    const sound = new Audio(soundPath);
+    sound.play();
 }
 
 /**
@@ -66,15 +91,17 @@ function helpMenu() {
  * @returns - true is touch is enabled
  */
 function is_touch_enabled() {
-    return ( 'ontouchstart' in window ) || 
-           ( navigator.maxTouchPoints > 0 ) || 
-           ( navigator.msMaxTouchPoints > 0 );
+    return ('ontouchstart' in window) ||
+        (navigator.maxTouchPoints > 0) ||
+        (navigator.msMaxTouchPoints > 0);
 }
 
+/**
+ * this function turn sound on or of
+ */
 function toggleMute() {
     document.getElementById('idMute').classList.toggle('d-none');
     document.getElementById('idUnMute').classList.toggle('d-none');
     mute = !mute;
     world.mute = mute;
-    
 }

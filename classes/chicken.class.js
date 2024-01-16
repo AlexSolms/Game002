@@ -40,14 +40,14 @@ class Chicken extends Enemies {
    */
   animate() {
     this.intervalChickenMove = setInterval(() => {
-      if (this.world.character?.x > 80) {
+      if (this.x - this.world.character?.x < 650 && this.world.character?.x > 80) {
         super.moveLeft(this.speed);
         this.updateHitbox(0, 0, 20);
         
       }
     }, this.refreshRate)
     this.intervalChickenAnimation = setInterval(() => {
-      if (this.world.character?.x > 80)
+      if (this.x - this.world.character?.x < 650 && this.world.character?.x > 80) //this.world.character?.x > 80
         super.playAnimation(this.moveImages);
         
     }, 130)
