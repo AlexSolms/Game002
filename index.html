@@ -32,13 +32,21 @@
 <body onload="init()">
     <div class="bodyContainer">
         <div id="idStartscreen" class="startScreen">
-            <img src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="">
-            <div class="buttonContainer">
-                <button class="myButton" onclick="start()">Start</button>
-            </div>
-            <div id="idHelpBottonContainer3" class="helpBottonContainer3">
-                <div id="idHelpButton3" class="helpBotton"  onclick="helpMenu()">
-                    <span class="fontArt">&#x2139;</span>
+            <img src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="" class="startScreenimg">
+            <div id="idButtonMainContainer" class="buttonMainContainer">
+                <div id="idVolmeContainer1">
+                    <img src="./img/icons/mute.svg" alt="mute" id="idMute1" class="muteButton"
+                        onclick="toggleMute()">
+                    <img src="./img/icons/unmute.svg" alt="unmute" id="idUnMute1" class="muteButton d-none"
+                        onclick="toggleMute()">
+                </div>
+                <div class="buttonContainer" >
+                    <button class="myButton" onclick="start()">Start</button>
+                </div>
+                <div id="idHelpBottonContainer3" class="helpBottonContainer3">
+                    <div id="idHelpButton3" class="helpBotton" onclick="helpMenu()">
+                        <span class="fontArt">&#x2139;</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,6 +66,12 @@
                     <div id="idMoveLeft" class="controlButton fontArt">&#8678;</div>
                 </div>
                 <div id="idHelpBottonContainer2" class="helpBottonContainer">
+                    <div id="idVolmeContainer1">
+                        <img src="./img/icons/mute.svg" alt="mute" id="idMute" class="muteButton"
+                            onclick="toggleMute()">
+                        <img src="./img/icons/unmute.svg" alt="unmute" id="idUnMute" class="muteButton d-none"
+                            onclick="toggleMute()">
+                    </div>
                     <div id="idHelpButton2" class="helpBotton" onclick="helpMenu()">
                         <span class="fontArt">&#x2139;</span>
                     </div>
@@ -85,37 +99,36 @@
         <div id="idHelpContainer" class="helpcontainer d-none">
             <div class="helpSupContainer">
                 <div id="idHelpBottonContainer">
-                    <div id="idHelpButton" class="helpBotton"  onclick="helpMenu()">
+                    <div id="idHelpButton" class="helpBotton" onclick="helpMenu()">
                         <span class="fontArt">&#x2139;</span>
                     </div>
                 </div>
                 <div id="idInstructionArea" class="">
-                    <div id="idVolmeContainer">
-                        <img src="./img/icons/mute.svg" alt="mute" id="idMute" class="muteButton" onclick="toggleMute()">
-                        <img src="./img/icons/unmute.svg" alt="unmute" id="idUnMute" class="muteButton d-none" onclick="toggleMute()">
-                    </div>
+                   
                     <div id="idKeySettings" class="keySettings fontArt">
-                        <p id="idKeySetLeft">Move left:
-                            <img class="keyFrame keyFrameSize" src="./img/icons/leftarrow.svg" alt="leftArrow"> or <span
+                        <p id="idKeySetLeft">Nach links:
+                            <img class="keyFrame keyFrameSize" src="./img/icons/leftarrow.svg" alt="leftArrow"> o. <span
                                 class="keyFrame">&#160;a&#160;</span>
                         </p>
-                        <p id="idKeySetRight">Move jump:
-                            <img class="keyFrame keyFrameSize" src="./img/icons/uparrow.svg" alt="leftArrow"> or <span
+                        <p id="idKeySetRight">Springe:
+                            <img class="keyFrame keyFrameSize" src="./img/icons/uparrow.svg" alt="leftArrow"> o. <span
                                 class="keyFrame">&#160;w&#160;</span>
                         </p>
-                        <p id="idKeySetJump">Move right:
-                            <img class="keyFrame keyFrameSize" src="./img/icons/rightarrow.svg" alt="leftArrow"> or
+                        <p id="idKeySetJump">Nach rechts:
+                            <img class="keyFrame keyFrameSize" src="./img/icons/rightarrow.svg" alt="leftArrow"> o.
                             <span class="keyFrame">&#160;d&#160;</span>
                         </p>
-                        <p id="idKeySetThrow">Move throw: <span class="keyFrame">&curarrm;</span> or
+                        <p id="idKeySetThrow">Werfen: <span class="keyFrame">&curarrm;</span> o.
                             <span class="keyFrame">&#160;Space&#160;</span>
                         </p>
                     </div>
                     <div id="idWhattodo" class="whattodo">
                         <h3 class="fontArt">Willkommen bei El Pollo Loco</h3>
-                        <p class="fontArt whattodo">Ziel des Spieles ist es möglichst alle Coins einzusammeln und El Pollo Loco zu besiegen.<br>
-                            Den kleinen Hünchen kannst du ausweichen, indem du über sie springst. 
-                            Du kannst sie auch bekämpfen, indem du auf sie springst oder mit einer Flasche Salsa abwirfst.<br>
+                        <p class="fontArt whattodo">Ziel des Spieles ist es möglichst alle Münzen einzusammeln und El
+                            Pollo Loco zu besiegen.<br>
+                            Den kleinen Hünchen kannst du ausweichen, indem du über sie springst.
+                            Du kannst sie auch bekämpfen, indem du auf sie springst oder mit einer Flasche Salsa
+                            abwirfst.<br>
                             El Pollo Loco kannst du nur mit den Salsaflaschen bekämpfen, also heb dir genug auf.
                         </p>
                     </div>

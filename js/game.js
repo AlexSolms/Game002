@@ -100,6 +100,8 @@ function is_touch_enabled() {
  * this function turn sound on or of
  */
 function toggleMute() {
+    document.getElementById('idMute1').classList.toggle('d-none');
+    document.getElementById('idUnMute1').classList.toggle('d-none');
     document.getElementById('idMute').classList.toggle('d-none');
     document.getElementById('idUnMute').classList.toggle('d-none');
     mute = !mute;

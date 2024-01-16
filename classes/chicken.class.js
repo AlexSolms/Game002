@@ -8,14 +8,12 @@ class Chicken extends Enemies {
   height = 60;
   hitbox_height = this.height;
   speed = 0.08;
-  //refreshRate = 10 / 6;
- 
+   
   SingleChickeHurtSound = new Audio('./audio/singleChickenDie.mp3');
 
   intervalChickenMove;
   intervalChickenAnimation;
   intervalChickenCollision;
-
 
 
   moveImages = [
@@ -29,7 +27,7 @@ class Chicken extends Enemies {
     super.loadImages(this.moveImages);
     this.x = x;//400 + Math.random() * 4000;
     super.updateHitbox(0, 0, 40); 
-    this.speed = 0.4 + Math.random() * 0.10;
+    this.speed = 0.2 + Math.random() * 0.8;
     this.animate();
     this.chkCollision();
   }
@@ -47,7 +45,7 @@ class Chicken extends Enemies {
       }
     }, this.refreshRate)
     this.intervalChickenAnimation = setInterval(() => {
-      if (this.x - this.world.character?.x < 650 && this.world.character?.x > 80) //this.world.character?.x > 80
+      if (this.x - this.world.character?.x < 650 && this.world.character?.x > 80) 
         super.playAnimation(this.moveImages);
         
     }, 130)
