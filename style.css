@@ -200,10 +200,15 @@ body {
 .canvasContainer {
     position: relative;
 }
-
+/* .myCanvas{
+    width: 720px;
+    height: 400px;
+} */
 canvas {
     background-color: black;
     display: block;
+   /*  width: 720px;
+    height: 400px; */
 }
 
 .d-none {
@@ -313,7 +318,7 @@ p {
 
 }
 
-@media only screen and (max-height: 480px) {
+@media only screen and (max-height: 400px) {
     canvas {
         height: 100vh;
     }
