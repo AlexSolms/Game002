@@ -24,7 +24,7 @@ class LittleChicken extends Enemies {
     super.updateHitbox(0, 0, 40); 
     this.speed = 0.2 + Math.random() * 0.8;
     this.animate();
-    this.chkCollision();
+    this.chkCollision('./img/3_enemies_chicken/chicken_small/2_dead/dead.png');
   }
 
 }

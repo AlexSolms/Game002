@@ -53,7 +53,7 @@ class Enemies extends MovableObject {
    * this function loads the death image, set the flag and stops all animation intervals
    */
   showChickenDeath() {
-    super.loadImage('./img/3_enemies_chicken/chicken_small/2_dead/dead.png');
+    this instanceof Chicken ? super.loadImage('./img/3_enemies_chicken/chicken_normal/2_dead/dead.png') : super.loadImage('./img/3_enemies_chicken/chicken_small/2_dead/dead.png');
     this.world.mute ? this.SingleChickeHurtSound.pause() : this.SingleChickeHurtSound.play();
     this.clearAllIntervals();
     this.chickenDead = true;

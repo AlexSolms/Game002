@@ -1,7 +1,7 @@
 let canvas;
 let world;
 let startScreen = true;
-const CANVASWIDTH = 720; // brauche ich das?
+const CANVASWIDTH = 720; 
 const CANVASHEIGHT = 400;
 let keyboard = new Keyboard();
 let startInterval;
@@ -23,7 +23,6 @@ function init() {
         if (world.lost) endScreen('idYouLostScreen', looseSound);
         if (world.won) endScreen('idYouWonScreen', winSound);
         screenCheck();
-        
     }, 100);
 }
 
@@ -37,7 +36,7 @@ function endScreen(srceen, endSound){
     world.lost = false;
     world.win = false;
     setTimeout(function () {
-        playSound(endSound);
+        if(!mute) playSound(endSound);
     }, 500);
 }
 
@@ -121,6 +120,5 @@ function screenCheck() {
         document.getElementById('idTurnMonitor').classList.add('d-none');
         document.getElementById('idBodyContainer').classList.remove('d-none');
         if(window.innerWidth < 1000) canvas.width  = document.getElementById('idBodyContainer').offsetWidth;
-       // if(window.innerHeight < 400) canvas.height  = document.getElementById('idBodyContainer').offsetHeight;
     } 
 }
