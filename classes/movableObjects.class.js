@@ -31,7 +31,7 @@ class MovableObject extends DrawableObject {
      * @param {Boolean} keyboardDebug - true if B key was hit
      */
     drawFrame(ctx, keyboardDebug) {
-        if (keyboardDebug && (this instanceof Character || this instanceof Chicken || this instanceof Endboss || this instanceof ThrowableObject)) {
+        if (keyboardDebug && (this instanceof Character || this instanceof Enemies || this instanceof Endboss || this instanceof ThrowableObject)) {
             ctx.beginPath();
             ctx.lineWidth = '2';
             ctx.strokeStyle = 'grey';

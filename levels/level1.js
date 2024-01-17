@@ -11,6 +11,7 @@ const backgroundStartPos = -10;
 const backgroundWidth = 729;
 const backgroundObjects = createBackgroundObjects();
 const worldEnd = (backgroundWidth * (maxBackgroundCount + 1));
+let adult = false;
 
 
 const level1 = new Level(
@@ -105,7 +106,13 @@ function generateBottle() {
 function generateChicken() {
     const x = xPosition(previousChickenX, minSpwanDistanz(chickenMax), 50);
     previousChickenX = x;
-    return new Chicken(x);
+    if (adult) {
+        adult = false;
+        return new LittleChicken(x);
+    } else {
+        adult = true;
+        return new Chicken(x);
+    }
 }
 
 /**

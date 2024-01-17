@@ -273,7 +273,7 @@ class World {
     drawChicken() {
         for (let i = 0; i < this.level.enemies.length; i++) {
             const enemy = this.level.enemies[i];
-            let isChicken = enemy instanceof Chicken;
+            let isChicken = enemy instanceof Enemies;
             let isDeadShowTimeDone = ((new Date().getTime() - enemy.deathTimeStamp) > 500);
             let isoutOfCanvas = (this.level.enemies[i].x < -10);
             if (isChicken && (isDeadShowTimeDone || isoutOfCanvas)) {
@@ -301,7 +301,7 @@ class World {
         this.ctx.scale(-1, 1); // flips the image
         mo.x = mo.x * -1; // set mo object on the mirrored coordinate
         if (mo instanceof Character) mo.updateHitbox(20, 50, -80);
-        if (mo instanceof Chicken) mo.updateHitbox(0, 0, 20);
+        if (mo instanceof Enemies) mo.updateHitbox(0, 0, 20);
     }
 
     /**
