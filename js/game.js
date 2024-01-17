@@ -115,27 +115,12 @@ function toggleMute() {
  */
 function screenCheck() {
     if(window.screen.orientation.type === 'portrait-primary'){
-        //console.log('bitte Bildschirm wenden',  window.screen.orientation.type);
         document.getElementById('idTurnMonitor').classList.remove('d-none');
         document.getElementById('idBodyContainer').classList.add('d-none');
     }else{
         document.getElementById('idTurnMonitor').classList.add('d-none');
         document.getElementById('idBodyContainer').classList.remove('d-none');
-        //canvas.width  = window.innerWidth;
-        //canvas.height  = Math.min(window.innerHeight, 400);
+        if(window.innerWidth < 1000) canvas.width  = document.getElementById('idBodyContainer').offsetWidth;
+       // if(window.innerHeight < 400) canvas.height  = document.getElementById('idBodyContainer').offsetHeight;
     } 
 }
-
-/* function resizeCanvas() {
-    let canvas = document.getElementById('idCanvas');
-    let maxWidth = window.innerWidth;
-    let maxHeight = 400;
-
-    // Setze die Canvas-Größe entsprechend der Bildschirmbreite und maximalen Höhe
-    canvas.width = maxWidth;
-    canvas.height = Math.min(window.innerHeight, maxHeight);
-}
-
-// Rufe die Funktion beim Laden der Seite und beim Ändern der Fenstergröße auf
-window.onload = resizeCanvas;
-window.addEventListener('resize', resizeCanvas); */
