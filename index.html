@@ -35,7 +35,7 @@
         <div id="idStartscreen" class="startScreen">
             <img src="./img/9_intro_outro_screens/start/startscreen_2.png" alt="" class="startScreenimg">
             <div id="idButtonMainContainer" class="buttonMainContainer">
-                <div id="idVolmeContainer1">
+                <div id="idVolmeContainer1" class="muteButtonContainer">
                     <img src="./img/icons/mute.svg" alt="mute" id="idMute1" class="muteButton"
                         onclick="toggleMute()">
                     <img src="./img/icons/unmute.svg" alt="unmute" id="idUnMute1" class="muteButton d-none"
@@ -67,7 +67,7 @@
                     <div id="idMoveLeft" class="controlButton fontArt">&#8678;</div>
                 </div>
                 <div id="idHelpBottonContainer2" class="helpBottonContainer">
-                    <div id="idVolmeContainer1">
+                    <div id="idVolmeContainer1" class="muteButtonContainer">
                         <img src="./img/icons/mute.svg" alt="mute" id="idMute" class="muteButton"
                             onclick="toggleMute()">
                         <img src="./img/icons/unmute.svg" alt="unmute" id="idUnMute" class="muteButton d-none"
@@ -108,15 +108,15 @@
                    
                     <div id="idKeySettings" class="keySettings fontArt">
                         <p id="idKeySetLeft">Nach links:
-                            <img class="keyFrame keyFrameSize" src="./img/icons/leftarrow.svg" alt="leftArrow"> o. <span
-                                class="keyFrame">&#160;a&#160;</span>
+                            <div  class="keyFrame keyFrameSize"><img src="./img/icons/leftarrow.svg" alt="leftArrow"></div> o. 
+                            <span class="keyFrame">&#160;a&#160;</span>
                         </p>
                         <p id="idKeySetRight">Springe:
-                            <img class="keyFrame keyFrameSize" src="./img/icons/uparrow.svg" alt="leftArrow"> o. <span
-                                class="keyFrame">&#160;w&#160;</span>
+                            <div  class="keyFrame keyFrameSize"><img src="./img/icons/uparrow.svg" alt="leftArrow"></div> o. 
+                            <span class="keyFrame">&#160;w&#160;</span>
                         </p>
                         <p id="idKeySetJump">Nach rechts:
-                            <img class="keyFrame keyFrameSize" src="./img/icons/rightarrow.svg" alt="leftArrow"> o.
+                            <div class="keyFrame keyFrameSize"><img src="./img/icons/rightarrow.svg" alt="leftArrow"></div> o.
                             <span class="keyFrame">&#160;d&#160;</span>
                         </p>
                         <p id="idKeySetThrow">Werfen: <span class="keyFrame">&curarrm;</span> o.

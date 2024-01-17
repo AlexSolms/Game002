@@ -103,9 +103,19 @@ body {
 }
 
 .muteButton{
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
+    filter: brightness(0) saturate(100%) invert(75%) sepia(54%) saturate(5555%) hue-rotate(2deg) brightness(107%) contrast(103%);  
+}
+
+.muteButtonContainer{
+    border-style: solid;
+    border-radius: 50%;
+    border-width: 0.5px;
+    background-color: #865b169f;
+    width: 30px;
+    height: 30px;
 }
 
 .helpBottonContainer{
@@ -138,6 +148,8 @@ body {
     gap: 16px;
     filter: none !important;
     justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .keySettings p {
@@ -149,16 +161,26 @@ body {
 
 .keyFrame {
     border-radius: 4px;
+    border-color: black !important;
     border-style: solid;
     border-width: thin;
     padding: 1px;
     min-width: 16px;
+    height: 16px;
     filter: none !important;
+    display: flex;
+    align-items: center;
 }
+
+.keyFrame img{
+    filter: brightness(0) saturate(100%) invert(75%) sepia(54%) saturate(5555%) hue-rotate(2deg) brightness(107%) contrast(103%) !important;
+    }
+
 
 .keyFrameSize {
     width: 16px;
-}
+    height: 16px;
+   }
 
 .changeFont {
     font-size: x-small;
